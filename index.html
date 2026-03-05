@@ -762,6 +762,7 @@ let cvContent = '';
 let hasPhoto = false;
 let photoData = null;
 let selectedPlan = 'basic';
+let previewUsed = false; // Control de preview gratis
 
 // Funciones para tema y acento
 function setTheme(theme) {
@@ -785,6 +786,9 @@ const savedTheme = localStorage.getItem('cvTheme');
 const savedAccent = localStorage.getItem('cvAccent');
 if (savedTheme) setTheme(savedTheme);
 if (savedAccent) setAccent(savedAccent);
+
+// Verificar si ya usó la preview gratis
+previewUsed = localStorage.getItem('previewUsed') === 'true';
 
 function goStep(n) {
   ['s1','s2'].forEach(id => document.getElementById(id).classList.remove('active'));
@@ -822,6 +826,13 @@ function handlePhoto(e) {
 }
 
 async function generateCV() {
+  // Verificar si ya usó la preview gratis
+  if (previewUsed) {
+    alert('Ya utilizaste tu preview gratis. Para generar un CV personalizado, elegí un plan y pagá.');
+    showPayment();
+    return;
+  }
+
   const name = document.getElementById('fname').value.trim();
   const profession = document.getElementById('fprofession').value.trim();
   const exp = document.getElementById('fexp').value;
@@ -876,7 +887,7 @@ INSTRUCCIONES:
   try {
     console.log('Enviando solicitud a la función...');
     
-    const res = await fetch('https://cvitaepy.netlify.app/.netlify/functions/chat', {
+    const res = await fetch('/.netlify/functions/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -889,7 +900,17 @@ INSTRUCCIONES:
     const data = await res.json();
     console.log('Datos:', data);
     
-    cvContent = data.content?.[0]?.text || 'Error generando el CV. Escribinos por WhatsApp y te ayudamos.';
+    // Verificar si la respuesta contiene error por saldo
+    if (data.error && data.error.type === 'invalid_request_error' && data.error.message.includes('credit balance')) {
+      cvContent = 'Lo sentimos, el servicio de IA no está disponible en este momento. Por favor, escribinos por WhatsApp y te ayudaremos manualmente.';
+    } else {
+      cvContent = data.content?.[0]?.text || 'Error generando el CV. Escribinos por WhatsApp y te ayudamos.';
+    }
+
+    // Marcar que ya usó la preview
+    previewUsed = true;
+    localStorage.setItem('previewUsed', 'true');
+
   } catch(e) {
     console.error('Error completo:', e);
     cvContent = 'Error de conexión. Por favor escribinos directamente por WhatsApp al +595 992 954 169 y generamos tu CV ahí.';
@@ -954,4 +975,3 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 </script>
 </body>
 </html>
-
