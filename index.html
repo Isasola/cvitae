@@ -876,7 +876,7 @@ INSTRUCCIONES:
   try {
     console.log('Enviando solicitud a la función...');
     
-    const res = await fetch('/.netlify/functions/chat', {
+    const res = await fetch('https://cvitaepy.netlify.app/.netlify/functions/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -954,3 +954,4 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 </script>
 </body>
 </html>
+
