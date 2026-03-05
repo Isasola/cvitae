@@ -57,7 +57,7 @@ exports.handler = async (event, context) => {
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': API_KEY,
-        'anthropic-version': '2023-06-01'
+        'anthropic-version': '2024-05-31'
       },
       body: JSON.stringify({
         model: 'claude-3-5-sonnet-20241022',
