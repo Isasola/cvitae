@@ -28,7 +28,7 @@ exports.handler = async (event) => {
   // Validar Origin
   const origin = event.headers["origin"] || event.headers["referer"] || "";
   const allowedOrigins = [
-    "https://cvitaepy.netlify.app",
+    "https://cvitaeglobal.netlify.app",
     "http://localhost:8888",
     "http://localhost:3000",
   ];
@@ -96,7 +96,7 @@ exports.handler = async (event) => {
 function corsHeaders() {
   return {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "https://cvitaepy.netlify.app",
+    "Access-Control-Allow-Origin": "https://cvitaeglobal.netlify.app",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   };
