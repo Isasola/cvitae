@@ -1263,8 +1263,8 @@ function adminRender(orders){
       '</div>'+
       '<div style="display:flex;gap:.5rem;align-items:center">'+
         '<span style="font-size:.62rem;font-weight:700;text-transform:uppercase;padding:.2rem .7rem;border-radius:30px;background:'+(isPending?'rgba(194,75,42,.08)':'rgba(26,122,74,.08)')+';color:'+(isPending?'#c24b2a':'#1a7a4a')+';border:1px solid '+(isPending?'rgba(194,75,42,.2)':'rgba(26,122,74,.2)')+'">'+( isPending?'Pendiente':'Enviado')+'</span>'+
-        (isPending?'<button onclick="adminApprove(''+o.id+'')" id="abtn-'+o.id+'" style="background:var(--ink);color:var(--paper);border:none;padding:.45rem 1rem;border-radius:3px;font-family:inherit;font-size:.75rem;font-weight:600;cursor:pointer">Aprobar y enviar</button>':'')+
-        '<button onclick="adminDelete(''+o.id+'')" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:.45rem .7rem;border-radius:3px;font-family:inherit;font-size:.72rem;cursor:pointer">Borrar</button>'+
+        (isPending?'<button onclick="adminApprove(\''+o.id+'\')" id="abtn-'+o.id+'" style="background:var(--ink);color:var(--paper);border:none;padding:.45rem 1rem;border-radius:3px;font-family:inherit;font-size:.75rem;font-weight:600;cursor:pointer">Aprobar y enviar</button>':'')+
+        '<button onclick="adminDelete(\''+o.id+'\')" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:.45rem .7rem;border-radius:3px;font-family:inherit;font-size:.72rem;cursor:pointer">Borrar</button>'+
       '</div>'+
     '</div>';
   }).join('');
@@ -1293,3 +1293,4 @@ renderHist();
 </script>
 </body>
 </html>
+
