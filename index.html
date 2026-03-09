@@ -613,6 +613,7 @@ html.dark .foot-logo{color:var(--paper)}
             <div class="field"><label>Profesion *</label><input type="text" id="fprof" placeholder="Ej: Contadora"><div class="ferr" id="e-fprof">Por favor ingresa tu profesion.</div></div>
           </div>
           <div class="field"><label>WhatsApp (opcional)</label><input type="tel" id="fwa" placeholder="Ej: +595 981 123456"><div class="note-sm"><i class="fas fa-lock"></i> Solo para enviarte el CV. No spam.</div></div>
+          <div class="field"><label>Email *</label><input type="email" id="femail" placeholder="Ej: maria@gmail.com"><div class="ferr" id="e-femail">Por favor ingresa tu email.</div><div class="note-sm"><i class="fas fa-lock"></i> Te enviamos el CV finalizado por email.</div></div>
           <div class="field">
             <label>Foto en el CV?</label>
             <div class="toggle-row">
@@ -769,7 +770,8 @@ html.dark .foot-logo{color:var(--paper)}
 
 <a href="https://wa.me/595992954169?text=Hola!%20Vi%20CVitae%20y%20tengo%20una%20consulta" target="_blank" rel="noopener" class="wa-float"><i class="fab fa-whatsapp"></i><span class="wa-tip">Escribinos</span></a>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+
 /* ─── STATE ─── */
 var S={contents:{},fmt:'latam',plan:'basic',hasPhoto:false,photoData:null};
 var FL={latam:'Paraguay/Latam',europass:'Europass',usa:'USA Resume',academico:'Academico'};
@@ -854,6 +856,7 @@ function goStep(n){
     var ok=true;
     if(!document.getElementById('fname').value.trim()){setErr('fname','e-fname',true);ok=false;}
     if(!document.getElementById('fprof').value.trim()){setErr('fprof','e-fprof',true);ok=false;}
+    var emailEl=document.getElementById('femail');if(emailEl&&!emailEl.value.trim()){setErr('femail','e-femail',true);ok=false;}
     if(!ok)return;
   }
   document.getElementById('s1').classList.remove('active');
@@ -1125,10 +1128,27 @@ function confirmPay(){
   var name=document.getElementById('fname').value||'cliente';
   var job=document.getElementById('fjob').value||'puesto indicado';
   var wa=document.getElementById('fwa').value||'no indicado';
-  var msg='Hola! Acabo de pagar el plan '+lbl+'.\n\nNombre: '+name+'\nPuesto: '+job+'\nMi WhatsApp: '+wa+'\n\nTe mando el comprobante ahora!';
+  var email=document.getElementById('femail')&&document.getElementById('femail').value||'no indicado';
+  var msg='Hola! Acabo de pagar el plan '+lbl+'.\n\nNombre: '+name+'\nEmail: '+email+'\nPuesto: '+job+'\nMi WhatsApp: '+wa+'\n\nTe mando el comprobante ahora!';
   window.open('https://wa.me/595992954169?text='+encodeURIComponent(msg),'_blank');
   document.getElementById('payStep').style.display='none';
   var w=document.getElementById('waitDiv');w.style.display='block';w.classList.add('show');
+  /* Guardar pedido en el sistema */
+  var cvHtml=S.contents&&S.contents[S.activeFmt||S.fmt]||S.contents&&S.contents[Object.keys(S.contents)[0]]||'';
+  fetch('/.netlify/functions/save-cv',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      name:name,
+      job:job,
+      wa:wa,
+      email:email,
+      plan:S.plan||'basic',
+      cvHtml:cvHtml
+    })
+  }).then(function(r){return r.json();}).then(function(d){
+    if(d.id){console.log('Pedido guardado:',d.id);}
+  }).catch(function(e){console.warn('No se pudo guardar el pedido:',e);});
 }
 
 /* ─── COPY ─── */
@@ -1263,8 +1283,8 @@ function adminRender(orders){
       '</div>'+
       '<div style="display:flex;gap:.5rem;align-items:center">'+
         '<span style="font-size:.62rem;font-weight:700;text-transform:uppercase;padding:.2rem .7rem;border-radius:30px;background:'+(isPending?'rgba(194,75,42,.08)':'rgba(26,122,74,.08)')+';color:'+(isPending?'#c24b2a':'#1a7a4a')+';border:1px solid '+(isPending?'rgba(194,75,42,.2)':'rgba(26,122,74,.2)')+'">'+( isPending?'Pendiente':'Enviado')+'</span>'+
-        (isPending?'<button onclick="adminApprove(\''+o.id+'\')" id="abtn-'+o.id+'" style="background:var(--ink);color:var(--paper);border:none;padding:.45rem 1rem;border-radius:3px;font-family:inherit;font-size:.75rem;font-weight:600;cursor:pointer">Aprobar y enviar</button>':'')+
-        '<button onclick="adminDelete(\''+o.id+'\')" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:.45rem .7rem;border-radius:3px;font-family:inherit;font-size:.72rem;cursor:pointer">Borrar</button>'+
+        (isPending?'<button onclick="adminApprove(''+o.id+'')" id="abtn-'+o.id+'" style="background:var(--ink);color:var(--paper);border:none;padding:.45rem 1rem;border-radius:3px;font-family:inherit;font-size:.75rem;font-weight:600;cursor:pointer">Aprobar y enviar</button>':'')+
+        '<button onclick="adminDelete(''+o.id+'')" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:.45rem .7rem;border-radius:3px;font-family:inherit;font-size:.72rem;cursor:pointer">Borrar</button>'+
       '</div>'+
     '</div>';
   }).join('');
@@ -1290,7 +1310,7 @@ function adminDelete(id){
 }
 
 renderHist();
+
 </script>
 </body>
 </html>
-
