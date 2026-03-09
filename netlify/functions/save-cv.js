@@ -4,7 +4,7 @@
 const { getStore } = require("@netlify/blobs");
 
 const ALLOWED_ORIGINS = [
-  "https://cvitaepy.netlify.app",
+  "https://cvitaeglobal.netlify.app",
   "http://localhost:8888",
   "http://localhost:3000",
 ];
@@ -12,7 +12,7 @@ const ALLOWED_ORIGINS = [
 function cors() {
   return {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "https://cvitaepy.netlify.app",
+    "Access-Control-Allow-Origin": "https://cvitaeglobal.netlify.app",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   };
