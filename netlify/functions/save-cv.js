@@ -31,7 +31,7 @@ exports.handler = async (event) => {
   }
 
   const origin = event.headers["origin"] || event.headers["referer"] || "";
-  if (!ALLOWED_ORIGINS.some((o) => origin.startsWith(o))) {
+  if (origin && !ALLOWED_ORIGINS.some((o) => origin.startsWith(o))) {
     return { statusCode: 403, headers: cors(), body: JSON.stringify({ error: "Forbidden" }) };
   }
 
