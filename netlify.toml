@@ -1,7 +1,7 @@
 [build]
   publish = "."
   functions = "netlify/functions"
-  command = "echo 'No build step'"
+  command = "echo 'No build step needed'"
 
 [functions]
   node_bundler = "esbuild"
@@ -9,8 +9,48 @@
 [functions."chat"]
   timeout = 30
 
+[functions."save-cv"]
+  timeout = 15
+
+[functions."get-cv"]
+  timeout = 10
+
+[functions."admin"]
+  timeout = 20
+
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "https://cvitaepy.netlify.app"
+    Access-Control-Allow-Methods = "POST, GET, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+
+[[headers]]
+  for = "/admin.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200
+
+[[redirects]]
+  from = "/cv"
+  to = "/cv.html"
+  status = 200
+
+[[redirects]]
+  from = "http://cvitaepy.netlify.app/*"
+  to = "https://cvitaepy.netlify.app/:splat"
+  status = 301
+  force = true
