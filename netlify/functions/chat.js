@@ -25,14 +25,15 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers: corsHeaders(), body: JSON.stringify({ error: "Method not allowed" }) };
   }
 
-  // Validar Origin
+  // Validar Origin — permitir mismo dominio y localhost
   const origin = event.headers["origin"] || event.headers["referer"] || "";
   const allowedOrigins = [
     "https://cvitaeglobal.netlify.app",
     "http://localhost:8888",
     "http://localhost:3000",
   ];
-  if (!allowedOrigins.some(o => origin.startsWith(o))) {
+  // Si hay origin, validarlo. Si no hay origin (mismo dominio), permitir.
+  if (origin && !allowedOrigins.some(o => origin.startsWith(o))) {
     return errorResponse(403, "Forbidden");
   }
 
