@@ -32,7 +32,7 @@
     X-Robots-Tag = "noindex, nofollow"
 
 [[redirects]]
-  from = "http://cvitaeglobal.netlify.app/*"
-  to = "https://cvitaeglobal.netlify.app/:splat"
+  from = "http://cvitae-py.netlify.app/*"
+  to = "https://cvitae-py.netlify.app/:splat"
   status = 301
   force = true
