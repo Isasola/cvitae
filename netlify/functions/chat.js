@@ -28,7 +28,8 @@ exports.handler = async (event) => {
   // Validar Origin — permitir mismo dominio y localhost
   const origin = event.headers["origin"] || event.headers["referer"] || "";
   const allowedOrigins = [
-    "https://cvitaeglobal.netlify.app",
+    "https://cvitae-py.netlify.app",
+    "https://cvitae-py.netlify.app",
     "http://localhost:8888",
     "http://localhost:3000",
   ];
@@ -97,7 +98,7 @@ exports.handler = async (event) => {
 function corsHeaders() {
   return {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "https://cvitaeglobal.netlify.app",
+    "Access-Control-Allow-Origin": "https://cvitae-py.netlify.app",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   };
