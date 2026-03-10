@@ -1,7 +1,5 @@
-// netlify/functions/get-cv.js
-// Retorna un CV por ID — usado por cv.html (página pública del cliente)
-
-const { getStore } = require("@netlify/blobs");
+const JSONBIN_KEY = process.env.JSONBIN_KEY;
+const JSONBIN_BIN_ID = process.env.JSONBIN_BIN_ID;
 
 function cors() {
   return {
@@ -13,41 +11,26 @@ function cors() {
 }
 
 exports.handler = async (event) => {
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 200, headers: cors(), body: "" };
-  }
-  if (event.httpMethod !== "GET") {
-    return { statusCode: 405, headers: cors(), body: JSON.stringify({ error: "Method not allowed" }) };
-  }
+  if (event.httpMethod === "OPTIONS") return { statusCode: 200, headers: cors(), body: "" };
 
-  const id = event.queryStringParameters?.id;
-  if (!id || !/^[a-z0-9]+$/.test(id)) {
-    return { statusCode: 400, headers: cors(), body: JSON.stringify({ error: "ID inválido" }) };
-  }
+  const id = event.queryStringParameters && event.queryStringParameters.id;
+  if (!id) return { statusCode: 400, headers: cors(), body: JSON.stringify({ error: "ID requerido" }) };
 
   try {
-    const store = getStore("cvitae-orders");
-    const order = await store.get(id, { type: "json" });
+    const readRes = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+      headers: { "X-Master-Key": JSONBIN_KEY }
+    });
+    if (!readRes.ok) throw new Error("Error leyendo JSONBin");
 
-    if (!order) {
-      return { statusCode: 404, headers: cors(), body: JSON.stringify({ error: "CV no encontrado" }) };
-    }
+    const data = await readRes.json();
+    const orders = data.record.orders || [];
+    const order = orders.find(o => o.id === id);
 
-    // Solo exponer lo necesario para mostrar el CV (sin datos internos)
-    return {
-      statusCode: 200,
-      headers: cors(),
-      body: JSON.stringify({
-        name: order.name,
-        profession: order.profession,
-        job: order.job,
-        format: order.format,
-        cvHtml: order.cvHtml,
-        status: order.status,
-      }),
-    };
-  } catch (err) {
-    console.error("get-cv error:", err);
-    return { statusCode: 500, headers: cors(), body: JSON.stringify({ error: "Error del servidor" }) };
+    if (!order) return { statusCode: 404, headers: cors(), body: JSON.stringify({ error: "CV no encontrado" }) };
+
+    return { statusCode: 200, headers: cors(), body: JSON.stringify({ cvHtml: order.cvHtml, name: order.name }) };
+  } catch (e) {
+    console.error("get-cv error:", e);
+    return { statusCode: 500, headers: cors(), body: JSON.stringify({ error: "Error obteniendo CV" }) };
   }
 };
