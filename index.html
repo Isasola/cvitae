@@ -1128,27 +1128,35 @@ function confirmPay(){
   var name=document.getElementById('fname').value||'cliente';
   var job=document.getElementById('fjob').value||'puesto indicado';
   var wa=document.getElementById('fwa').value||'no indicado';
-  var email=document.getElementById('femail')&&document.getElementById('femail').value||'no indicado';
+  var emailEl=document.getElementById('femail');
+  var email=emailEl&&emailEl.value.trim()?emailEl.value.trim():'no indicado';
   var msg='Hola! Acabo de pagar el plan '+lbl+'.\n\nNombre: '+name+'\nEmail: '+email+'\nPuesto: '+job+'\nMi WhatsApp: '+wa+'\n\nTe mando el comprobante ahora!';
   window.open('https://wa.me/595992954169?text='+encodeURIComponent(msg),'_blank');
   document.getElementById('payStep').style.display='none';
   var w=document.getElementById('waitDiv');w.style.display='block';w.classList.add('show');
-  /* Guardar pedido en el sistema */
-  var cvHtml=S.contents&&S.contents[S.activeFmt||S.fmt]||S.contents&&S.contents[Object.keys(S.contents)[0]]||'';
-  fetch('/.netlify/functions/save-cv',{
+  /* Enviar email a cpdparaguay via EmailJS */
+  fetch('https://api.emailjs.com/api/v1.0/email/send',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
-      name:name,
-      job:job,
-      wa:wa,
-      email:email,
-      plan:S.plan||'basic',
-      cvHtml:cvHtml
+      service_id:'service_muvlq14',
+      template_id:'template_i94qkza',
+      user_id:'CZy-kIlMnZIBxjh15',
+      template_params:{
+        to_name:name,
+        to_email:'cpdparaguay@gmail.com',
+        name:name,
+        email:email,
+        wa:wa,
+        job:job,
+        plan:lbl
+      }
     })
-  }).then(function(r){return r.json();}).then(function(d){
-    if(d.id){console.log('Pedido guardado:',d.id);}
-  }).catch(function(e){console.warn('No se pudo guardar el pedido:',e);});
+  }).then(function(){
+    console.log('Email enviado a cpdparaguay');
+  }).catch(function(e){
+    console.warn('Error enviando email:',e);
+  });
 }
 
 /* ─── COPY ─── */
