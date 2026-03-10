@@ -2,7 +2,7 @@ const JSONBIN_KEY = process.env.JSONBIN_KEY;
 const JSONBIN_BIN_ID = process.env.JSONBIN_BIN_ID;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "cvitae2026admin";
 const EMAILJS_SERVICE_ID = "service_muvlq14";
-const EMAILJS_TEMPLATE_ID = "template_i94qkza";
+const EMAILJS_TEMPLATE_ID = "template_u399kvj";
 const EMAILJS_PUBLIC_KEY = "CZy-kIlMnZIBxjh15";
 const SITE_URL = "https://cvitae-py.netlify.app";
 
