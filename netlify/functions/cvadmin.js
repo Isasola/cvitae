@@ -4,7 +4,7 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "cvitae2026admin";
 const EMAILJS_SERVICE_ID = "service_muvlq14";
 const EMAILJS_TEMPLATE_ID = "template_i94qkza";
 const EMAILJS_PUBLIC_KEY = "CZy-kIlMnZIBxjh15";
-const SITE_URL = "https://cvitaeglobal.netlify.app";
+const SITE_URL = "https://cvitae-py.netlify.app";
 
 function cors() {
   return {
