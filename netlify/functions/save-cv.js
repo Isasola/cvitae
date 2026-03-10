@@ -1,81 +1,55 @@
-// netlify/functions/save-cv.js
-// Guarda el CV en Netlify Blobs y retorna un ID único
-
-const { getStore } = require("@netlify/blobs");
-
-const ALLOWED_ORIGINS = [
-  "https://cvitaeglobal.netlify.app",
-  "http://localhost:8888",
-  "http://localhost:3000",
-];
+const JSONBIN_KEY = process.env.JSONBIN_KEY;
+const JSONBIN_BIN_ID = process.env.JSONBIN_BIN_ID; // lo creamos la primera vez
 
 function cors() {
   return {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "https://cvitaeglobal.netlify.app",
+    "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   };
 }
 
-function uid() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-}
-
 exports.handler = async (event) => {
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 200, headers: cors(), body: "" };
-  }
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, headers: cors(), body: JSON.stringify({ error: "Method not allowed" }) };
-  }
-
-  const origin = event.headers["origin"] || event.headers["referer"] || "";
-  if (origin && !ALLOWED_ORIGINS.some((o) => origin.startsWith(o))) {
-    return { statusCode: 403, headers: cors(), body: JSON.stringify({ error: "Forbidden" }) };
-  }
+  if (event.httpMethod === "OPTIONS") return { statusCode: 200, headers: cors(), body: "" };
+  if (event.httpMethod !== "POST") return { statusCode: 405, headers: cors(), body: JSON.stringify({ error: "Method not allowed" }) };
 
   let body;
+  try { body = JSON.parse(event.body || "{}"); } catch { return { statusCode: 400, headers: cors(), body: JSON.stringify({ error: "JSON inválido" }) }; }
+
+  const { name, job, wa, email, plan, cvHtml } = body;
+  if (!name || !cvHtml) return { statusCode: 400, headers: cors(), body: JSON.stringify({ error: "Faltan datos" }) };
+
+  const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  const order = { id, name, job, wa, email, plan, cvHtml, status: "pending", createdAt: new Date().toISOString() };
+
   try {
-    body = JSON.parse(event.body || "{}");
-  } catch {
-    return { statusCode: 400, headers: cors(), body: JSON.stringify({ error: "JSON inválido" }) };
+    // Leer bin actual
+    let orders = [];
+    if (JSONBIN_BIN_ID) {
+      const readRes = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+        headers: { "X-Master-Key": JSONBIN_KEY }
+      });
+      if (readRes.ok) {
+        const data = await readRes.json();
+        orders = data.record.orders || [];
+      }
+    }
+
+    orders.push(order);
+
+    // Guardar bin actualizado
+    const saveRes = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_KEY },
+      body: JSON.stringify({ orders })
+    });
+
+    if (!saveRes.ok) throw new Error("Error guardando en JSONBin");
+
+    return { statusCode: 200, headers: cors(), body: JSON.stringify({ ok: true, id }) };
+  } catch (e) {
+    console.error("save-cv error:", e);
+    return { statusCode: 500, headers: cors(), body: JSON.stringify({ error: "Error guardando pedido" }) };
   }
-
-  const { name, email, profession, job, format, cvHtml, plan } = body;
-
-  if (!name || !email || !cvHtml) {
-    return { statusCode: 400, headers: cors(), body: JSON.stringify({ error: "Faltan datos requeridos" }) };
-  }
-
-  // Validar email básico
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return { statusCode: 400, headers: cors(), body: JSON.stringify({ error: "Email inválido" }) };
-  }
-
-  const id = uid();
-  const store = getStore("cvitae-orders");
-
-  const order = {
-    id,
-    name,
-    email,
-    profession: profession || "",
-    job: job || "",
-    format: format || "latam",
-    plan: plan || "basic",
-    cvHtml,
-    status: "pending", // pending | approved | sent
-    createdAt: new Date().toISOString(),
-    approvedAt: null,
-    sentAt: null,
-  };
-
-  await store.setJSON(id, order);
-
-  return {
-    statusCode: 200,
-    headers: cors(),
-    body: JSON.stringify({ id, ok: true }),
-  };
 };
