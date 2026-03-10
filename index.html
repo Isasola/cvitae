@@ -1130,10 +1130,20 @@ function confirmPay(){
   var wa=document.getElementById('fwa').value||'no indicado';
   var emailEl=document.getElementById('femail');
   var email=emailEl&&emailEl.value.trim()?emailEl.value.trim():'no indicado';
+  /* Obtener el HTML del CV generado */
+  var cvHtml=S.contents&&S.contents[S.activeFmt||S.fmt]||S.contents&&S.contents[Object.keys(S.contents||{})[0]]||'(CV no disponible)';
   var msg='Hola! Acabo de pagar el plan '+lbl+'.\n\nNombre: '+name+'\nEmail: '+email+'\nPuesto: '+job+'\nMi WhatsApp: '+wa+'\n\nTe mando el comprobante ahora!';
   window.open('https://wa.me/595992954169?text='+encodeURIComponent(msg),'_blank');
   document.getElementById('payStep').style.display='none';
   var w=document.getElementById('waitDiv');w.style.display='block';w.classList.add('show');
+  /* Guardar pedido en JSONBin via save-cv */
+  fetch('/.netlify/functions/save-cv',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name:name,job:job,wa:wa,email:email,plan:S.plan||'basic',cvHtml:cvHtml})
+  }).then(function(r){return r.json();}).then(function(d){
+    if(d.id){console.log('Pedido guardado:',d.id);}
+  }).catch(function(e){console.warn('Error guardando pedido:',e);});
   /* Enviar email a cpdparaguay via EmailJS */
   fetch('https://api.emailjs.com/api/v1.0/email/send',{
     method:'POST',
