@@ -89,8 +89,10 @@ exports.handler = async (event) => {
 
       if (!emailRes.ok) {
         const errText = await emailRes.text();
+        console.error("EmailJS error status:", emailRes.status, "body:", errText);
         return { statusCode: 502, headers: cors(), body: JSON.stringify({ error: "Error EmailJS: " + errText }) };
       }
+      console.log("EmailJS OK - email enviado a:", order.email);
 
       order.status = "sent";
       order.sentAt = new Date().toISOString();
