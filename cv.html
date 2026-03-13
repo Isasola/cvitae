@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tu CV — CVitae</title>
+<title>Tu Kit Profesional — CVitae</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -30,6 +30,11 @@ body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--text);m
 .btn-wa{background:#25d366;color:#fff}
 .btn-wa:hover{background:#1fb855}
 
+/* AVISO EXPIRACIÓN */
+.expiry-banner{background:linear-gradient(135deg,#7a3a10,#c24b2a);color:#fff;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:center;gap:.6rem;font-size:.8rem;font-weight:500;text-align:center;flex-wrap:wrap}
+.expiry-banner i{font-size:.9rem;flex-shrink:0}
+.expiry-banner strong{font-weight:700}
+
 /* LOADING */
 .loading{text-align:center;padding:5rem 2rem}
 .spin{width:48px;height:48px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--gold);animation:spin 1s linear infinite;margin:0 auto 1.2rem}
@@ -43,23 +48,26 @@ body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--text);m
 .error-box p{color:var(--muted);font-size:.88rem;line-height:1.7}
 
 /* CV WRAPPER */
-.cv-container{max-width:820px;margin:2.5rem auto;padding:0 1.5rem 4rem}
-.cv-meta{text-align:center;margin-bottom:2rem}
+.cv-container{max-width:820px;margin:2rem auto;padding:0 1.5rem 4rem}
+.cv-meta{text-align:center;margin-bottom:1.5rem}
 .cv-meta h1{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--ink);margin-bottom:.3rem}
 .cv-meta p{font-size:.82rem;color:var(--muted)}
 .cv-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(13,92,99,.07);border:1px solid rgba(13,92,99,.2);color:var(--teal);padding:.3rem .9rem;border-radius:30px;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-top:.7rem}
 
-/* CV DOC — same styles as index.html */
+/* TABS */
+.tabs-nav{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:1.5rem;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab-btn{padding:.65rem 1.1rem;font-family:inherit;font-size:.78rem;font-weight:600;background:none;border:none;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;display:flex;align-items:center;gap:.4rem;transition:all .2s;letter-spacing:.02em}
+.tab-btn:hover{color:var(--ink)}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-btn i{font-size:.75rem}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* CV DOC */
 .cv-doc{
-  background:var(--offwhite);
-  border:1.5px solid var(--border);
-  border-radius:6px;
-  box-shadow:var(--shadow);
-  padding:2.5rem;
-  font-family:'Outfit',sans-serif;
-  font-size:.84rem;
-  color:var(--text);
-  line-height:1.75;
+  background:var(--offwhite);border:1.5px solid var(--border);border-radius:6px;
+  box-shadow:var(--shadow);padding:2.5rem;font-family:'Outfit',sans-serif;
+  font-size:.84rem;color:var(--text);line-height:1.75;
 }
 .cv-doc .cvh-stripe{height:4px;background:var(--grad-gold);margin:-2.5rem -2.5rem 2rem;border-radius:4px 4px 0 0}
 .cv-doc .cvh-grid{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:start;margin-bottom:.9rem}
@@ -93,16 +101,39 @@ body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--text);m
 .cv-doc .cv-lang strong{color:var(--ink);font-weight:600}
 .cv-doc .cvdiv{height:1px;background:var(--border);margin:.35rem 0 1.1rem}
 
+/* EXTRAS PANELS */
+.extra-card{background:var(--offwhite);border:1.5px solid var(--border);border-radius:6px;box-shadow:var(--shadow);padding:2rem}
+.extra-card-header{display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.extra-card-header i{font-size:1.2rem;color:var(--gold)}
+.extra-card-header h2{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink)}
+.extra-card-header p{font-size:.75rem;color:var(--muted);margin-top:.1rem}
+.extra-body{font-size:.85rem;line-height:1.85;color:var(--text)}
+.extra-body p{margin-bottom:.9rem}
+.extra-body h4{font-size:.82rem;font-weight:700;color:var(--teal);margin:1.1rem 0 .3rem;text-transform:uppercase;letter-spacing:.05em}
+.extra-body strong{color:var(--ink)}
+
+/* LinkedIn copy box */
+.linkedin-box{background:var(--paper);border:1.5px solid var(--border);border-radius:4px;padding:1.2rem;font-size:.85rem;line-height:1.8;color:var(--text);white-space:pre-wrap;margin-bottom:1rem}
+.btn-copy{background:rgba(13,92,99,.08);color:var(--teal);border:1px solid rgba(13,92,99,.2);padding:.5rem 1rem;border-radius:3px;font-size:.78rem;font-weight:600;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s}
+.btn-copy:hover{background:rgba(13,92,99,.15)}
+.btn-copy.copied{background:rgba(13,92,99,.2);color:var(--teal)}
+
+/* Sin extras disponibles */
+.no-extras{text-align:center;padding:3rem 1rem;color:var(--muted);font-size:.85rem}
+.no-extras i{font-size:2rem;color:var(--border);display:block;margin-bottom:.8rem}
+
 /* CTA BOTTOM */
 .cv-cta{text-align:center;margin-top:2.5rem;padding:2rem;background:var(--cream);border-radius:4px;border:1px solid var(--border)}
 .cv-cta p{font-size:.85rem;color:var(--muted);margin-bottom:1rem}
 .cv-cta strong{color:var(--ink)}
 
-/* PRINT */
+/* PRINT — solo imprime el CV */
 @media print{
-  .topbar,.cv-meta,.cv-cta,.cv-badge{display:none!important}
+  .topbar,.expiry-banner,.cv-meta,.cv-cta,.tabs-nav,.extra-card,.no-extras{display:none!important}
   body{background:#fff}
   .cv-container{margin:0;padding:0;max-width:100%}
+  .tab-panel{display:block!important}
+  #panel-extras-carta,#panel-extras-entrevista,#panel-extras-linkedin{display:none!important}
   .cv-doc{border:none;box-shadow:none;padding:1.5rem;border-radius:0}
 }
 </style>
@@ -110,17 +141,22 @@ body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--text);m
 <body>
 
 <div class="topbar">
-  <a href="https://cvitaepy.netlify.app" class="topbar-logo">CV<em>itae</em></a>
+  <a href="https://cvitae-py.netlify.app" class="topbar-logo">CV<em>itae</em></a>
   <div class="topbar-actions">
     <button class="btn btn-gold" onclick="printCV()"><i class="fas fa-download"></i> Guardar PDF</button>
     <a href="https://wa.me/595992954169?text=Hola!%20Recibi%20mi%20CV%20y%20quiero%20consultar" target="_blank" class="btn btn-wa"><i class="fab fa-whatsapp"></i> Consultar</a>
-    <a href="https://cvitaepy.netlify.app" class="btn btn-ghost"><i class="fas fa-home"></i> Inicio</a>
+    <a href="https://cvitae-py.netlify.app" class="btn btn-ghost"><i class="fas fa-home"></i> Inicio</a>
   </div>
+</div>
+
+<div id="expiryBanner" class="expiry-banner" style="display:none">
+  <i class="fas fa-clock"></i>
+  <span><strong>Este link expira en 15 días.</strong> Descargá tu PDF ahora con el botón "Guardar PDF" para conservarlo para siempre.</span>
 </div>
 
 <div id="loading" class="loading">
   <div class="spin"></div>
-  <p>Cargando tu CV...</p>
+  <p>Cargando tu kit profesional...</p>
 </div>
 
 <div id="errorBox" class="error-box" style="display:none">
@@ -133,22 +169,88 @@ body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--text);m
 
 <div id="cvContainer" class="cv-container" style="display:none">
   <div class="cv-meta">
-    <h1 id="cvTitle">Tu CV Profesional</h1>
+    <h1 id="cvTitle">Tu Kit Profesional</h1>
     <p id="cvSubtitle"></p>
     <div class="cv-badge"><i class="fas fa-check-circle"></i> Generado por CVitae con IA</div>
   </div>
-  <div id="cvContent"></div>
+
+  <div class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('cv')" id="tab-cv">
+      <i class="fas fa-file-alt"></i> CV
+    </button>
+    <button class="tab-btn" onclick="switchTab('carta')" id="tab-carta">
+      <i class="fas fa-envelope-open-text"></i> Carta de presentación
+    </button>
+    <button class="tab-btn" onclick="switchTab('entrevista')" id="tab-entrevista">
+      <i class="fas fa-comments"></i> Entrevista
+    </button>
+    <button class="tab-btn" onclick="switchTab('linkedin')" id="tab-linkedin">
+      <i class="fab fa-linkedin"></i> LinkedIn
+    </button>
+  </div>
+
+  <!-- TAB: CV -->
+  <div class="tab-panel active" id="panel-cv">
+    <div id="cvContent" class="cv-doc"></div>
+  </div>
+
+  <!-- TAB: CARTA -->
+  <div class="tab-panel" id="panel-carta">
+    <div class="extra-card">
+      <div class="extra-card-header">
+        <i class="fas fa-envelope-open-text"></i>
+        <div>
+          <h2>Carta de presentación</h2>
+          <p>Listo para adjuntar a tu postulación o enviar por email</p>
+        </div>
+      </div>
+      <div id="cartaContent" class="extra-body"></div>
+    </div>
+  </div>
+
+  <!-- TAB: ENTREVISTA -->
+  <div class="tab-panel" id="panel-entrevista">
+    <div class="extra-card">
+      <div class="extra-card-header">
+        <i class="fas fa-comments"></i>
+        <div>
+          <h2>Respuestas para entrevista</h2>
+          <p>3 preguntas frecuentes con respuestas ideales para tu perfil</p>
+        </div>
+      </div>
+      <div id="entrevistaContent" class="extra-body"></div>
+    </div>
+  </div>
+
+  <!-- TAB: LINKEDIN -->
+  <div class="tab-panel" id="panel-linkedin">
+    <div class="extra-card">
+      <div class="extra-card-header">
+        <i class="fab fa-linkedin"></i>
+        <div>
+          <h2>Mensaje para LinkedIn</h2>
+          <p>Copialo y pegalo directo en tu perfil o para contactar recruiters</p>
+        </div>
+      </div>
+      <div id="linkedinBox" class="linkedin-box"></div>
+      <button class="btn-copy" onclick="copyLinkedin()" id="copyBtn">
+        <i class="fas fa-copy"></i> Copiar texto
+      </button>
+    </div>
+  </div>
+
   <div class="cv-cta">
     <p>¿Necesitás actualizar tu CV o crear un portafolio web?<br><strong>Escribinos y te ayudamos.</strong></p>
     <div style="display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap">
       <a href="https://wa.me/595992954169" target="_blank" class="btn btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-      <a href="https://cvitaepy.netlify.app" class="btn btn-gold"><i class="fas fa-wand-magic-sparkles"></i> Generar otro CV</a>
+      <a href="https://cvitae-py.netlify.app" class="btn btn-gold"><i class="fas fa-wand-magic-sparkles"></i> Generar otro CV</a>
     </div>
   </div>
 </div>
 
 <script>
 var id = new URLSearchParams(window.location.search).get('id');
+var linkedinTextGlobal = '';
 
 if (!id) {
   document.getElementById('loading').style.display = 'none';
@@ -162,11 +264,40 @@ if (!id) {
         document.getElementById('errorBox').style.display = 'block';
         return;
       }
-      document.getElementById('cvTitle').textContent = data.name + ' — CV Profesional';
-      document.getElementById('cvSubtitle').textContent = data.profession + (data.job ? ' · Aplicando a: ' + data.job : '');
-      document.getElementById('cvContent').innerHTML = data.cvHtml;
+
+      // Título y subtítulo
+      document.getElementById('cvTitle').textContent = data.name + ' — Kit Profesional';
+      document.getElementById('cvSubtitle').textContent = (data.profession || '') + (data.job ? ' · Aplicando a: ' + data.job : '');
+      document.title = data.name + ' — Kit CVitae';
+
+      // CV
+      document.getElementById('cvContent').innerHTML = data.cvHtml || '';
+
+      // Carta
+      if (data.cartaHtml) {
+        document.getElementById('cartaContent').innerHTML = data.cartaHtml;
+      } else {
+        document.getElementById('cartaContent').innerHTML = '<div class="no-extras"><i class="fas fa-hourglass-half"></i>Carta no disponible aún. Escribinos por WhatsApp.</div>';
+      }
+
+      // Entrevista
+      if (data.entrevistaHtml) {
+        document.getElementById('entrevistaContent').innerHTML = data.entrevistaHtml;
+      } else {
+        document.getElementById('entrevistaContent').innerHTML = '<div class="no-extras"><i class="fas fa-hourglass-half"></i>Respuestas no disponibles aún. Escribinos por WhatsApp.</div>';
+      }
+
+      // LinkedIn
+      if (data.linkedinText) {
+        linkedinTextGlobal = data.linkedinText;
+        document.getElementById('linkedinBox').textContent = data.linkedinText;
+      } else {
+        document.getElementById('linkedinBox').textContent = 'Mensaje no disponible aún. Escribinos por WhatsApp.';
+      }
+
+      // Mostrar banner de expiración
+      document.getElementById('expiryBanner').style.display = 'flex';
       document.getElementById('cvContainer').style.display = 'block';
-      document.title = data.name + ' — CV · CVitae';
     })
     .catch(function() {
       document.getElementById('loading').style.display = 'none';
@@ -174,8 +305,39 @@ if (!id) {
     });
 }
 
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('tab-' + name).classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+}
+
 function printCV() {
   window.print();
+}
+
+function copyLinkedin() {
+  if (!linkedinTextGlobal) return;
+  navigator.clipboard.writeText(linkedinTextGlobal).then(function() {
+    var btn = document.getElementById('copyBtn');
+    btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+    btn.classList.add('copied');
+    setTimeout(function() {
+      btn.innerHTML = '<i class="fas fa-copy"></i> Copiar texto';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(function() {
+    // fallback para móviles viejos
+    var ta = document.createElement('textarea');
+    ta.value = linkedinTextGlobal;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    var btn = document.getElementById('copyBtn');
+    btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+    setTimeout(function() { btn.innerHTML = '<i class="fas fa-copy"></i> Copiar texto'; }, 2000);
+  });
 }
 </script>
 </body>
