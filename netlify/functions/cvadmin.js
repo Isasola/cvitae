@@ -1,6 +1,7 @@
 const JSONBIN_KEY = process.env.JSONBIN_KEY;
 const JSONBIN_BIN_ID = process.env.JSONBIN_BIN_ID;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "cvitae2026admin";
+const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 const EMAILJS_SERVICE_ID = "service_muvlq14";
 const EMAILJS_TEMPLATE_ID = "template_u399kvj";
 const EMAILJS_PUBLIC_KEY = "CZy-kIlMnZIBxjh15";
@@ -33,6 +34,41 @@ async function saveOrders(orders) {
   if (!res.ok) throw new Error("Error guardando en JSONBin");
 }
 
+async function generateExtras(order) {
+  const prompt = `Sos un asistente profesional de RR.HH. para Paraguay. Dado el siguiente perfil, generá 3 documentos en español rioplatense formal.
+
+Nombre: ${order.name}
+Profesión: ${order.profession || "profesional"}
+Puesto al que aplica: ${order.job || "un puesto relevante"}
+
+Respondé SOLO con un JSON válido con esta estructura exacta, sin texto extra antes ni después:
+{
+  "carta": "<p>...carta de presentación completa en HTML, 3 párrafos, usando solo tags p y strong...</p>",
+  "entrevista": "<div>...3 preguntas frecuentes de entrevista con sus respuestas ideales, usando h4 para la pregunta y p para la respuesta...</div>",
+  "linkedin": "Texto listo para copiar en LinkedIn, máximo 5 líneas, sin HTML, tono profesional y cercano."
+}`;
+
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": ANTHROPIC_API_KEY,
+      "anthropic-version": "2023-06-01"
+    },
+    body: JSON.stringify({
+      model: "claude-haiku-4-5",
+      max_tokens: 1500,
+      messages: [{ role: "user", content: prompt }]
+    })
+  });
+
+  if (!res.ok) throw new Error("Error llamando a Anthropic");
+  const data = await res.json();
+  const text = data.content[0].text.trim();
+  const clean = text.replace(/^```json\n?/, "").replace(/\n?```$/, "").trim();
+  return JSON.parse(clean);
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return { statusCode: 200, headers: cors(), body: "" };
   if (event.httpMethod !== "POST") return { statusCode: 405, headers: cors(), body: JSON.stringify({ error: "Method not allowed" }) };
@@ -63,10 +99,16 @@ exports.handler = async (event) => {
       if (!order) return { statusCode: 404, headers: cors(), body: JSON.stringify({ error: "Pedido no encontrado" }) };
       if (order.status === "sent") return { statusCode: 409, headers: cors(), body: JSON.stringify({ error: "Ya fue enviado" }) };
 
+      // Generar carta, entrevista y LinkedIn con IA
+      const extras = await generateExtras(order);
+      order.cartaHtml = extras.carta;
+      order.entrevistaHtml = extras.entrevista;
+      order.linkedinText = extras.linkedin;
+
       const cvLink = `${SITE_URL}/cv.html?id=${order.id}`;
       const planLabel = order.plan === "pro" ? "Portafolio Web" : "CV Digital";
 
-      // Enviar email AL CLIENTE con el link de su CV
+      // Enviar email al cliente con el link
       const emailRes = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -92,7 +134,6 @@ exports.handler = async (event) => {
         console.error("EmailJS error status:", emailRes.status, "body:", errText);
         return { statusCode: 502, headers: cors(), body: JSON.stringify({ error: "Error EmailJS: " + errText }) };
       }
-      console.log("EmailJS OK - email enviado a:", order.email);
 
       order.status = "sent";
       order.sentAt = new Date().toISOString();
