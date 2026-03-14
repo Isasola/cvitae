@@ -3,8 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CVitae — Tu CV generado por IA, adaptado al puesto exacto. Listo en minutos.">
-<title>CVitae — Tu CV generado por IA</title>
+<meta name="description" content="Generá tu CV profesional con IA en minutos. Adaptado al puesto exacto, con carta de presentación, respuestas para entrevista y mensaje LinkedIn. Para Paraguay y el mundo.">
+<meta name="keywords" content="CV profesional Paraguay, generador de CV con IA, hacer CV Asunción, curriculum vitae Paraguay, CV para trabajo, ATS optimizado">
+<meta property="og:title" content="CVitae — Tu CV generado por IA para Paraguay">
+<meta property="og:description" content="CV adaptado al aviso exacto + carta + entrevista + LinkedIn. Listo en minutos. ₲50.000 pago único.">
+<meta property="og:url" content="https://cvitae-py.netlify.app">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CVitae — CV con IA para Paraguay">
+<meta name="twitter:description" content="CV profesional adaptado al puesto exacto. Carta + entrevista + LinkedIn incluidos.">
+<title>CVitae — Generador de CV con IA para Paraguay</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -63,7 +71,6 @@ html.dark .nav-cta{background:var(--gold);color:var(--ink)}
 /* ===== HERO ===== */
 .hero{min-height:100vh;display:grid;grid-template-columns:1fr;align-items:center;padding:7rem 0 4rem;position:relative;overflow:hidden}
 @media(min-width:900px){.hero{grid-template-columns:1fr 1fr;gap:4rem}}
-/* Grain texture overlay */
 .hero::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
 .hero-content{position:relative;z-index:1}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.18em;color:var(--gold);margin-bottom:1.5rem;animation:up .7s ease both}
@@ -81,7 +88,6 @@ html.dark .btn-ink{background:var(--gold);color:var(--ink)}
 .btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
 html.dark .btn-outline{color:var(--paper)}
 .btn-outline:hover{border-color:var(--gold);color:var(--gold)}
-/* CV showcase card */
 .hero-visual{position:relative;z-index:1;animation:up .7s ease .32s both}
 .showcase-wrap{position:relative;border-radius:4px;overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--border)}
 .showcase-wrap::before{content:'PREVIEW';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-22deg);z-index:10;font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:rgba(201,168,76,.18);letter-spacing:.8rem;border:3px solid rgba(201,168,76,.18);padding:.6rem 2rem;border-radius:4px;white-space:nowrap;pointer-events:none}
@@ -250,7 +256,7 @@ html.dark .load-step.done{color:var(--gold)}
 .load-step.done i{color:var(--teal)}
 html.dark .load-step.done i{color:var(--gold)}
 
-/* ===== CV RESULT — THE MONEY SHOT ===== */
+/* ===== CV RESULT ===== */
 .cv-result{display:none;padding:1rem}
 .cv-result.show{display:block}
 .result-head{text-align:center;margin-bottom:1rem}
@@ -264,9 +270,8 @@ html.dark .fmt-tab{background:var(--ink)}
 html.dark .fmt-tab.on{background:var(--gold);color:var(--ink);border-color:var(--gold)}
 .fmt-panel{display:none}.fmt-panel.on{display:block}
 
-/* THE CV DOCUMENT ITSELF */
+/* CV DOCUMENT */
 .cv-wrap{position:relative;border-radius:4px;overflow:hidden;border:1.5px solid var(--border);box-shadow:0 8px 48px rgba(10,10,15,.14);margin-bottom:1rem}
-/* Disable all selection */
 .cv-wrap,.cv-wrap *{-webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important;user-select:none!important}
 .cv-wm{
   position:absolute;top:50%;left:50%;
@@ -283,8 +288,6 @@ html.dark .fmt-tab.on{background:var(--gold);color:var(--ink);border-color:var(-
   z-index:6;pointer-events:none}
 html.dark .cv-fade{background:linear-gradient(to bottom,transparent,var(--cream))}
 .cv-unlock{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:7;white-space:nowrap}
-
-/* CV document layout — premium editorial style */
 .cv-doc{
   background:var(--offwhite);
   max-height:560px;overflow-y:auto;
@@ -295,8 +298,6 @@ html.dark .cv-fade{background:linear-gradient(to bottom,transparent,var(--cream)
 html.dark .cv-doc{background:#1a1712}
 .cv-doc::-webkit-scrollbar{width:2px}
 .cv-doc::-webkit-scrollbar-thumb{background:rgba(201,168,76,.3)}
-
-/* CV Header */
 .cv-doc .cvh-stripe{height:4px;background:var(--grad-gold);margin:-2rem -2rem 1.8rem;border-radius:0}
 .cv-doc .cvh-grid{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:start;margin-bottom:.8rem}
 .cv-doc .cvh-name{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;color:var(--ink);letter-spacing:-.02em;line-height:1.05}
@@ -308,13 +309,8 @@ html.dark .cv-doc .cvh-title{color:var(--gold2)}
 .cv-doc .cvh-contacts{display:flex;flex-wrap:wrap;gap:.3rem .9rem;padding:.8rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:1.2rem}
 .cv-doc .cvh-c{font-size:.68rem;color:var(--muted);display:flex;align-items:center;gap:.3rem}
 .cv-doc .cvh-c i{color:var(--gold);font-size:.6rem;flex-shrink:0}
-
-/* CV Sections */
 .cv-doc .cvs{margin-bottom:1.3rem}
-.cv-doc .cvs-label{
-  font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.22em;color:var(--gold);
-  display:flex;align-items:center;gap:.5rem;margin-bottom:.7rem;
-}
+.cv-doc .cvs-label{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.22em;color:var(--gold);display:flex;align-items:center;gap:.5rem;margin-bottom:.7rem}
 .cv-doc .cvs-label::after{content:'';flex:1;height:1px;background:var(--border)}
 .cv-doc .cvs-text{font-size:.79rem;color:var(--text);line-height:1.78}
 .cv-doc .cvb{margin-bottom:.9rem;padding-bottom:.9rem;border-bottom:1px solid var(--border)}
@@ -514,7 +510,7 @@ html.dark .foot-logo{color:var(--paper)}
           <div class="sc-name">María Sánchez Rodríguez</div>
           <div class="sc-role">Analista Contable · Finanzas Corporativas</div>
           <div class="sc-contacts">
-            <span class="sc-contact"><i class="fas fa-envelope"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="573a36253e3617323a363e3b7934383a">[email&#160;protected]</a></span>
+            <span class="sc-contact"><i class="fas fa-envelope"></i> maria@email.com</span>
             <span class="sc-contact"><i class="fas fa-phone"></i> +595 981 234 567</span>
             <span class="sc-contact"><i class="fas fa-map-marker-alt"></i> Asunción, PY</span>
           </div>
@@ -564,26 +560,10 @@ html.dark .foot-logo{color:var(--paper)}
     <h2 class="s-title fi" style="text-align:center;margin-bottom:.4rem">Funciona para <em>cualquier situación.</em></h2>
     <p class="s-sub fi" style="text-align:center">No importa en qué momento de tu carrera estés.</p>
     <div class="steps-grid fi" style="margin-top:2rem">
-      <div class="step-card">
-        <div class="step-icon-box"><i class="fas fa-graduation-cap"></i></div>
-        <h3>Primer empleo</h3>
-        <p>Sin experiencia no significa sin oportunidades. La IA resalta tu formación, proyectos y potencial adaptado a lo que busca la empresa.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-icon-box"><i class="fas fa-arrow-trend-up"></i></div>
-        <h3>Cambio de trabajo</h3>
-        <p>Cada aviso pide cosas diferentes. CVitae adapta tu CV a cada postulación sin que tengas que reescribir todo desde cero.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-icon-box"><i class="fas fa-globe"></i></div>
-        <h3>Trabajo remoto o en el exterior</h3>
-        <p>¿Postulás a empresas en Argentina, España o EEUU? Generamos tu CV en el idioma y formato exacto que ese mercado requiere.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-icon-box"><i class="fas fa-copy"></i></div>
-        <h3>Postulás a muchos puestos</h3>
-        <p>Cada empresa quiere escuchar algo diferente. CVitae genera un CV único por aviso en minutos — sin repetir el mismo texto genérico.</p>
-      </div>
+      <div class="step-card"><div class="step-icon-box"><i class="fas fa-graduation-cap"></i></div><h3>Primer empleo</h3><p>Sin experiencia no significa sin oportunidades. La IA resalta tu formación, proyectos y potencial adaptado a lo que busca la empresa.</p></div>
+      <div class="step-card"><div class="step-icon-box"><i class="fas fa-arrow-trend-up"></i></div><h3>Cambio de trabajo</h3><p>Cada aviso pide cosas diferentes. CVitae adapta tu CV a cada postulación sin que tengas que reescribir todo desde cero.</p></div>
+      <div class="step-card"><div class="step-icon-box"><i class="fas fa-globe"></i></div><h3>Trabajo remoto o en el exterior</h3><p>¿Postulás a empresas en Argentina, España o EEUU? Generamos tu CV en el idioma y formato exacto que ese mercado requiere.</p></div>
+      <div class="step-card"><div class="step-icon-box"><i class="fas fa-copy"></i></div><h3>Postulás a muchos puestos</h3><p>Cada empresa quiere escuchar algo diferente. CVitae genera un CV único por aviso en minutos — sin repetir el mismo texto genérico.</p></div>
     </div>
   </div>
 </section>
@@ -617,26 +597,59 @@ html.dark .foot-logo{color:var(--paper)}
     <h2 class="s-title fi" style="text-align:center;margin-bottom:.4rem">La diferencia <em>es visible.</em></h2>
     <p class="s-sub fi" style="text-align:center;margin-bottom:2.5rem">El mismo candidato. Distinto CV. Distinto resultado.</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:900px;margin:0 auto" class="fi">
-      <div style="border:1.5px solid rgba(194,75,42,.25);border-radius:6px;overflow:hidden">
-        <div style="background:rgba(194,75,42,.08);padding:.7rem 1rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--rust);display:flex;align-items:center;gap:.4rem"><i class="fas fa-times-circle"></i> CV genérico de siempre</div>
-        <div style="padding:1.2rem;font-size:.75rem;color:var(--muted);line-height:1.8">
-          <div style="font-weight:700;font-size:.85rem;color:var(--text);margin-bottom:.3rem">María González</div>
-          <div style="font-size:.7rem;color:var(--muted);margin-bottom:.8rem">Contadora</div>
-          <div style="margin-bottom:.5rem"><strong>Objetivo:</strong> Conseguir un buen trabajo en el área contable donde pueda aplicar mis conocimientos.</div>
-          <div style="margin-bottom:.5rem"><strong>Experiencia:</strong> Contadora en empresa importadora, 4 años. Realizé tareas contables varias.</div>
-          <div style="margin-bottom:.5rem"><strong>Estudios:</strong> Licenciatura Contabilidad UNA 2019.</div>
-          <div><strong>Habilidades:</strong> Excel, SAP, trabajo en equipo, responsable, puntual.</div>
+
+      <!-- LADO MALO -->
+      <div style="border:1.5px solid rgba(194,75,42,.25);border-radius:6px;overflow:hidden;opacity:.9">
+        <div style="background:rgba(194,75,42,.08);padding:.7rem 1rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--rust);display:flex;align-items:center;gap:.4rem">
+          <i class="fas fa-times-circle"></i> CV genérico de siempre
+        </div>
+        <div style="padding:1.4rem;font-size:.78rem;color:var(--muted);line-height:1.85">
+          <div style="font-weight:700;font-size:.9rem;color:var(--text);margin-bottom:.15rem">Diego Ramírez</div>
+          <div style="font-size:.7rem;color:var(--muted);margin-bottom:1rem">Marketing</div>
+          <div style="margin-bottom:.6rem"><strong style="color:var(--text)">Objetivo:</strong> Busco trabajo en marketing donde pueda crecer profesionalmente y aportar mis conocimientos al equipo.</div>
+          <div style="margin-bottom:.6rem"><strong style="color:var(--text)">Experiencia:</strong> Community manager en agencia. Manejé redes sociales y creé contenido.</div>
+          <div style="margin-bottom:.6rem"><strong style="color:var(--text)">Estudios:</strong> Licenciatura en Publicidad, UCA 2021.</div>
+          <div><strong style="color:var(--text)">Habilidades:</strong> Canva, Instagram, Facebook, buena comunicación, creativo.</div>
+          <div style="margin-top:1rem;padding:.6rem .8rem;background:rgba(194,75,42,.06);border-radius:3px;font-size:.7rem;color:var(--rust);display:flex;align-items:center;gap:.4rem">
+            <i class="fas fa-robot"></i> ATS: ninguna keyword del aviso detectada — <strong>descartado</strong>
+          </div>
         </div>
       </div>
-      <div style="border:1.5px solid rgba(201,168,76,.4);border-radius:6px;overflow:hidden;box-shadow:0 4px 24px rgba(201,168,76,.12)">
-        <div style="background:rgba(201,168,76,.1);padding:.7rem 1rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);display:flex;align-items:center;gap:.4rem"><i class="fas fa-check-circle"></i> CV generado con CVitae</div>
-        <div style="padding:1.2rem;font-size:.75rem;line-height:1.8;color:var(--text)">
-          <div style="font-weight:900;font-size:.92rem;color:var(--ink);margin-bottom:.1rem">MARIA GONZALEZ LOPEZ</div>
-          <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--teal);margin-bottom:.7rem">Analista Contable · Logística y Comercio Exterior</div>
-          <div style="margin-bottom:.5rem;font-size:.74rem"><strong style="color:var(--gold);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em">Perfil Profesional</strong><br>Contadora con 4 años gestionando balances y liquidación de sueldos en empresas importadoras. Dominio avanzado de SAP y Excel. Especializada en auditorías internas y cierre contable. Bilingüe español-inglés B2.</div>
-          <div style="font-size:.74rem"><strong style="color:var(--gold);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em">Logros destacados</strong><br>▸ Balances mensuales con precisión 100% · ▸ Liquidación de sueldos 85 empleados · ▸ Reducción errores 35% en auditorías · ▸ Reportes Power BI para directivos</div>
+
+      <!-- LADO BUENO -->
+      <div style="border:1.5px solid rgba(201,168,76,.4);border-radius:6px;overflow:hidden;box-shadow:0 4px 28px rgba(201,168,76,.14)">
+        <div style="background:rgba(201,168,76,.1);padding:.7rem 1rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);display:flex;align-items:center;gap:.4rem">
+          <i class="fas fa-check-circle"></i> CV generado con CVitae
+        </div>
+        <div style="padding:1.4rem;font-size:.78rem;line-height:1.85;color:var(--text)">
+          <div style="font-weight:900;font-size:.95rem;color:var(--ink);margin-bottom:.1rem">DIEGO RAMÍREZ SOLÍS</div>
+          <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--teal);margin-bottom:.75rem">Marketing Digital · Performance &amp; Growth</div>
+          <div style="margin-bottom:.65rem">
+            <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:.25rem">Perfil Profesional</div>
+            <div style="font-size:.74rem;color:var(--text)">Especialista en marketing digital con 3 años generando resultados medibles en entornos B2C. Dominio avanzado de Meta Ads, Google Analytics 4 y estrategia de contenido orgánico. Historial comprobado de crecimiento de comunidades y reducción de CPL.</div>
+          </div>
+          <div style="margin-bottom:.65rem">
+            <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:.3rem">Logros destacados</div>
+            <div style="font-size:.74rem;color:var(--text)">
+              ▸ +180% seguidores orgánicos en 6 meses &nbsp;·&nbsp;
+              ▸ CPL reducido 40% con A/B testing &nbsp;·&nbsp;
+              ▸ Campañas Meta Ads con ROAS 4.2x &nbsp;·&nbsp;
+              ▸ Gestión simultánea de 6 marcas
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem">
+            <span style="font-size:.62rem;padding:.18rem .5rem;border-radius:2px;border:1px solid rgba(201,168,76,.25);color:var(--teal);background:rgba(13,92,99,.05)">Meta Ads</span>
+            <span style="font-size:.62rem;padding:.18rem .5rem;border-radius:2px;border:1px solid rgba(201,168,76,.25);color:var(--teal);background:rgba(13,92,99,.05)">Google Analytics 4</span>
+            <span style="font-size:.62rem;padding:.18rem .5rem;border-radius:2px;border:1px solid rgba(201,168,76,.25);color:var(--teal);background:rgba(13,92,99,.05)">Growth Hacking</span>
+            <span style="font-size:.62rem;padding:.18rem .5rem;border-radius:2px;border:1px solid rgba(201,168,76,.25);color:var(--teal);background:rgba(13,92,99,.05)">SEO/SEM</span>
+            <span style="font-size:.62rem;padding:.18rem .5rem;border-radius:2px;border:1px solid rgba(201,168,76,.25);color:var(--teal);background:rgba(13,92,99,.05)">Content Strategy</span>
+          </div>
+          <div style="margin-top:1rem;padding:.6rem .8rem;background:rgba(13,92,99,.06);border-radius:3px;font-size:.7rem;color:var(--teal);display:flex;align-items:center;gap:.4rem">
+            <i class="fas fa-robot"></i> ATS: 12 keywords del aviso detectadas — <strong>pasa el filtro ✓</strong>
+          </div>
         </div>
       </div>
+
     </div>
     <div style="text-align:center;margin-top:2rem" class="fi">
       <a href="#generar" class="btn btn-ink" style="font-size:.9rem;padding:.85rem 2.2rem;border-radius:3px"><i class="fas fa-wand-magic-sparkles"></i> Generá el tuyo gratis ahora</a>
@@ -802,12 +815,12 @@ html.dark .foot-logo{color:var(--paper)}
             <div class="pay-method">
               <div class="pm-title"><i class="fas fa-building-columns"></i> Transferencia bancaria</div>
               <div class="pm-detail">0992954169 <small>· Isaias Solaeche</small></div>
-              <div class="pm-detail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="caa3b9abb9a5a6abafa9a2af8aada7aba3a6e4a9a5a7">[email&#160;protected]</a> <small>· Isaias Solaeche</small></div>
+              <div class="pm-detail">isasolaeche@gmail.com <small>· Isaias Solaeche</small></div>
               <button class="pm-copy" onclick="copyText('0992954169','Alias copiado')" type="button">Copiar alias</button>
             </div>
             <div class="pay-method">
               <div class="pm-title"><i class="fab fa-paypal"></i> PayPal (internacional)</div>
-              <div class="pm-detail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9af3e9fbe9f5f6fbfff9f2ffdaf2f5eef7fbf3f6b4f9f5f7">[email&#160;protected]</a></div>
+              <div class="pm-detail">isasolaeche@hotmail.com</div>
               <button class="pm-copy" onclick="copyText('isasolaeche@hotmail.com','Email copiado')" type="button">Copiar email</button>
             </div>
           </div>
@@ -881,13 +894,12 @@ html.dark .foot-logo{color:var(--paper)}
 <footer><div class="container foot-inner">
   <div class="foot-logo">CV<em>itae</em> · Asuncion, Paraguay</div>
   <ul class="foot-links"><li><a href="#como-funciona">Como funciona</a></li><li><a href="#precios">Precios</a></li><li><a href="#ejemplos">Ejemplos</a></li><li><a href="#faq">FAQ</a></li></ul>
-  <div class="foot-copy">2026 CVitae · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9ff6ecfeecf0f3fefafcf7fadff8f2fef6f3b1fcf0f2">[email&#160;protected]</a></div>
+  <div class="foot-copy">2026 CVitae · cpdparaguay@gmail.com</div>
 </div></footer>
 
 <a href="https://wa.me/595992954169?text=Hola!%20Vi%20CVitae%20y%20tengo%20una%20consulta" target="_blank" rel="noopener" class="wa-float"><i class="fab fa-whatsapp"></i><span class="wa-tip">Escribinos</span></a>
 
 <script>
-
 /* ─── STATE ─── */
 var S={contents:{},fmt:'latam',plan:'basic',hasPhoto:false,photoData:null};
 var FL={latam:'Paraguay/Latam',europass:'Europass',usa:'USA Resume',academico:'Academico'};
@@ -1021,7 +1033,6 @@ function handlePdf(e){
   document.getElementById('pdfZoneText').textContent='Procesando PDF...';
   var r=new FileReader();
   r.onload=function(ev){
-    // Extraer texto básico del nombre del archivo como fallback
     S_PDF_TEXT='PDF cargado: '+f.name+'. El candidato ya tiene experiencia documentada en su CV anterior.';
     document.getElementById('pdfZoneText').textContent='✓ CV anterior cargado — la IA lo usará como base';
     toast('PDF listo');
@@ -1029,7 +1040,7 @@ function handlePdf(e){
   r.readAsDataURL(f);
 }
 
-/* ─── PROMPT — El corazon del producto ─── */
+/* ─── PROMPT ─── */
 function buildPrompt(fmt){
   var name=document.getElementById('fname').value.trim();
   var prof=document.getElementById('fprof').value.trim();
@@ -1159,8 +1170,13 @@ function runGen(fmts){
       return res.json().then(function(d){
         var txt=(d.content&&d.content[0]&&d.content[0].text)||'';
         txt=txt.replace(/```html[\s\S]*?```/g,function(m){return m.replace(/```html\n?/,'').replace(/\n?```/,'');}).replace(/```/g,'').trim();
-        // Inject photo if user uploaded one
-        if(S.hasPhoto&&S.photoData){txt=txt.replace('[FOTO]',S.hasPhoto?S.photoData:'');}
+        if(S.hasPhoto&&S.photoData){
+          txt=txt.replace(/src=["'][^"']*\[FOTO\][^"']*["']/,'src="'+S.photoData+'"');
+          txt=txt.replace(/src=["'](\[FOTO\]|foto|photo|imagen|image|placeholder)[^"']*["']/i,'src="'+S.photoData+'"');
+          if(txt.indexOf(S.photoData)===-1&&txt.indexOf('cvh-photo')>-1){
+            txt=txt.replace(/(<div class="cvh-photo"[^>]*>)(\s*<img[^>]*>)?/,'$1<img src="'+S.photoData+'" alt="foto" style="width:100%;height:100%;object-fit:cover">');
+          }
+        }
         S.contents[fmt]=txt||'<div class="cv-doc" style="padding:2rem;text-align:center;color:var(--muted)">Error procesando. Intenta de nuevo.</div>';
         next();
       });
@@ -1184,7 +1200,6 @@ function renderResult(fmts){
     tab.textContent=FL[fmt];tab.dataset.f=fmt;
     tab.addEventListener('click',function(){switchTab(fmt);});
     tabs.appendChild(tab);
-
     var panel=document.createElement('div');
     panel.className='fmt-panel'+(idx===0?' on':'');
     panel.id='fp-'+fmt;
@@ -1268,13 +1283,11 @@ function confirmPay(){
   var wa=document.getElementById('fwa').value||'no indicado';
   var emailEl=document.getElementById('femail');
   var email=emailEl&&emailEl.value.trim()?emailEl.value.trim():'no indicado';
-  /* Obtener el HTML del CV generado */
   var cvHtml=S.contents&&S.contents[S.activeFmt||S.fmt]||S.contents&&S.contents[Object.keys(S.contents||{})[0]]||'(CV no disponible)';
   var msg='Hola! Acabo de pagar el plan '+lbl+'.\n\nNombre: '+name+'\nEmail: '+email+'\nPuesto: '+job+'\nMi WhatsApp: '+wa+'\n\nTe mando el comprobante ahora!';
   window.open('https://wa.me/595992954169?text='+encodeURIComponent(msg),'_blank');
   document.getElementById('payStep').style.display='none';
   var w=document.getElementById('waitDiv');w.style.display='block';w.classList.add('show');
-  /* Guardar pedido en JSONBin via save-cv */
   fetch('/.netlify/functions/save-cv',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
@@ -1282,7 +1295,6 @@ function confirmPay(){
   }).then(function(r){return r.json();}).then(function(d){
     if(d.id){console.log('Pedido guardado:',d.id);}
   }).catch(function(e){console.warn('Error guardando pedido:',e);});
-  /* Enviar email a cpdparaguay via EmailJS */
   fetch('https://api.emailjs.com/api/v1.0/email/send',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
@@ -1321,7 +1333,6 @@ function fbCopy(t,msg){
 }
 
 /* ─── FAQ ─── */
-
 function toggleFaq(el){
   var item=el.parentElement;var open=item.classList.contains('open');
   document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');});
@@ -1466,7 +1477,6 @@ function adminDelete(id){
 }
 
 renderHist();
-
 </script>
 </body>
 </html>
