@@ -1,5 +1,5 @@
-const JSONBIN_KEY = process.env.JSONBIN_KEY;
-const JSONBIN_BIN_ID = process.env.JSONBIN_BIN_ID;
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
 function cors() {
   return {
@@ -25,12 +25,10 @@ exports.handler = async (event) => {
 
   const order = {
     id,
-    // Datos del cliente
     nombre: name,
     email: email || null,
     whatsapp: wa || null,
     plan: plan || "cv_digital",
-    // Formulario completo — listo para Supabase
     experiencia: formData?.experiencia || null,
     estudios: formData?.estudios || null,
     habilidades: formData?.habilidades || null,
@@ -38,40 +36,27 @@ exports.handler = async (event) => {
     idioma: formData?.idioma || "español",
     formato: formData?.formato || "latam",
     observaciones: formData?.observaciones || null,
-    // CV generado
     cv_generado: cvHtml,
-    // Estado
     estado: "pendiente_pago",
-    // Timestamps
-    fecha_creacion: new Date().toISOString(),
-    fecha_pago: null,
-    fecha_entrega: null,
-    // Legacy para cvadmin.js — no tocar
     status: "pending",
-    createdAt: new Date().toISOString(),
   };
 
   try {
-    let orders = [];
-    if (JSONBIN_BIN_ID) {
-      const readRes = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
-        headers: { "X-Master-Key": JSONBIN_KEY }
-      });
-      if (readRes.ok) {
-        const data = await readRes.json();
-        orders = data.record.orders || [];
-      }
-    }
-
-    orders.push(order);
-
-    const saveRes = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_KEY },
-      body: JSON.stringify({ orders })
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/pedidos`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify(order)
     });
 
-    if (!saveRes.ok) throw new Error("Error guardando en JSONBin");
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error("Error guardando en Supabase: " + err);
+    }
 
     return { statusCode: 200, headers: cors(), body: JSON.stringify({ ok: true, id }) };
 
