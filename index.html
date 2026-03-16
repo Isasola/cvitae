@@ -1276,47 +1276,77 @@ function selPlan(plan){
   document.getElementById('pp-basic').classList.toggle('sel',plan==='basic');
   document.getElementById('pp-pro').classList.toggle('sel',plan==='pro');
 }
+
 function confirmPay(){
-  var lbl=S.plan==='basic'?'CV Digital — 50.000 Gs':'Portafolio Web — 120.000 Gs';
-  var name=document.getElementById('fname').value||'cliente';
-  var job=document.getElementById('fjob').value||'puesto indicado';
-  var wa=document.getElementById('fwa').value||'no indicado';
-  var emailEl=document.getElementById('femail');
-  var email=emailEl&&emailEl.value.trim()?emailEl.value.trim():'no indicado';
-  var cvHtml=S.contents&&S.contents[S.activeFmt||S.fmt]||S.contents&&S.contents[Object.keys(S.contents||{})[0]]||'(CV no disponible)';
-  var msg='Hola! Acabo de pagar el plan '+lbl+'.\n\nNombre: '+name+'\nEmail: '+email+'\nPuesto: '+job+'\nMi WhatsApp: '+wa+'\n\nTe mando el comprobante ahora!';
-  window.open('https://wa.me/595992954169?text='+encodeURIComponent(msg),'_blank');
-  document.getElementById('payStep').style.display='none';
-  var w=document.getElementById('waitDiv');w.style.display='block';w.classList.add('show');
-  fetch('/.netlify/functions/save-cv',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({name:name,job:job,wa:wa,email:email,plan:S.plan||'basic',cvHtml:cvHtml})
-  }).then(function(r){return r.json();}).then(function(d){
-    if(d.id){console.log('Pedido guardado:',d.id);}
-  }).catch(function(e){console.warn('Error guardando pedido:',e);});
-  fetch('https://api.emailjs.com/api/v1.0/email/send',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      service_id:'service_muvlq14',
-      template_id:'template_i94qkza',
-      user_id:'CZy-kIlMnZIBxjh15',
-      template_params:{
-        to_name:name,
-        to_email:'cpdparaguay@gmail.com',
-        name:name,
-        email:email,
-        wa:wa,
-        job:job,
-        plan:lbl
+  var lbl = S.plan === 'basic' ? 'CV Digital — ₲50.000' : 'Portafolio Web — ₲120.000';
+  var name = document.getElementById('fname').value || 'cliente';
+  var job = document.getElementById('fjob').value || 'puesto indicado';
+  var wa = document.getElementById('fwa').value || 'no indicado';
+  var emailEl = document.getElementById('femail');
+  var email = emailEl && emailEl.value.trim() ? emailEl.value.trim() : 'no indicado';
+  var cvHtml = S.contents && S.contents[S.activeFmt || S.fmt] ||
+               S.contents && S.contents[Object.keys(S.contents || {})[0]] || '';
+
+  // FormData completo para Supabase futuro
+  var formData = {
+    experiencia: document.getElementById('fexptext') ? document.getElementById('fexptext').value : null,
+    estudios: document.getElementById('fedu') ? document.getElementById('fedu').value : null,
+    habilidades: document.getElementById('fskills') ? document.getElementById('fskills').value : null,
+    aviso_trabajo: document.getElementById('fjobdesc') ? document.getElementById('fjobdesc').value : null,
+    idioma: document.getElementById('flang') ? document.getElementById('flang').value : 'español',
+    formato: S.fmt || 'latam',
+    observaciones: document.getElementById('fobs') ? document.getElementById('fobs').value : null,
+  };
+
+  // 1. Guardar pedido PRIMERO antes de abrir WhatsApp
+  fetch('/.netlify/functions/save-cv', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: name, job: job, wa: wa, email: email,
+      plan: S.plan || 'basic', cvHtml: cvHtml, formData: formData
+    })
+  }).then(function(r){ return r.json(); }).then(function(d){
+    if(d.id){ console.log('Pedido guardado:', d.id); }
+  }).catch(function(e){ console.warn('Error guardando pedido:', e); });
+
+  // 2. Mensaje de WhatsApp más claro
+  var msg = '¡Hola! Acabo de realizar el pago del plan ' + lbl + '.\n\n' +
+    '👤 Nombre: ' + name + '\n' +
+    '📧 Email: ' + email + '\n' +
+    '💼 Puesto: ' + job + '\n' +
+    '📱 Mi WhatsApp: ' + wa + '\n\n' +
+    'Te mando el comprobante ahora.';
+
+  window.open('https://wa.me/595992954169?text=' + encodeURIComponent(msg), '_blank');
+
+  // 3. Mostrar pantalla de espera con email confirmado
+  document.getElementById('payStep').style.display = 'none';
+  var w = document.getElementById('waitDiv');
+  w.style.display = 'block';
+  w.classList.add('show');
+
+  // Actualizar pantalla de espera con email del usuario
+  var waitP = w.querySelector('.wait-p');
+  if(waitP){
+    waitP.innerHTML = 'En cuanto confirmemos tu pago te enviamos el CV a <strong>' +
+      email + '</strong>. Normalmente en menos de 30 minutos.';
+  }
+
+  // 4. Email de notificación interno
+  fetch('https://api.emailjs.com/api/v1.0/email/send', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      service_id: 'service_muvlq14',
+      template_id: 'template_i94qkza',
+      user_id: 'CZy-kIlMnZIBxjh15',
+      template_params: {
+        to_name: name, to_email: 'cpdparaguay@gmail.com',
+        name: name, email: email, wa: wa, job: job, plan: lbl
       }
     })
-  }).then(function(){
-    console.log('Email enviado a cpdparaguay');
-  }).catch(function(e){
-    console.warn('Error enviando email:',e);
-  });
+  }).catch(function(e){ console.warn('Error email:', e); });
 }
 
 /* ─── COPY ─── */
