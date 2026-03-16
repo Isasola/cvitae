@@ -15,7 +15,7 @@
 [functions."get-cv"]
   timeout = 10
 
-[functions."admin"]
+[functions."cvadmin"]
   timeout = 20
 
 [[headers]]
