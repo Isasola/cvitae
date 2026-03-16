@@ -1,5 +1,5 @@
-const JSONBIN_KEY = process.env.JSONBIN_KEY;
-const JSONBIN_BIN_ID = process.env.JSONBIN_BIN_ID;
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "cvitae2026admin";
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 const EMAILJS_SERVICE_ID = "service_muvlq14";
@@ -17,29 +17,60 @@ function cors() {
 }
 
 async function getOrders() {
-  const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
-    headers: { "X-Master-Key": JSONBIN_KEY }
-  });
-  if (!res.ok) throw new Error("Error leyendo JSONBin");
-  const data = await res.json();
-  return data.record.orders || [];
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/pedidos?select=*&order=fecha_creacion.desc`,
+    {
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`
+      }
+    }
+  );
+  if (!res.ok) throw new Error("Error leyendo Supabase");
+  return await res.json();
 }
 
-async function saveOrders(orders) {
-  const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_KEY },
-    body: JSON.stringify({ orders })
-  });
-  if (!res.ok) throw new Error("Error guardando en JSONBin");
+async function updateOrder(id, fields) {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/pedidos?id=eq.${encodeURIComponent(id)}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify(fields)
+    }
+  );
+  if (!res.ok) throw new Error("Error actualizando en Supabase");
+}
+
+async function deleteOrder(id) {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/pedidos?id=eq.${encodeURIComponent(id)}`,
+    {
+      method: "DELETE",
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`
+      }
+    }
+  );
+  if (!res.ok) throw new Error("Error eliminando de Supabase");
 }
 
 async function generateExtras(order) {
+  const nombre = order.nombre || order.name || "profesional";
+  const profesion = order.profession || order.plan || "profesional";
+  const puesto = order.aviso_trabajo || order.job || "un puesto relevante";
+
   const prompt = `Sos un asistente profesional de RR.HH. para Paraguay. Dado el siguiente perfil, generá 3 documentos en español rioplatense formal.
 
-Nombre: ${order.name}
-Profesión: ${order.profession || "profesional"}
-Puesto al que aplica: ${order.job || "un puesto relevante"}
+Nombre: ${nombre}
+Profesión: ${profesion}
+Puesto al que aplica: ${puesto}
 
 Respondé SOLO con un JSON válido con esta estructura exacta, sin texto extra antes ni después:
 {
@@ -74,23 +105,32 @@ exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return { statusCode: 405, headers: cors(), body: JSON.stringify({ error: "Method not allowed" }) };
 
   let body;
-  try { body = JSON.parse(event.body || "{}"); } catch { return { statusCode: 400, headers: cors(), body: JSON.stringify({ error: "JSON inválido" }) }; }
+  try { body = JSON.parse(event.body || "{}"); }
+  catch { return { statusCode: 400, headers: cors(), body: JSON.stringify({ error: "JSON inválido" }) }; }
 
   const { password, action, orderId } = body;
   if (password !== ADMIN_PASSWORD) return { statusCode: 401, headers: cors(), body: JSON.stringify({ error: "Contraseña incorrecta" }) };
 
+  // ── LIST ──
   if (action === "list") {
     try {
       const orders = await getOrders();
-      const sorted = orders
-        .map(o => ({ id: o.id, name: o.name, email: o.email, plan: o.plan, job: o.job, status: o.status, createdAt: o.createdAt }))
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      const sorted = orders.map(o => ({
+        id: o.id,
+        name: o.nombre || o.name,
+        email: o.email,
+        plan: o.plan,
+        job: o.aviso_trabajo || o.job,
+        status: o.status,
+        createdAt: o.created_at || o.fecha_creacion
+      }));
       return { statusCode: 200, headers: cors(), body: JSON.stringify({ orders: sorted }) };
     } catch (e) {
       return { statusCode: 500, headers: cors(), body: JSON.stringify({ error: "Error listando pedidos" }) };
     }
   }
 
+  // ── APPROVE ──
   if (action === "approve") {
     if (!orderId) return { statusCode: 400, headers: cors(), body: JSON.stringify({ error: "orderId requerido" }) };
     try {
@@ -99,16 +139,12 @@ exports.handler = async (event) => {
       if (!order) return { statusCode: 404, headers: cors(), body: JSON.stringify({ error: "Pedido no encontrado" }) };
       if (order.status === "sent") return { statusCode: 409, headers: cors(), body: JSON.stringify({ error: "Ya fue enviado" }) };
 
-      // Generar carta, entrevista y LinkedIn con IA
       const extras = await generateExtras(order);
-      order.cartaHtml = extras.carta;
-      order.entrevistaHtml = extras.entrevista;
-      order.linkedinText = extras.linkedin;
-
       const cvLink = `${SITE_URL}/cv.html?id=${order.id}`;
       const planLabel = order.plan === "pro" ? "Portafolio Web" : "CV Digital";
+      const nombreCliente = order.nombre || order.name;
+      const emailCliente = order.email;
 
-      // Enviar email al cliente con el link
       const emailRes = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -117,12 +153,12 @@ exports.handler = async (event) => {
           template_id: EMAILJS_TEMPLATE_ID,
           user_id: EMAILJS_PUBLIC_KEY,
           template_params: {
-            to_name: order.name,
-            to_email: order.email,
-            name: order.name,
-            email: order.email,
-            wa: order.wa,
-            job: order.job,
+            to_name: nombreCliente,
+            to_email: emailCliente,
+            name: nombreCliente,
+            email: emailCliente,
+            wa: order.whatsapp || order.wa,
+            job: order.aviso_trabajo || order.job,
             plan: planLabel,
             cv_html: cvLink
           }
@@ -131,13 +167,19 @@ exports.handler = async (event) => {
 
       if (!emailRes.ok) {
         const errText = await emailRes.text();
-        console.error("EmailJS error status:", emailRes.status, "body:", errText);
+        console.error("EmailJS error:", emailRes.status, errText);
         return { statusCode: 502, headers: cors(), body: JSON.stringify({ error: "Error EmailJS: " + errText }) };
       }
 
-      order.status = "sent";
-      order.sentAt = new Date().toISOString();
-      await saveOrders(orders);
+      await updateOrder(orderId, {
+        carta_html: extras.carta,
+        entrevista_html: extras.entrevista,
+        linkedin_text: extras.linkedin,
+        status: "sent",
+        estado: "entregado",
+        fecha_pago: new Date().toISOString(),
+        fecha_entrega: new Date().toISOString()
+      });
 
       return { statusCode: 200, headers: cors(), body: JSON.stringify({ ok: true, cvLink }) };
     } catch (e) {
@@ -145,12 +187,11 @@ exports.handler = async (event) => {
     }
   }
 
+  // ── DELETE ──
   if (action === "delete") {
     if (!orderId) return { statusCode: 400, headers: cors(), body: JSON.stringify({ error: "orderId requerido" }) };
     try {
-      let orders = await getOrders();
-      orders = orders.filter(o => o.id !== orderId);
-      await saveOrders(orders);
+      await deleteOrder(orderId);
       return { statusCode: 200, headers: cors(), body: JSON.stringify({ ok: true }) };
     } catch (e) {
       return { statusCode: 500, headers: cors(), body: JSON.stringify({ error: "Error eliminando" }) };
