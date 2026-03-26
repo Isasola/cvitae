@@ -1,11 +1,12 @@
 import { Card } from "@/components/ui/card";
 import { useState, useMemo } from "react";
 import { useLocation } from "wouter";
-import { Search, MapPin, Briefcase, DollarSign, Heart, ArrowRight, Upload, Filter, MessageCircle, Globe, Zap, TrendingUp, Star, ExternalLink } from "lucide-react";
+import { Search, MapPin, Briefcase, DollarSign, Heart, ArrowRight, Upload, Filter, MessageCircle, Globe, Zap, TrendingUp, Star, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
 import { opportunities } from "@/data/opportunities-massive";
 
 const WA_NUMBER = "595992954169";
 const WA_BASE = `https://wa.me/${WA_NUMBER}`;
+const ITEMS_PER_PAGE = 12;
 
 export default function JobOpportunities() {
   const [, setLocation] = useLocation();
@@ -14,28 +15,46 @@ export default function JobOpportunities() {
   const [selectedContinent, setSelectedContinent] = useState<string | null>(null);
   const [selectedRubro, setSelectedRubro] = useState<string | null>(null);
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filteredOpportunities = useMemo(() => {
     return opportunities.filter((opp) => {
-      const matchesSearch = opp.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           opp.organization.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           opp.location.toLowerCase().includes(searchTerm.toLowerCase());
+      const searchLower = searchTerm.toLowerCase();
+      const matchesSearch = !searchTerm || 
+        opp.title.toLowerCase().includes(searchLower) ||
+        opp.organization.toLowerCase().includes(searchLower) ||
+        opp.location.toLowerCase().includes(searchLower) ||
+        opp.rubro?.toLowerCase().includes(searchLower) ||
+        opp.tags.some(tag => tag.toLowerCase().includes(searchLower));
+      
       const matchesType = !selectedType || opp.type === selectedType;
       const matchesContinent = !selectedContinent || opp.continent === selectedContinent;
       const matchesRubro = !selectedRubro || opp.rubro === selectedRubro;
+      
       return matchesSearch && matchesType && matchesContinent && matchesRubro;
     });
   }, [searchTerm, selectedType, selectedContinent, selectedRubro]);
 
+  // Pagination
+  const totalPages = Math.ceil(filteredOpportunities.length / ITEMS_PER_PAGE);
+  const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIdx = startIdx + ITEMS_PER_PAGE;
+  const paginatedOpportunities = filteredOpportunities.slice(startIdx, endIdx);
+
   const types = ["empleo", "beca_nacional", "beca_internacional", "capital_semilla", "curso", "foro_internacional", "pasantia", "crucero", "aerolinea"];
   const continents = ["América Latina", "Europa", "Asia", "Norteamérica", "Oceanía", "Global"];
-  const rubros = Array.from(new Set(opportunities.filter(o => o.rubro).map(o => o.rubro)));
+  const rubros = Array.from(new Set(opportunities.filter(o => o.rubro).map(o => o.rubro))).sort();
 
   const toggleLike = (id: string) => {
     const newLiked = new Set(likedIds);
     if (newLiked.has(id)) newLiked.delete(id);
     else newLiked.add(id);
     setLikedIds(newLiked);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(Math.max(1, Math.min(page, totalPages)));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -58,9 +77,12 @@ export default function JobOpportunities() {
             <Search className="absolute left-4 top-3.5 h-5 w-5 text-slate-500" />
             <input
               type="text"
-              placeholder="Busca por título, empresa, ubicación..."
+              placeholder="Busca por título, empresa, ubicación, rubro, país..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
               className="w-full pl-12 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             />
           </div>
@@ -72,7 +94,10 @@ export default function JobOpportunities() {
             <label className="block text-xs font-semibold text-slate-400 mb-2 uppercase">Tipo</label>
             <select
               value={selectedType || ""}
-              onChange={(e) => setSelectedType(e.target.value || null)}
+              onChange={(e) => {
+                setSelectedType(e.target.value || null);
+                setCurrentPage(1);
+              }}
               className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
             >
               <option value="">Todos</option>
@@ -86,7 +111,10 @@ export default function JobOpportunities() {
             <label className="block text-xs font-semibold text-slate-400 mb-2 uppercase">Continente</label>
             <select
               value={selectedContinent || ""}
-              onChange={(e) => setSelectedContinent(e.target.value || null)}
+              onChange={(e) => {
+                setSelectedContinent(e.target.value || null);
+                setCurrentPage(1);
+              }}
               className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
             >
               <option value="">Todos</option>
@@ -100,7 +128,10 @@ export default function JobOpportunities() {
             <label className="block text-xs font-semibold text-slate-400 mb-2 uppercase">Rubro</label>
             <select
               value={selectedRubro || ""}
-              onChange={(e) => setSelectedRubro(e.target.value || null)}
+              onChange={(e) => {
+                setSelectedRubro(e.target.value || null);
+                setCurrentPage(1);
+              }}
               className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
             >
               <option value="">Todos</option>
@@ -117,6 +148,7 @@ export default function JobOpportunities() {
                 setSelectedType(null);
                 setSelectedContinent(null);
                 setSelectedRubro(null);
+                setCurrentPage(1);
               }}
               className="w-full px-3 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-sm font-medium transition"
             >
@@ -126,8 +158,8 @@ export default function JobOpportunities() {
         </div>
 
         {/* Grid de Oportunidades */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredOpportunities.map((opp) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+          {paginatedOpportunities.map((opp) => (
             <Card key={opp.id} className="bg-slate-800/50 border-slate-700 hover:border-blue-500/50 transition overflow-hidden group">
               <div className="p-5">
                 {/* Header */}
@@ -205,6 +237,62 @@ export default function JobOpportunities() {
           <div className="text-center py-12">
             <Search className="h-12 w-12 text-slate-600 mx-auto mb-4" />
             <p className="text-slate-400 text-lg">No se encontraron oportunidades con esos filtros.</p>
+          </div>
+        )}
+
+        {/* Pagination - Google Style */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-12 pb-8">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="p-2 rounded-lg border border-slate-700 text-slate-400 hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+
+            <div className="flex gap-1">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                // Show first 3, last 3, and current +/- 1
+                const showPage = 
+                  page <= 3 || 
+                  page > totalPages - 3 || 
+                  (page >= currentPage - 1 && page <= currentPage + 1);
+
+                if (!showPage) {
+                  if (page === 4 || page === totalPages - 3) {
+                    return <span key={page} className="px-2 text-slate-500">...</span>;
+                  }
+                  return null;
+                }
+
+                return (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`px-3 py-2 rounded-lg font-medium transition ${
+                      currentPage === page
+                        ? "bg-blue-600 text-white"
+                        : "border border-slate-700 text-slate-400 hover:bg-slate-800"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="p-2 rounded-lg border border-slate-700 text-slate-400 hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+
+            <span className="ml-4 text-sm text-slate-400">
+              Página {currentPage} de {totalPages}
+            </span>
           </div>
         )}
       </div>
