@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import RecruitersLots from "./pages/RecruitersLots";
 import JobOpportunities from "./pages/JobOpportunities";
+import OpportunityDetail from "./pages/OpportunityDetail";
 import Admin from "./pages/Admin";
 
 
@@ -16,6 +17,7 @@ function Router() {
       <Route path={"\\"} component={Home} />
       <Route path={"/recruiters/lots"} component={RecruitersLots} />
       <Route path={"/jobs"} component={JobOpportunities} />
+      <Route path={"/opportunities/:id"} component={OpportunityDetail} />
       <Route path={"/#admin"} component={Admin} />
       <Route path={"/admin"} component={Admin} />
       <Route path={"/404"} component={NotFound} />
