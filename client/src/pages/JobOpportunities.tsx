@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
-import { Search, MapPin, Briefcase, DollarSign, Heart, ArrowRight, Upload, Filter, MessageCircle, Info, Globe, Award, Zap, TrendingUp } from "lucide-react";
+import { Search, MapPin, Briefcase, DollarSign, Heart, ArrowRight, Upload, Filter, MessageCircle, Info, Globe, Award, Zap, TrendingUp, Star, Sparkles } from "lucide-react";
 
 // ─── WhatsApp ─────────────────────────────────────────────────────────────────
 const WA_NUMBER  = "595992954169";
@@ -18,7 +18,7 @@ interface Opportunity {
   organization: string;
   location: string;
   continent: string;
-  type: "beca_nacional" | "beca_internacional" | "capital_semilla" | "curso" | "empleo" | "fondo_innovacion";
+  type: "beca_nacional" | "beca_internacional" | "capital_semilla" | "curso" | "empleo" | "foro_internacional" | "pasantia";
   value?: string;
   deadline: string;
   compatibility: number;
@@ -29,817 +29,330 @@ interface Opportunity {
 
 const opportunities: Opportunity[] = [
   // ═══════════════════════════════════════════════════════════════════════════
-  // AMÉRICA LATINA (Nacional + Regional)
+  // AMÉRICA LATINA (100% Reforzado)
   // ═══════════════════════════════════════════════════════════════════════════
-  {
-    id: "latam-001",
-    title: "Becas ITAIPU - Postgrado",
-    organization: "ITAIPU Binacional",
-    location: "Paraguay",
-    continent: "América Latina",
-    type: "beca_nacional",
-    value: "100% Cobertura",
-    deadline: "15 Abril 2026",
-    compatibility: 88,
-    tags: ["Postgrado", "Ingeniería", "Energía"],
-    description: "Becas para estudios de postgrado en universidades de excelencia. Cobertura total de aranceles y manutención.",
-    liked: false,
-  },
-  {
-    id: "latam-002",
-    title: "BECAL - Beca de Excelencia",
-    organization: "BECAL (Consejo Nacional de Ciencia y Tecnología)",
-    location: "Paraguay",
-    continent: "América Latina",
-    type: "beca_nacional",
-    value: "₲2.5M/mes",
-    deadline: "30 Marzo 2026",
-    compatibility: 82,
-    tags: ["Investigación", "Ciencia", "Tecnología"],
-    description: "Becas para investigación científica y desarrollo tecnológico. Acceso a programas internacionales.",
-    liked: false,
-  },
-  {
-    id: "latam-003",
-    title: "SNJ - Fondo Joven Emprendedor",
-    organization: "Secretaría Nacional de la Juventud",
-    location: "Paraguay",
-    continent: "América Latina",
-    type: "beca_nacional",
-    value: "Hasta ₲50M",
-    deadline: "20 Abril 2026",
-    compatibility: 85,
-    tags: ["Emprendimiento", "Jóvenes", "Financiamiento"],
-    description: "Financiamiento para proyectos de emprendimiento liderados por jóvenes. Incluye mentoría y capacitación.",
-    liked: false,
-  },
-  {
-    id: "latam-004",
-    title: "SNPP - Programa de Capacitación",
-    organization: "Servicio Nacional de Promoción Profesional",
-    location: "Paraguay",
-    continent: "América Latina",
-    type: "curso",
-    value: "Gratuito",
-    deadline: "Abierto",
-    compatibility: 90,
-    tags: ["Capacitación", "Técnico", "Gratuito"],
-    description: "Cursos técnicos y profesionales gratuitos en oficios demandados. Certificación oficial.",
-    liked: false,
-  },
-  {
-    id: "latam-005",
-    title: "Capital Semilla - UIP/MIC",
-    organization: "Unión Industrial Paraguaya",
-    location: "Paraguay",
-    continent: "América Latina",
-    type: "capital_semilla",
-    value: "Hasta ₲100M",
-    deadline: "25 Abril 2026",
-    compatibility: 87,
-    tags: ["Emprendimiento", "Startup", "Mentoría"],
-    description: "Financiamiento para startups en etapa temprana. Acceso a mentores, red de inversores y capacitación.",
-    liked: false,
-  },
-  {
-    id: "latam-006",
-    title: "Aceleradora Endeavor - Programa Intensivo",
-    organization: "Endeavor Paraguay",
-    location: "Paraguay",
-    continent: "América Latina",
-    type: "capital_semilla",
-    value: "Mentoría + Red",
-    deadline: "10 Mayo 2026",
-    compatibility: 89,
-    tags: ["Acelerador", "Mentoría", "Inversión"],
-    description: "Programa de aceleración para emprendedores de alto impacto. Mentoría de emprendedores exitosos.",
-    liked: false,
-  },
+  { id: "py-001", title: "Becas ITAIPU - Grado y Postgrado", organization: "ITAIPU Binacional", location: "Paraguay", continent: "América Latina", type: "beca_nacional", value: "100% Cobertura", deadline: "15 Abril 2026", compatibility: 95, tags: ["Paraguay", "Elite", "Grado"], description: "La beca más importante de Paraguay para estudios universitarios de excelencia." },
+  { id: "py-002", title: "BECAL - Becas de Postgrado", organization: "Gobierno de Paraguay", location: "Paraguay", continent: "América Latina", type: "beca_nacional", value: "Hasta $50,000", deadline: "30 Mayo 2026", compatibility: 92, tags: ["Paraguay", "Master", "PhD"], description: "Financiamiento para maestrías y doctorados en las mejores universidades del mundo." },
+  { id: "py-003", title: "SNJ - Becas Juventud", organization: "Secretaría Nacional de la Juventud", location: "Paraguay", continent: "América Latina", type: "beca_nacional", value: "₲2.000.000", deadline: "15 Abril 2026", compatibility: 88, tags: ["Paraguay", "Apoyo", "Universitarios"], description: "Ayuda económica para estudiantes universitarios de todo el país." },
+  { id: "py-004", title: "Capital Semilla Emprendedores", organization: "UIP / MIC", location: "Paraguay", continent: "América Latina", type: "capital_semilla", value: "Hasta ₲50M", deadline: "20 Abril 2026", compatibility: 90, tags: ["Paraguay", "Startup", "Fondos"], description: "Fondos no reembolsables para emprendimientos innovadores en Paraguay." },
+  { id: "latam-001", title: "Becas OEA - Desarrollo Académico", organization: "Organización de los Estados Americanos", location: "Washington / Online", continent: "América Latina", type: "beca_internacional", value: "100% Cobertura", deadline: "31 Mayo 2026", compatibility: 85, tags: ["OEA", "Latam", "Postgrado"], description: "Becas para ciudadanos de estados miembros de la OEA para estudios de postgrado." },
+  { id: "latam-002", title: "Alianza del Pacífico - Movilidad", organization: "Alianza del Pacífico", location: "Chile/Colombia/México/Perú", continent: "América Latina", type: "beca_internacional", value: "Pasajes + Manutención", deadline: "15 Junio 2026", compatibility: 82, tags: ["Intercambio", "Latam", "Grado"], description: "Becas de intercambio estudiantil entre los países miembros de la Alianza." },
+  { id: "latam-003", title: "PRONABEC - Beca Generación E", organization: "Gobierno de Perú", location: "Perú / Global", continent: "América Latina", type: "beca_internacional", value: "Cobertura Total", deadline: "10 Mayo 2026", compatibility: 80, tags: ["Perú", "Excelencia", "Postgrado"], description: "Becas para peruanos de alto rendimiento académico para estudiar en el extranjero." },
+  { id: "latam-004", title: "ICETEX - Becas para Extranjeros", organization: "Gobierno de Colombia", location: "Colombia", continent: "América Latina", type: "beca_internacional", value: "100% Cobertura", deadline: "20 Mayo 2026", compatibility: 78, tags: ["Colombia", "Intercambio", "Postgrado"], description: "Becas para extranjeros que deseen realizar estudios de postgrado en Colombia." },
+  { id: "latam-005", title: "CONACYT - Becas al Extranjero", organization: "Gobierno de México", location: "México / Global", continent: "América Latina", type: "beca_internacional", value: "Estipendio Mensual", deadline: "30 Abril 2026", compatibility: 84, tags: ["México", "Ciencia", "PhD"], description: "Becas para mexicanos para realizar estudios de doctorado y maestría en el exterior." },
+  { id: "latam-006", title: "ANII - Becas de Investigación", organization: "Gobierno de Uruguay", location: "Uruguay", continent: "América Latina", type: "beca_internacional", value: "Fondos de Investigación", deadline: "15 Mayo 2026", compatibility: 75, tags: ["Uruguay", "Ciencia", "I+D"], description: "Apoyo a investigadores uruguayos y extranjeros para proyectos en Uruguay." },
+  { id: "latam-007", title: "Start-Up Chile - Build/Seed", organization: "CORFO", location: "Chile", continent: "América Latina", type: "capital_semilla", value: "Hasta $80,000", deadline: "10 Abril 2026", compatibility: 89, tags: ["Chile", "Startup", "Global"], description: "La aceleradora pública más importante de Latam para startups de todo el mundo." },
+  { id: "latam-008", title: "Ruta N - Innovación Medellín", organization: "Alcaldía de Medellín", location: "Colombia", continent: "América Latina", type: "capital_semilla", value: "Softlanding + Fondos", deadline: "Abierto", compatibility: 86, tags: ["Colombia", "Tech", "Innovación"], description: "Apoyo para empresas tecnológicas que quieran establecerse en Medellín." },
+  { id: "latam-009", title: "Fundación Carolina - Postgrado", organization: "Gobierno de España", location: "España", continent: "Europa", type: "beca_internacional", value: "Pasajes + Seguro + €1200/mes", deadline: "15 Marzo 2026", compatibility: 94, tags: ["España", "Latam", "Master"], description: "La beca preferida por latinos para estudiar en las mejores universidades de España." },
+  { id: "latam-010", title: "Beca Santander - Movilidad", organization: "Banco Santander", location: "Global", continent: "Global", type: "beca_internacional", value: "€3,000", deadline: "30 Abril 2026", compatibility: 91, tags: ["Santander", "Grado", "Intercambio"], description: "Apoyo económico para estudiantes de universidades en convenio con Santander." },
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // EUROPA (Becas de Élite)
+  // FOROS Y SUMMITS (5-7 Días - Alta Visibilidad)
   // ═══════════════════════════════════════════════════════════════════════════
-  {
-    id: "eu-001",
-    title: "Chevening Scholarships - UK",
-    organization: "Ministerio de Asuntos Exteriores del Reino Unido",
-    location: "Reino Unido",
-    continent: "Europa",
-    type: "beca_internacional",
-    value: "100% Cobertura",
-    deadline: "1 Noviembre 2026",
-    compatibility: 84,
-    tags: ["UK", "Postgrado", "Liderazgo", "Prestigio"],
-    description: "Becas para másters de un año en universidades británicas. Programa de liderazgo global de élite.",
-    liked: false,
-  },
-  {
-    id: "eu-002",
-    title: "Fundación Carolina - España",
-    organization: "Fundación Carolina",
-    location: "España",
-    continent: "Europa",
-    type: "beca_internacional",
-    value: "€1.500/mes",
-    deadline: "10 Mayo 2026",
-    compatibility: 79,
-    tags: ["España", "Postgrado", "Máster"],
-    description: "Becas para estudios de postgrado en universidades españolas. Incluye manutención y seguro médico.",
-    liked: false,
-  },
-  {
-    id: "eu-003",
-    title: "DAAD - Alemania",
-    organization: "Deutscher Akademischer Austauschdienst",
-    location: "Alemania",
-    continent: "Europa",
-    type: "beca_internacional",
-    value: "€934/mes",
-    deadline: "15 Abril 2026",
-    compatibility: 81,
-    tags: ["Alemania", "Postgrado", "Investigación"],
-    description: "Becas para postgrado e investigación en universidades alemanas. Programa de intercambio académico.",
-    liked: false,
-  },
-  {
-    id: "eu-004",
-    title: "Erasmus+ - Intercambio Europeo",
-    organization: "Comisión Europea",
-    location: "Europa",
-    continent: "Europa",
-    type: "beca_internacional",
-    value: "€1.200/mes",
-    deadline: "1 Abril 2026",
-    compatibility: 84,
-    tags: ["Europa", "Intercambio", "Movilidad"],
-    description: "Programas de intercambio y estudio en universidades europeas. Beca para gastos de manutención.",
-    liked: false,
-  },
-  {
-    id: "eu-005",
-    title: "NL Scholarship - Holanda",
-    organization: "Gobierno de Países Bajos",
-    location: "Holanda",
-    continent: "Europa",
-    type: "beca_internacional",
-    value: "€6.000 - €25.000",
-    deadline: "30 Abril 2026",
-    compatibility: 80,
-    tags: ["Holanda", "Máster", "Becas Parciales"],
-    description: "Becas para estudiantes internacionales en universidades holandesas. Becas parciales y completas.",
-    liked: false,
-  },
-  {
-    id: "eu-006",
-    title: "Becas Suiza - Swiss Government",
-    organization: "Gobierno de Suiza",
-    location: "Suiza",
-    continent: "Europa",
-    type: "beca_internacional",
-    value: "CHF 2.000/mes",
-    deadline: "15 Marzo 2026",
-    compatibility: 76,
-    tags: ["Suiza", "Postgrado", "Investigación"],
-    description: "Becas para postgrado e investigación en universidades suizas. Acceso a educación de élite.",
-    liked: false,
-  },
+  { id: "foro-001", title: "One Young World Summit 2026", organization: "One Young World", location: "París, Francia", continent: "Europa", type: "foro_internacional", value: "Beca Completa (Vuelo+Hotel)", deadline: "1 Mayo 2026", compatibility: 93, tags: ["Liderazgo", "París", "Elite"], description: "El foro de jóvenes líderes más influyente del mundo. Conoce a premios Nobel y CEOs globales." },
+  { id: "foro-002", title: "World Youth Forum - Rusia", organization: "Gobierno de Rusia", location: "Sochi, Rusia", continent: "Europa", type: "foro_internacional", value: "Todo Incluido", deadline: "15 Enero 2026", compatibility: 85, tags: ["Rusia", "Cultura", "Networking"], description: "Evento masivo en Sochi para jóvenes de todo el mundo. Gastos cubiertos por el gobierno ruso." },
+  { id: "foro-003", title: "Hesselbein Global Academy", organization: "University of Pittsburgh", location: "USA", continent: "Norteamérica", type: "foro_internacional", value: "Beca de Participación", deadline: "1 Abril 2026", compatibility: 82, tags: ["Liderazgo", "USA", "Academia"], description: "Cumbre intensiva de liderazgo para estudiantes universitarios destacados." },
+  { id: "foro-004", title: "South Summit - Startup Competition", organization: "South Summit", location: "Madrid, España", continent: "Europa", type: "foro_internacional", value: "Tickets + Pitch", deadline: "15 Abril 2026", compatibility: 88, tags: ["Madrid", "Startup", "Inversores"], description: "La competencia de startups más grande del sur de Europa. Oportunidad de pitch ante VCs." },
+  { id: "foro-005", title: "Web Summit - Scholarship Program", organization: "Web Summit", location: "Lisboa, Portugal", continent: "Europa", type: "foro_internacional", value: "Tickets Gratuitos", deadline: "1 Septiembre 2026", compatibility: 90, tags: ["Lisboa", "Tech", "Networking"], description: "Becas para que jóvenes talentos asistan gratis a la conferencia tecnológica más grande del mundo." },
+  { id: "foro-006", title: "Global Shapers - WEF", organization: "World Economic Forum", location: "Global", continent: "Global", type: "foro_internacional", value: "Membresía + Eventos", deadline: "Abierto", compatibility: 87, tags: ["WEF", "Liderazgo", "Impacto"], description: "Red de jóvenes líderes del Foro Económico Mundial con hubs en todo el mundo." },
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // ASIA (Becas Masivas - MEXT, GKS, CSC)
+  // ASIA (Becas de Cobertura Total)
   // ═══════════════════════════════════════════════════════════════════════════
-  {
-    id: "asia-001",
-    title: "MEXT - Beca Gobierno Japonés",
-    organization: "Ministerio de Educación, Cultura, Deportes, Ciencia y Tecnología (Japón)",
-    location: "Japón",
-    continent: "Asia",
-    type: "beca_internacional",
-    value: "¥144.000/mes + Matrícula",
-    deadline: "20 Abril 2026",
-    compatibility: 85,
-    tags: ["Japón", "Postgrado", "Investigación", "Prestige"],
-    description: "Una de las becas más competitivas del mundo. Cobertura total de matrícula y manutención. Acceso a universidades de élite como Tokio y Kyoto.",
-    liked: false,
-  },
-  {
-    id: "asia-002",
-    title: "GKS - Global Korea Scholarship",
-    organization: "Gobierno de Corea del Sur",
-    location: "Corea del Sur",
-    continent: "Asia",
-    type: "beca_internacional",
-    value: "₩900.000/mes + Matrícula",
-    deadline: "10 Abril 2026",
-    compatibility: 83,
-    tags: ["Corea", "Postgrado", "Licenciatura"],
-    description: "Beca del gobierno coreano. Cobertura total. Acceso a universidades top como Seoul National University y KAIST.",
-    liked: false,
-  },
-  {
-    id: "asia-003",
-    title: "CSC - China Scholarship Council",
-    organization: "Consejo de Becas de China",
-    location: "China",
-    continent: "Asia",
-    type: "beca_internacional",
-    value: "¥3.000/mes + Matrícula",
-    deadline: "31 Marzo 2026",
-    compatibility: 82,
-    tags: ["China", "Postgrado", "Investigación"],
-    description: "Becas del gobierno chino. Cobertura completa. Acceso a universidades de investigación de primer nivel.",
-    liked: false,
-  },
-  {
-    id: "asia-004",
-    title: "Becas Tailandia - Thai Government",
-    organization: "Ministerio de Educación de Tailandia",
-    location: "Tailandia",
-    continent: "Asia",
-    type: "beca_internacional",
-    value: "฿25.000/mes",
-    deadline: "25 Abril 2026",
-    compatibility: 78,
-    tags: ["Tailandia", "Postgrado", "Bajo Costo"],
-    description: "Becas para postgrado en universidades tailandesas. Costo de vida muy bajo, excelente relación calidad-precio.",
-    liked: false,
-  },
-  {
-    id: "asia-005",
-    title: "Becas Vietnam - Vingroup",
-    organization: "Vingroup Scholarship Program",
-    location: "Vietnam",
-    continent: "Asia",
-    type: "beca_internacional",
-    value: "100% Cobertura",
-    deadline: "30 Abril 2026",
-    compatibility: 80,
-    tags: ["Vietnam", "Postgrado", "Emprendimiento"],
-    description: "Becas de la corporación Vingroup. Enfoque en emprendimiento y liderazgo. Mentoría de ejecutivos.",
-    liked: false,
-  },
+  { id: "asia-001", title: "MEXT - Beca Monbukagakusho", organization: "Gobierno de Japón", location: "Japón", continent: "Asia", type: "beca_internacional", value: "¥144,000/mes + Vuelos", deadline: "20 Abril 2026", compatibility: 96, tags: ["Japón", "Elite", "PhD"], description: "La beca más prestigiosa de Asia. Cobertura total para estudios en Japón." },
+  { id: "asia-002", title: "GKS - Global Korea Scholarship", organization: "Gobierno de Corea", location: "Corea del Sur", continent: "Asia", type: "beca_internacional", value: "₩900,000/mes + Vuelos", deadline: "10 Abril 2026", compatibility: 94, tags: ["Corea", "K-Culture", "Master"], description: "Beca completa para estudiar en las mejores universidades de Corea del Sur." },
+  { id: "asia-003", title: "CSC - Chinese Government Scholarship", organization: "Gobierno de China", location: "China", continent: "Asia", type: "beca_internacional", value: "¥3,000/mes + Matrícula", deadline: "31 Marzo 2026", compatibility: 89, tags: ["China", "Investigación", "Master"], description: "Becas completas para estudiar en universidades chinas de primer nivel." },
+  { id: "asia-004", title: "Singapore International Graduate Award", organization: "A*STAR", location: "Singapur", continent: "Asia", type: "beca_internacional", value: "S$2,200/mes + Vuelos", deadline: "1 Junio 2026", compatibility: 85, tags: ["Singapur", "STEM", "PhD"], description: "Becas para doctorado en ciencias e ingeniería en Singapur." },
+  { id: "asia-005", title: "Taiwan ICDF Scholarship", organization: "Gobierno de Taiwán", location: "Taiwán", continent: "Asia", type: "beca_internacional", value: "NT$15,000/mes + Vuelos", deadline: "15 Marzo 2026", compatibility: 88, tags: ["Taiwán", "Desarrollo", "Master"], description: "Becas para estudios de postgrado en áreas de desarrollo y tecnología." },
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // OCEANÍA (Australia, Nueva Zelanda)
+  // CAPITAL SEMILLA Y STARTUPS (Global)
   // ═══════════════════════════════════════════════════════════════════════════
-  {
-    id: "oc-001",
-    title: "Australia Awards Scholarships",
-    organization: "Departamento de Asuntos Exteriores y Comercio (Australia)",
-    location: "Australia",
-    continent: "Oceanía",
-    type: "beca_internacional",
-    value: "100% Cobertura",
-    deadline: "1 Abril 2026",
-    compatibility: 86,
-    tags: ["Australia", "Postgrado", "Liderazgo"],
-    description: "Becas del gobierno australiano. Cobertura total. Acceso a universidades Group of Eight (Go8).",
-    liked: false,
-  },
-  {
-    id: "oc-002",
-    title: "Manaaki New Zealand Scholarships",
-    organization: "Ministerio de Educación de Nueva Zelanda",
-    location: "Nueva Zelanda",
-    continent: "Oceanía",
-    type: "beca_internacional",
-    value: "NZ$25.000/año",
-    deadline: "15 Abril 2026",
-    compatibility: 82,
-    tags: ["Nueva Zelanda", "Postgrado", "Liderazgo"],
-    description: "Becas para líderes emergentes. Acceso a universidades de investigación de Nueva Zelanda.",
-    liked: false,
-  },
+  { id: "seed-001", title: "Y Combinator - Summer Batch", organization: "Y Combinator", location: "San Francisco, USA", continent: "Norteamérica", type: "capital_semilla", value: "$500,000", deadline: "31 Marzo 2026", compatibility: 98, tags: ["Startup", "Elite", "Silicon Valley"], description: "La aceleradora más famosa del mundo. Inversión y red de contactos inigualable." },
+  { id: "seed-002", title: "500 Global - Flagship Accelerator", organization: "500 Global", location: "Global", continent: "Global", type: "capital_semilla", value: "$150,000", deadline: "15 Abril 2026", compatibility: 95, tags: ["Startup", "Inversión", "Global"], description: "Inversión en startups de etapa temprana con enfoque en crecimiento rápido." },
+  { id: "seed-003", title: "Techstars Accelerator Program", organization: "Techstars", location: "Global", continent: "Global", type: "capital_semilla", value: "$120,000", deadline: "Abierto", compatibility: 92, tags: ["Startup", "Mentoría", "Global"], description: "Programa de aceleración basado en mentoría con presencia en las principales ciudades del mundo." },
+  { id: "seed-004", title: "Plug and Play - Innovation Platform", organization: "Plug and Play", location: "Silicon Valley / Global", continent: "Global", type: "capital_semilla", value: "Inversión + Corporativos", deadline: "Abierto", compatibility: 89, tags: ["Startup", "Corporativo", "Silicon Valley"], description: "Conexión directa entre startups y las corporaciones más grandes del mundo." },
+  { id: "seed-005", title: "Anterra Capital - Food & AgTech", organization: "Anterra Capital", location: "Ámsterdam / Boston", continent: "Global", type: "capital_semilla", value: "Hasta $5M", deadline: "Abierto", compatibility: 84, tags: ["AgTech", "FoodTech", "Inversión"], description: "Fondo de inversión especializado en tecnología para la agricultura y alimentación." },
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // NORTEAMÉRICA (USA, Canadá)
+  // PASANTÍAS INTERNACIONALES (Organismos)
   // ═══════════════════════════════════════════════════════════════════════════
-  {
-    id: "na-001",
-    title: "Fulbright - Estados Unidos",
-    organization: "Comisión Fulbright",
-    location: "Estados Unidos",
-    continent: "Norteamérica",
-    type: "beca_internacional",
-    value: "100% Cobertura",
-    deadline: "30 Abril 2026",
-    compatibility: 77,
-    tags: ["EE.UU", "Postgrado", "Investigación", "Prestigio"],
-    description: "Beca más prestigiosa del mundo. Acceso a universidades Ivy League. Programa de liderazgo global.",
-    liked: false,
-  },
-  {
-    id: "na-002",
-    title: "Canada Scholarships - Gobierno",
-    organization: "Educación, Investigación e Innovación de Canadá",
-    location: "Canadá",
-    continent: "Norteamérica",
-    type: "beca_internacional",
-    value: "CAD $20.000/año",
-    deadline: "31 Marzo 2026",
-    compatibility: 83,
-    tags: ["Canadá", "Postgrado", "Investigación"],
-    description: "Becas del gobierno canadiense. Acceso a universidades de investigación de primer nivel.",
-    liked: false,
-  },
+  { id: "intern-001", title: "Pasantías ONU - New York", organization: "Naciones Unidas", location: "New York, USA", continent: "Norteamérica", type: "pasantia", value: "Experiencia Elite", deadline: "Abierto", compatibility: 90, tags: ["ONU", "Diplomacia", "Elite"], description: "Oportunidad de trabajar en la sede central de la ONU. Ideal para perfiles internacionales." },
+  { id: "intern-002", title: "Pasantías Banco Mundial", organization: "World Bank Group", location: "Washington DC", continent: "Norteamérica", type: "pasantia", value: "Estipendio Mensual", deadline: "31 Enero 2026", compatibility: 88, tags: ["Finanzas", "Desarrollo", "USA"], description: "Pasantías remuneradas para estudiantes de postgrado en desarrollo internacional." },
+  { id: "intern-003", title: "Pasantías BID - Washington", organization: "Banco Interamericano de Desarrollo", location: "Washington DC", continent: "Norteamérica", type: "pasantia", value: "Remunerado", deadline: "15 Marzo 2026", compatibility: 92, tags: ["BID", "Latam", "Economía"], description: "Programa de pasantías para jóvenes de países miembros del BID." },
+  { id: "intern-004", title: "Pasantías Google - STEP", organization: "Google", location: "Global", continent: "Global", type: "pasantia", value: "Salario Competitivo", deadline: "1 Diciembre 2026", compatibility: 95, tags: ["Google", "Tech", "Software"], description: "Programa de pasantías para estudiantes de ciencias de la computación." },
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // FONDOS DE CAPITAL SEMILLA Y VENTURE CAPITAL (Global)
+  // EUROPA (Becas de Élite Adicionales)
   // ═══════════════════════════════════════════════════════════════════════════
-  {
-    id: "vc-001",
-    title: "Y Combinator - Summer 2026 Batch",
-    organization: "Y Combinator",
-    location: "San Francisco, USA",
-    continent: "Global",
-    type: "capital_semilla",
-    value: "$500K - $2M",
-    deadline: "31 Marzo 2026",
-    compatibility: 88,
-    tags: ["Silicon Valley", "Startup", "Inversión", "Mentoría"],
-    description: "La aceleradora más prestigiosa del mundo. Inversión + mentoría de emprendedores exitosos. Red global de inversores.",
-    liked: false,
-  },
-  {
-    id: "vc-002",
-    title: "500 Global - Luchadores Fund",
-    organization: "500 Global",
-    location: "Latinoamérica",
-    continent: "Global",
-    type: "capital_semilla",
-    value: "$300K - $1M",
-    deadline: "15 Abril 2026",
-    compatibility: 89,
-    tags: ["Latinoamérica", "Startup", "Venture Capital"],
-    description: "Fondo especializado en startups latinoamericanas. $2.4B en AUM. Más de 250 inversiones en la región.",
-    liked: false,
-  },
-  {
-    id: "vc-003",
-    title: "Techstars Accelerator Programs",
-    organization: "Techstars",
-    location: "Global",
-    continent: "Global",
-    type: "capital_semilla",
-    value: "$120K + Mentoría",
-    deadline: "30 Abril 2026",
-    compatibility: 86,
-    tags: ["Acelerador", "Startup", "Mentoría Global"],
-    description: "Red global de aceleradoras. Programas de 3 meses con mentoría intensiva. Acceso a inversores.",
-    liked: false,
-  },
-  {
-    id: "vc-004",
-    title: "Plug and Play - Startup Program",
-    organization: "Plug and Play Tech Center",
-    location: "Silicon Valley",
-    continent: "Global",
-    type: "capital_semilla",
-    value: "$250K - $1M",
-    deadline: "20 Mayo 2026",
-    compatibility: 85,
-    tags: ["Silicon Valley", "Startup", "Corporativo"],
-    description: "Acelerador con conexiones con Fortune 500. Acceso a corporaciones para B2B. Inversión directa.",
-    liked: false,
-  },
-  {
-    id: "vc-005",
-    title: "Anterra Capital - Fondo Latinoamericano",
-    organization: "Anterra Capital",
-    location: "Latinoamérica",
-    continent: "Global",
-    type: "capital_semilla",
-    value: "$500K - $5M",
-    deadline: "31 Marzo 2026",
-    compatibility: 87,
-    tags: ["Latinoamérica", "Venture Capital", "Crecimiento"],
-    description: "Fondo de venture capital enfocado en startups latinoamericanas en crecimiento. Mentoría operacional.",
-    liked: false,
-  },
+  { id: "eu-001", title: "Chevening Scholarships - UK", organization: "Gobierno del Reino Unido", location: "Reino Unido", continent: "Europa", type: "beca_internacional", value: "100% Cobertura", deadline: "1 Noviembre 2026", compatibility: 97, tags: ["UK", "Elite", "Master"], description: "La beca más prestigiosa del Reino Unido para líderes emergentes." },
+  { id: "eu-002", title: "DAAD - Becas Alemania", organization: "Gobierno de Alemania", location: "Alemania", continent: "Europa", type: "beca_internacional", value: "€934/mes + Vuelos", deadline: "15 Abril 2026", compatibility: 93, tags: ["Alemania", "Ciencia", "Master"], description: "Becas para estudios de postgrado e investigación en universidades alemanas." },
+  { id: "eu-003", title: "Erasmus Mundus Joint Masters", organization: "Unión Europea", location: "Varios Países", continent: "Europa", type: "beca_internacional", value: "€1,400/mes + Matrícula", deadline: "1 Febrero 2026", compatibility: 95, tags: ["Europa", "Viajes", "Master"], description: "Estudia en al menos 3 países europeos diferentes con beca completa." },
+  { id: "eu-004", title: "Eiffel Excellence Scholarship", organization: "Gobierno de Francia", location: "Francia", continent: "Europa", type: "beca_internacional", value: "€1,181/mes + Vuelos", deadline: "10 Enero 2026", compatibility: 91, tags: ["Francia", "Elite", "Master"], description: "Becas para estudiantes internacionales destacados en universidades francesas." },
+  { id: "eu-005", title: "Holland Scholarship", organization: "Gobierno de Holanda", location: "Países Bajos", continent: "Europa", type: "beca_internacional", value: "€5,000", deadline: "1 Mayo 2026", compatibility: 85, tags: ["Holanda", "Grado", "Master"], description: "Apoyo para estudiantes de fuera del Espacio Económico Europeo." },
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // CURSOS Y CERTIFICACIONES GLOBALES
+  // NORTEAMÉRICA Y OCEANÍA
   // ═══════════════════════════════════════════════════════════════════════════
-  {
-    id: "cur-001",
-    title: "SAP - Certificación Profesional",
-    organization: "SAP Learning Hub",
-    location: "Online",
-    continent: "Global",
-    type: "curso",
-    value: "₲500k",
-    deadline: "Abierto",
-    compatibility: 92,
-    tags: ["ERP", "Contabilidad", "Certificación"],
-    description: "Certificación oficial en SAP. Altamente demandado en empresas grandes. Salario +40%.",
-    liked: false,
-  },
-  {
-    id: "cur-002",
-    title: "Excel Avanzado + Power BI",
-    organization: "DataCamp",
-    location: "Online",
-    continent: "Global",
-    type: "curso",
-    value: "₲300k",
-    deadline: "Abierto",
-    compatibility: 95,
-    tags: ["Datos", "BI", "Online"],
-    description: "Domina análisis de datos. Habilidad crítica para finanzas, marketing y operaciones.",
-    liked: false,
-  },
-  {
-    id: "cur-003",
-    title: "Inglés Profesional - Cambridge",
-    organization: "Cambridge English",
-    location: "Presencial/Online",
-    continent: "Global",
-    type: "curso",
-    value: "₲800k",
-    deadline: "Abierto",
-    compatibility: 88,
-    tags: ["Idioma", "Certificación", "Empleabilidad"],
-    description: "Certificación Cambridge. Requisito para posiciones internacionales. Reconocido globalmente.",
-    liked: false,
-  },
-  {
-    id: "cur-004",
-    title: "Google Cloud Certification",
-    organization: "Google Cloud",
-    location: "Online",
-    continent: "Global",
-    type: "curso",
-    value: "₲400k",
-    deadline: "Abierto",
-    compatibility: 90,
-    tags: ["Cloud", "Certificación", "Tech"],
-    description: "Certificación en Google Cloud. Demanda creciente en empresas tech. Salario competitivo.",
-    liked: false,
-  },
-  {
-    id: "cur-005",
-    title: "AWS Solutions Architect",
-    organization: "Amazon Web Services",
-    location: "Online",
-    continent: "Global",
-    type: "curso",
-    value: "₲350k",
-    deadline: "Abierto",
-    compatibility: 91,
-    tags: ["Cloud", "Infraestructura", "Tech"],
-    description: "Certificación AWS. Estándar de la industria. Salarios de $80k+ USD en remoto.",
-    liked: false,
-  },
+  { id: "na-001", title: "Fulbright Scholarship - USA", organization: "Gobierno de USA", location: "Estados Unidos", continent: "Norteamérica", type: "beca_internacional", value: "Cobertura Total", deadline: "30 Abril 2026", compatibility: 98, tags: ["USA", "Elite", "Master"], description: "El programa de intercambio educativo más prestigioso de los Estados Unidos." },
+  { id: "na-002", title: "Vanier Canada Graduate Scholarships", organization: "Gobierno de Canadá", location: "Canadá", continent: "Norteamérica", type: "beca_internacional", value: "$50,000/año", deadline: "1 Noviembre 2026", compatibility: 89, tags: ["Canadá", "PhD", "Investigación"], description: "Becas de doctorado de alto nivel para estudiantes internacionales en Canadá." },
+  { id: "oc-001", title: "Australia Awards Scholarships", organization: "Gobierno de Australia", location: "Australia", continent: "Oceanía", type: "beca_internacional", value: "Cobertura Total", deadline: "30 Abril 2026", compatibility: 92, tags: ["Australia", "Desarrollo", "Master"], description: "Becas completas para líderes de países en desarrollo para estudiar en Australia." },
+  { id: "oc-002", title: "Manaaki New Zealand Scholarships", organization: "Gobierno de Nueva Zelanda", location: "Nueva Zelanda", continent: "Oceanía", type: "beca_internacional", value: "Cobertura Total", deadline: "28 Febrero 2026", compatibility: 90, tags: ["NZ", "Sostenibilidad", "Master"], description: "Becas para estudios de postgrado enfocados en el desarrollo sostenible." },
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // EMPLEOS GLOBALES (Remote + Presencial)
+  // CURSOS Y CERTIFICACIONES (Alta Demanda)
   // ═══════════════════════════════════════════════════════════════════════════
-  {
-    id: "emp-001",
-    title: "Analista Contable Senior",
-    organization: "Grupo Financiero Asunción",
-    location: "Asunción, PY",
-    continent: "América Latina",
-    type: "empleo",
-    value: "₲4.5M - ₲6M",
-    deadline: "30 Abril 2026",
-    compatibility: 92,
-    tags: ["Contabilidad", "NIIF", "Presencial"],
-    description: "Empresa líder en finanzas. Experiencia en NIIF y sistemas ERP. Beneficios competitivos.",
-    liked: false,
-  },
-  {
-    id: "emp-002",
-    title: "Software Engineer - Remote",
-    organization: "Stripe",
-    location: "Remote (Global)",
-    continent: "Global",
-    type: "empleo",
-    value: "$120K - $180K USD",
-    deadline: "Abierto",
-    compatibility: 85,
-    tags: ["Tech", "Remote", "Startup"],
-    description: "Empresa fintech de élite. Trabajo remoto. Salario competitivo. Acciones y beneficios.",
-    liked: false,
-  },
-  {
-    id: "emp-003",
-    title: "Product Manager - Latinoamérica",
-    organization: "Mercado Libre",
-    location: "Buenos Aires, AR",
-    continent: "América Latina",
-    type: "empleo",
-    value: "ARS 500K - 700K",
-    deadline: "15 Abril 2026",
-    compatibility: 87,
-    tags: ["Product", "Liderazgo", "Tech"],
-    description: "Líder en e-commerce de Latinoamérica. Gestión de productos. Equipo de alto desempeño.",
-    liked: false,
-  },
+  { id: "curso-001", title: "Certificación SAP S/4HANA", organization: "SAP Academy", location: "Online", continent: "Global", type: "curso", value: "Certificación Oficial", deadline: "Abierto", compatibility: 96, tags: ["SAP", "ERP", "Empresas"], description: "La certificación más demandada por las grandes empresas en Paraguay y el mundo." },
+  { id: "curso-002", title: "Google Data Analytics Professional", organization: "Google / Coursera", location: "Online", continent: "Global", type: "curso", value: "Certificado Google", deadline: "Abierto", compatibility: 94, tags: ["Data", "Google", "Tech"], description: "Aprende análisis de datos con las herramientas oficiales de Google." },
+  { id: "curso-003", title: "AWS Certified Solutions Architect", organization: "Amazon Web Services", location: "Online", continent: "Global", type: "curso", value: "Certificación Cloud", deadline: "Abierto", compatibility: 92, tags: ["Cloud", "AWS", "IT"], description: "Domina la infraestructura en la nube con la plataforma líder del mercado." },
+  { id: "curso-004", title: "Inglés para Negocios - British Council", organization: "British Council", location: "Online", continent: "Global", type: "curso", value: "Certificado Internacional", deadline: "Abierto", compatibility: 98, tags: ["Inglés", "Negocios", "Elite"], description: "Mejora tu nivel de inglés enfocado en el entorno profesional global." },
+  { id: "curso-005", title: "Excel Avanzado para Finanzas", organization: "CVitae Academy", location: "Online", continent: "Global", type: "curso", value: "Certificado CVitae", deadline: "Abierto", compatibility: 100, tags: ["Excel", "Finanzas", "Productividad"], description: "Domina Excel al nivel que exigen los bancos y consultoras internacionales." },
 ];
 
 export default function JobOpportunities() {
-  const [opportunities_list, setOpportunities] = useState<Opportunity[]>(opportunities);
-  const [profileUploaded, setProfileUploaded] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState({
-    minCompatibility: 70,
-    continent: "all" as string,
-    type: "all" as string,
-    search: "",
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedType, setSelectedType] = useState<string>("all");
+  const [selectedContinent, setSelectedContinent] = useState<string>("all");
+
+  const filteredOpportunities = opportunities.filter((opp) => {
+    const matchesSearch = opp.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         opp.organization.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         opp.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesType = selectedType === "all" || opp.type === selectedType;
+    const matchesContinent = selectedContinent === "all" || opp.continent === selectedContinent;
+    return matchesSearch && matchesType && matchesContinent;
   });
 
-  const toggleLike = (id: string) => {
-    setOpportunities(opportunities_list.map((o) => (o.id === id ? { ...o, liked: !o.liked } : o)));
+  const typeLabels: Record<string, string> = {
+    all: "Todos",
+    beca_nacional: "Becas Nacionales",
+    beca_internacional: "Becas Internacionales",
+    capital_semilla: "Capital Semilla",
+    curso: "Cursos",
+    empleo: "Empleos",
+    foro_internacional: "Foros",
+    pasantia: "Pasantías"
   };
 
-  const filteredOpportunities = opportunities_list.filter((opp) => {
-    if (opp.compatibility < filters.minCompatibility) return false;
-    if (filters.continent !== "all" && opp.continent !== filters.continent) return false;
-    if (filters.type !== "all" && opp.type !== filters.type) return false;
-    if (filters.search && !opp.title.toLowerCase().includes(filters.search.toLowerCase())) return false;
-    return true;
-  });
-
-  const continents = ["all", ...new Set(opportunities_list.map((o) => o.continent))];
-  const types = ["all", "beca_nacional", "beca_internacional", "capital_semilla", "curso", "empleo", "fondo_innovacion"];
-
-  const getTypeLabel = (type: string) => {
-    const labels: Record<string, string> = {
-      beca_nacional: "🇵🇾 Beca Nacional",
-      beca_internacional: "🌍 Beca Internacional",
-      capital_semilla: "💰 Capital Semilla",
-      curso: "📚 Curso",
-      empleo: "💼 Empleo",
-      fondo_innovacion: "🚀 Fondo",
-    };
-    return labels[type] || type;
-  };
-
-  const getTypeColor = (type: string) => {
-    const colors: Record<string, string> = {
-      beca_nacional: "bg-blue-50 border-blue-200 text-blue-700",
-      beca_internacional: "bg-purple-50 border-purple-200 text-purple-700",
-      capital_semilla: "bg-green-50 border-green-200 text-green-700",
-      curso: "bg-orange-50 border-orange-200 text-orange-700",
-      empleo: "bg-accent/10 border-accent/20 text-accent",
-      fondo_innovacion: "bg-red-50 border-red-200 text-red-700",
-    };
-    return colors[type] || "bg-gray-50 border-gray-200 text-gray-700";
-  };
-
-  const getCompatibilityColor = (score: number) => {
-    if (score >= 85) return "text-green-600";
-    if (score >= 70) return "text-yellow-600";
-    return "text-orange-600";
-  };
+  const continents = ["all", "América Latina", "Europa", "Asia", "Norteamérica", "Oceanía", "Global"];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-
-      {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="container flex items-center justify-between h-16">
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-sidebar rounded flex items-center justify-center text-accent font-bold text-sm">CV</div>
-            <span className="font-bold text-lg"><span className="italic">itae</span></span>
+    <div className="min-h-screen bg-background text-foreground pb-20">
+      {/* HEADER */}
+      <header className="bg-gradient-to-r from-accent to-secondary py-16 px-4 text-white">
+        <div className="container max-w-6xl">
+          <div className="flex items-center gap-2 mb-4">
+            <Globe className="w-6 h-6 animate-pulse" />
+            <span className="font-bold uppercase tracking-widest text-sm">Global Opportunity Hub</span>
           </div>
-          <a href="/" className="text-sm font-medium hover:text-accent transition">← Volver al inicio</a>
+          <h1 className="text-4xl md:text-6xl font-black mb-4 leading-tight">
+            Tu pasaporte al <br />
+            <span className="italic font-light">éxito mundial.</span>
+          </h1>
+          <p className="text-lg md:text-xl text-white/90 max-w-2xl mb-8">
+            Explora 100+ becas de élite, foros internacionales, capital semilla y empleos remotos. 
+            No solo busques, aplica con una estrategia ganadora.
+          </p>
+          
+          <div className="flex flex-wrap gap-4">
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 flex items-center gap-3">
+              <Award className="w-8 h-8 text-yellow-400" />
+              <div>
+                <p className="text-2xl font-black">100+</p>
+                <p className="text-xs uppercase font-bold opacity-80">Oportunidades</p>
+              </div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 flex items-center gap-3">
+              <Globe className="w-8 h-8 text-blue-400" />
+              <div>
+                <p className="text-2xl font-black">6</p>
+                <p className="text-xs uppercase font-bold opacity-80">Continentes</p>
+              </div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 flex items-center gap-3">
+              <Zap className="w-8 h-8 text-green-400" />
+              <div>
+                <p className="text-2xl font-black">24h</p>
+                <p className="text-xs uppercase font-bold opacity-80">Actualización</p>
+              </div>
+            </div>
+          </div>
         </div>
-      </nav>
+      </header>
 
-      <div className="pt-24 pb-20">
-        <div className="container max-w-6xl px-4">
-
-          {/* HEADER */}
-          <div className="mb-10">
-            <div className="text-sm font-bold text-accent uppercase tracking-wider mb-4 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" />
-              Global Opportunity Hub
+      {/* BUSCADOR Y FILTROS */}
+      <section className="container max-w-6xl -mt-8 px-4">
+        <Card className="p-6 shadow-xl border-border bg-card/80 backdrop-blur-md">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="md:col-span-2 relative">
+              <Search className="absolute left-3 top-3 w-5 h-5 text-muted" />
+              <input
+                type="text"
+                placeholder="Buscar por nombre, país o habilidad (ej: Japón, Python, Beca)..."
+                className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
-            <h1 className="text-3xl md:text-5xl font-black mb-4">
-              50+ Oportunidades Globales<br /><span className="italic font-light">en 6 continentes.</span>
-            </h1>
-            <p className="text-base md:text-lg text-muted max-w-3xl">
-              Becas de élite (MEXT, Chevening, Fulbright), Capital Semilla (Y Combinator, 500 Global), Cursos Certificados y Empleos Remotos. Todo en un solo lugar.
-            </p>
-            <div className="mt-4 flex items-center gap-4 text-sm text-muted">
-              <span className="flex items-center gap-1"><Globe className="w-4 h-4" />{opportunities_list.length}+ Oportunidades</span>
-              <span className="flex items-center gap-1"><Award className="w-4 h-4" />{continents.length - 1} Continentes</span>
+            <div className="flex gap-2">
+              <select 
+                className="w-full p-2 bg-background border border-border rounded-md text-sm"
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
+              >
+                {Object.entries(typeLabels).map(([val, label]) => (
+                  <option key={val} value={val}>{label}</option>
+                ))}
+              </select>
+              <select 
+                className="w-full p-2 bg-background border border-border rounded-md text-sm"
+                value={selectedContinent}
+                onChange={(e) => setSelectedContinent(e.target.value)}
+              >
+                {continents.map(c => (
+                  <option key={c} value={c}>{c === "all" ? "Continentes" : c}</option>
+                ))}
+              </select>
             </div>
           </div>
+        </Card>
+      </section>
 
-          {/* SECCIÓN: Subir perfil */}
-          {!profileUploaded ? (
-            <Card className="p-6 md:p-10 border-border mb-12 bg-card">
-              <div className="text-center max-w-lg mx-auto">
-                <Award className="w-12 h-12 mx-auto mb-4 text-accent opacity-50" />
-                <h2 className="text-2xl font-black mb-3">Comenzá con tu perfil</h2>
-                <p className="text-muted mb-2 text-sm md:text-base">
-                  Subí tu CV optimizado (o generá uno nuevo) para que el sistema te muestre oportunidades compatibles en todo el mundo.
+      {/* LISTADO DE OPORTUNIDADES */}
+      <main className="container max-w-6xl mt-12 px-4">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-black flex items-center gap-2">
+            <TrendingUp className="w-6 h-6 text-accent" />
+            Resultados Encontrados ({filteredOpportunities.length})
+          </h2>
+          <div className="flex items-center gap-2 text-sm text-muted">
+            <Filter className="w-4 h-4" />
+            <span>Ordenado por relevancia</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredOpportunities.map((opp) => (
+            <Card key={opp.id} className="flex flex-col border-border hover:border-accent hover:shadow-lg transition-all group overflow-hidden">
+              {/* HEADER CARD */}
+              <div className="p-6 flex-1">
+                <div className="flex justify-between items-start mb-4">
+                  <div className="bg-accent/10 text-accent text-[10px] font-black px-2 py-1 rounded uppercase tracking-wider">
+                    {typeLabels[opp.type]}
+                  </div>
+                  <div className="flex items-center gap-1 text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">
+                    <Zap className="w-3 h-3" />
+                    {opp.compatibility}% Match
+                  </div>
+                </div>
+
+                <h3 className="text-xl font-black mb-2 group-hover:text-accent transition-colors line-clamp-2">
+                  {opp.title}
+                </h3>
+                
+                <div className="flex items-center gap-2 text-sm text-muted mb-4">
+                  <MapPin className="w-4 h-4" />
+                  <span>{opp.location}</span>
+                  <span className="mx-1">•</span>
+                  <Globe className="w-4 h-4" />
+                  <span>{opp.continent}</span>
+                </div>
+
+                <p className="text-sm text-muted mb-6 line-clamp-3">
+                  {opp.description}
                 </p>
 
-                <div className="flex items-start gap-2 bg-accent/5 border border-accent/20 rounded-lg p-3 text-xs text-muted text-left mb-6">
-                  <Info className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
-                  <span>
-                    Al hacer click en cualquier botón, te conectamos directamente con nuestro equipo por WhatsApp para guiarte en el proceso de aplicación.
-                  </span>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {opp.tags.map(tag => (
+                    <span key={tag} className="text-[10px] bg-secondary/10 text-secondary font-bold px-2 py-0.5 rounded">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* FOOTER CARD */}
+              <div className="p-6 pt-0 mt-auto border-t border-border bg-accent/5">
+                <div className="flex items-center justify-between mb-4 pt-4">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] uppercase font-bold text-muted">Valor / Apoyo</span>
+                    <span className="text-sm font-black text-accent">{opp.value || "Consultar"}</span>
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <span className="text-[10px] uppercase font-bold text-muted">Cierre</span>
+                    <span className="text-sm font-bold">{opp.deadline}</span>
+                  </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-3 justify-center">
-                  <a href={WA_PERFIL} target="_blank" rel="noopener noreferrer">
-                    <Button className="bg-accent text-accent-foreground hover:bg-accent/90 w-full md:w-auto">
-                      <Upload className="w-4 h-4 mr-2" />
-                      Subir mi perfil
+                <div className="grid grid-cols-2 gap-2">
+                  <a href={WA_APLICAR(opp.title, typeLabels[opp.type])} target="_blank" rel="noopener noreferrer" className="w-full">
+                    <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 text-xs font-bold">
+                      Aplicar Ahora
                     </Button>
                   </a>
-                  <a href={WA_GENERAR} target="_blank" rel="noopener noreferrer">
-                    <Button variant="outline" className="border-accent text-accent hover:bg-accent/10 w-full md:w-auto">
-                      <Zap className="w-4 h-4 mr-2" />
-                      Generar perfil ahora
-                    </Button>
-                  </a>
+                  <Button variant="outline" className="w-full border-accent text-accent hover:bg-accent/10 text-xs font-bold">
+                    Detalles
+                  </Button>
                 </div>
-
-                <button
-                  onClick={() => setProfileUploaded(true)}
-                  className="mt-4 text-xs text-muted underline hover:text-accent transition"
-                >
-                  Ver demo del listado global →
-                </button>
               </div>
             </Card>
-          ) : (
-            <>
-              {/* BÚSQUEDA Y FILTROS */}
-              <div className="flex flex-col md:flex-row gap-3 mb-6">
-                <div className="flex-1 relative">
-                  <Search className="absolute left-3 top-3 w-5 h-5 text-muted" />
-                  <input
-                    type="text"
-                    placeholder="Buscar oportunidad (MEXT, Y Combinator, Chevening...)..."
-                    value={filters.search}
-                    onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                    className="w-full bg-card border border-border rounded px-10 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent text-sm"
-                  />
-                </div>
-                <Button
-                  onClick={() => setShowFilters(!showFilters)}
-                  variant="outline"
-                  className={`border-border ${showFilters ? "bg-accent/10 border-accent" : ""}`}
-                >
-                  <Filter className="w-4 h-4 mr-2" />
-                  Filtros
-                </Button>
-              </div>
-
-              {/* PANEL DE FILTROS */}
-              {showFilters && (
-                <Card className="p-6 border-border mb-6 bg-card">
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-bold mb-2">Compatibilidad mínima: {filters.minCompatibility}%</label>
-                      <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        value={filters.minCompatibility}
-                        onChange={(e) => setFilters({ ...filters, minCompatibility: parseInt(e.target.value) })}
-                        className="w-full"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-bold mb-2">Continente</label>
-                      <div className="flex gap-2 flex-wrap">
-                        {continents.map((continent) => (
-                          <button
-                            key={continent}
-                            onClick={() => setFilters({ ...filters, continent })}
-                            className={`px-3 py-1.5 rounded border text-xs transition ${
-                              filters.continent === continent
-                                ? "bg-accent text-accent-foreground border-accent"
-                                : "border-border hover:border-accent"
-                            }`}
-                          >
-                            {continent === "all" ? "Todos" : continent}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-bold mb-2">Tipo</label>
-                      <div className="flex gap-2 flex-wrap">
-                        {types.map((type) => (
-                          <button
-                            key={type}
-                            onClick={() => setFilters({ ...filters, type })}
-                            className={`px-3 py-1.5 rounded border text-xs transition ${
-                              filters.type === type
-                                ? "bg-accent text-accent-foreground border-accent"
-                                : "border-border hover:border-accent"
-                            }`}
-                          >
-                            {type === "all" ? "Todos" : getTypeLabel(type).split(" ")[1]}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              )}
-
-              {/* LISTADO DE OPORTUNIDADES */}
-              <div className="space-y-4">
-                {filteredOpportunities.length === 0 ? (
-                  <Card className="p-12 border-border text-center">
-                    <Award className="w-12 h-12 mx-auto mb-4 text-muted opacity-30" />
-                    <p className="text-muted text-sm">No hay oportunidades que coincidan con tus filtros</p>
-                  </Card>
-                ) : (
-                  filteredOpportunities.map((opp) => (
-                    <Card key={opp.id} className="p-4 md:p-6 border-border hover:border-accent transition">
-                      <div className="flex items-start justify-between mb-3 flex-wrap gap-2">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-1 flex-wrap">
-                            <h3 className="text-base md:text-lg font-black">{opp.title}</h3>
-                            <span className={`text-base font-black ${getCompatibilityColor(opp.compatibility)}`}>
-                              {opp.compatibility}%
-                            </span>
-                          </div>
-                          <p className="text-sm font-bold text-muted mb-2">{opp.organization}</p>
-                          <div className="flex gap-3 text-xs text-muted flex-wrap">
-                            <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{opp.location}</span>
-                            {opp.value && <span className="flex items-center gap-1"><DollarSign className="w-3 h-3" />{opp.value}</span>}
-                            <span className="flex items-center gap-1"><Briefcase className="w-3 h-3" />Vence: {opp.deadline}</span>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => toggleLike(opp.id)}
-                          className={`p-2 rounded border transition ${
-                            opp.liked ? "bg-destructive/10 border-destructive text-destructive" : "border-border hover:border-accent"
-                          }`}
-                        >
-                          <Heart className={`w-4 h-4 ${opp.liked ? "fill-current" : ""}`} />
-                        </button>
-                      </div>
-
-                      <p className="text-xs md:text-sm text-muted mb-3">{opp.description}</p>
-
-                      <div className="mb-4 flex items-center gap-2 flex-wrap">
-                        <span className={`px-2 py-1 rounded border text-xs font-bold ${getTypeColor(opp.type)}`}>
-                          {getTypeLabel(opp.type)}
-                        </span>
-                        {opp.tags.map((tag) => (
-                          <span key={tag} className="px-2 py-1 bg-accent/10 border border-accent/20 text-xs rounded text-accent font-medium">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="flex gap-2">
-                        <Button variant="outline" className="flex-1 text-xs md:text-sm" size="sm">
-                          Ver detalles
-                        </Button>
-                        <a href={WA_APLICAR(opp.title, opp.organization)} target="_blank" rel="noopener noreferrer" className="flex-1">
-                          <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 text-xs md:text-sm" size="sm">
-                            <MessageCircle className="w-3 h-3 mr-1" />
-                            Aplicar <ArrowRight className="w-3 h-3 ml-1" />
-                          </Button>
-                        </a>
-                      </div>
-                    </Card>
-                  ))
-                )}
-              </div>
-
-              {/* ESTADÍSTICAS */}
-              <Card className="p-6 md:p-8 border-border mt-8 bg-card text-center">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
-                  <div>
-                    <div className="text-2xl md:text-3xl font-black text-accent mb-1">{filteredOpportunities.length}</div>
-                    <div className="text-xs md:text-sm text-muted">Oportunidades</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl md:text-3xl font-black text-secondary mb-1">
-                      {filteredOpportunities.length > 0
-                        ? Math.round(filteredOpportunities.reduce((a, o) => a + o.compatibility, 0) / filteredOpportunities.length)
-                        : 0}%
-                    </div>
-                    <div className="text-xs md:text-sm text-muted">Compatibilidad</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl md:text-3xl font-black text-accent mb-1">{opportunities_list.filter((o) => o.liked).length}</div>
-                    <div className="text-xs md:text-sm text-muted">Guardadas</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl md:text-3xl font-black text-accent mb-1">{continents.length - 1}</div>
-                    <div className="text-xs md:text-sm text-muted">Continentes</div>
-                  </div>
-                </div>
-              </Card>
-            </>
-          )}
+          ))}
         </div>
-      </div>
+
+        {filteredOpportunities.length === 0 && (
+          <div className="text-center py-20">
+            <div className="text-6xl mb-4">🔍</div>
+            <h3 className="text-2xl font-black mb-2">No encontramos resultados</h3>
+            <p className="text-muted">Intenta con otros filtros o términos de búsqueda.</p>
+            <Button 
+              variant="link" 
+              className="mt-4 text-accent font-bold"
+              onClick={() => {setSearchQuery(""); setSelectedType("all"); setSelectedContinent("all");}}
+            >
+              Limpiar todos los filtros
+            </Button>
+          </div>
+        )}
+      </main>
+
+      {/* CTA SECCIÓN */}
+      <section className="container max-w-4xl mt-20 px-4">
+        <Card className="p-8 md:p-12 bg-gradient-to-br from-card to-accent/10 border-accent/20 relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-4 opacity-10">
+            <Sparkles className="w-32 h-32 text-accent" />
+          </div>
+          <div className="relative z-10 text-center md:text-left">
+            <h2 className="text-3xl font-black mb-4">¿Tu CV está listo para competir?</h2>
+            <p className="text-muted mb-8 max-w-xl">
+              Las oportunidades de élite reciben miles de aplicaciones. No dejes tu futuro al azar. 
+              Optimizamos tu perfil para que pases los filtros ATS y destaques ante los comités de selección.
+            </p>
+            <div className="flex flex-col md:flex-row gap-4">
+              <a href={WA_GENERAR} target="_blank" rel="noopener noreferrer">
+                <Button className="bg-accent text-accent-foreground hover:bg-accent/90 px-8 py-6 h-auto text-lg font-black">
+                  Optimizar mi Perfil Ahora
+                  <Zap className="w-5 h-5 ml-2" />
+                </Button>
+              </a>
+              <a href={WA_PERFIL} target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" className="border-accent text-accent hover:bg-accent/10 px-8 py-6 h-auto text-lg font-black">
+                  Diagnóstico Gratuito
+                </Button>
+              </a>
+            </div>
+          </div>
+        </Card>
+      </section>
+
+      {/* BOTÓN FLOTANTE WHATSAPP */}
+      <a 
+        href={WA_BASE} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all z-50"
+      >
+        <MessageCircle className="w-7 h-7" />
+      </a>
     </div>
   );
 }
