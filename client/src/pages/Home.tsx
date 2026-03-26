@@ -86,14 +86,14 @@ export default function Home() {
       {/* NAVEGACIÓN */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container flex items-center justify-between h-16 px-4">
-          <div className="flex items-center gap-2">
+          <a href="/" className="flex items-center gap-2 hover:opacity-80 transition">
             <div className="w-10 h-10 bg-gradient-to-br from-accent to-secondary rounded-lg flex items-center justify-center text-white font-black text-sm">
               CV
             </div>
             <span className="font-black text-lg">
               <span className="italic font-light">itae</span>
             </span>
-          </div>
+          </a>
           <div className="flex items-center gap-3">
             <a href="/jobs" className="text-sm font-medium hover:text-accent transition hidden md:block">
               Explorar Oportunidades
@@ -229,6 +229,62 @@ export default function Home() {
                 </a>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECCIÓN: EL PROBLEMA (ESENCIA V1) */}
+      <section className="py-16 px-4 bg-destructive/5 border-t border-destructive/20">
+        <div className="container max-w-4xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black mb-4">¿Por qué tu CV es invisible?</h2>
+            <p className="text-lg text-muted max-w-2xl mx-auto">
+              El 75% de los CVs son rechazados antes de ser leídos por un humano. Los algoritmos ATS (Applicant Tracking Systems) filtran candidatos en milisegundos.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            {[
+              {
+                stat: "75%",
+                label: "CVs rechazados automáticamente",
+                icon: "🤖",
+              },
+              {
+                stat: "6 seg",
+                label: "Tiempo promedio de lectura",
+                icon: "⏱️",
+              },
+              {
+                stat: "12",
+                label: "Indicadores que buscan los ATS",
+                icon: "🎯",
+              },
+            ].map((item, idx) => (
+              <Card key={idx} className="p-6 border-border text-center">
+                <div className="text-4xl mb-3">{item.icon}</div>
+                <div className="text-3xl font-black text-accent mb-2">{item.stat}</div>
+                <p className="text-sm text-muted">{item.label}</p>
+              </Card>
+            ))}
+          </div>
+
+          <div className="bg-card border border-border rounded-lg p-8">
+            <h3 className="font-black text-lg mb-4">Lo que hacemos diferente:</h3>
+            <ul className="space-y-3 text-sm">
+              <li className="flex items-start gap-3">
+                <span className="text-accent font-bold">✓</span>
+                <span><strong>Ingeniería de Reclutamiento Inversa:</strong> Reestructuramos tu trayectoria bajo los 12 indicadores que los ATS buscan.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-accent font-bold">✓</span>
+                <span><strong>Palabras clave estratégicas:</strong> Insertamos términos que los reclutadores ya decidieron contratar.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-accent font-bold">✓</span>
+                <span><strong>Asesoría personalizada:</strong> No es un bot. Hablamos por WhatsApp y ajustamos según tu perfil.</span>
+              </li>
+            </ul>
           </div>
         </div>
       </section>
