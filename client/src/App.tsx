@@ -14,7 +14,7 @@ import Admin from "./pages/Admin";
 function Router() {
   return (
     <Switch>
-      <Route path={"\\"} component={Home} />
+      <Route path={"/"} component={Home} />
       <Route path={"/recruiters/lots"} component={RecruitersLots} />
       <Route path={"/jobs"} component={JobOpportunities} />
       <Route path={"/opportunities/:id"} component={OpportunityDetail} />
@@ -36,7 +36,7 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider
-        defaultTheme="light"
+        defaultTheme="dark"
         // switchable
       >
         <TooltipProvider>
