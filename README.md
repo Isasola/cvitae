@@ -1,441 +1,194 @@
-# CVitae · Perfiles Profesionales de Alto Impacto
+# CVitae - Global Opportunity Hub 🌍
 
-**Versión:** 2.1 | **Estado:** Producción | **Última actualización:** Marzo 2026
+**CVitae** es una plataforma que combina **optimización de CV con inteligencia de reclutamiento** para conectar talento latinoamericano con oportunidades globales. Desde becas de élite hasta empleos en multinacionales, pasando por capital semilla y programas de movilidad laboral.
 
----
+## 🎯 La Misión
 
-## Resumen Ejecutivo
+Resolver dos problemas simultáneamente:
+1. **Para Candidatos:** El 75% de los CVs son rechazados por algoritmos ATS antes de ser leídos por humanos. Nosotros reestructuramos tu perfil bajo los 12 indicadores que buscan los reclutadores.
+2. **Para Reclutadores:** Analizar cientos de CVs manualmente es imposible. Nuestra herramienta te muestra un ranking de compatibilidad en segundos.
 
-CVitae es una plataforma SaaS que reestructura perfiles profesionales usando metodología avanzada de reclutamiento. Transformamos CVs invisibles para filtros ATS en perfiles de alto impacto que generan entrevistas en 30 minutos.
+## 🚀 Características Principales
 
-**Dirigido a:**
-- Candidatos en Paraguay y Latam que buscan mejorar su visibilidad profesional
-- Reclutadores y empresas que necesitan perfiles pre-optimizados y rankeados
-- Freelancers y creativos que quieren posicionarse como expertos
+### 1. **Global Opportunity Hub** (`/jobs`)
+- **350+ Oportunidades** en tiempo real:
+  - Becas internacionales (MEXT, Chevening, DAAD, Fulbright)
+  - Capital Semilla (Y Combinator, 500 Global, Techstars)
+  - Empleos en multinacionales (Mercado Libre, KPMG, Rappi)
+  - Cruceros y aerolíneas
+  - ONGs e instituciones internacionales
+  - Puestos básicos en Paraguay y Latam
+  - Vacantes de SICCA (Función Pública Paraguay)
 
-**Diferencial:**
-- Protocolo de Misterio: Vendemos el resultado, no el proceso
-- Indicadores de Competencia: Extrae automáticamente keywords del aviso y los integra en el perfil
-- Ranking B2B: Reclutadores reciben candidatos pre-filtrados con score de compatibilidad
-- Búsqueda de Oportunidades: Candidatos encuentran trabajos compatibles con su perfil
+- **Buscador Inteligente:**
+  - Filtro por tipo (Becas, Capital, Empleos, Cursos)
+  - Filtro por continente
+  - Filtro por rubro
+  - Búsqueda por palabras clave
 
----
+- **Motor de Scrapping Automático:**
+  - Cron Job diario que actualiza las oportunidades
+  - Conectado a APIs de becas, empleos y fondos
+  - Costo $0 (Netlify Functions gratuito)
 
-## Stack Técnico
+### 2. **Herramienta de Reclutadores** (`/recruiters/lots`)
+- Sube hasta 10 CVs
+- Obtén un ranking de compatibilidad automático
+- Demo gratuita vs. Versión Pro con Token
+- Análisis basado en indicadores de competencia
 
-| Componente | Tecnología | Versión |
-|---|---|---|
-| **Frontend** | React 19 + TypeScript | 19.2.1 |
-| **Bundler** | Vite | 7.1.7 |
-| **Estilos** | Tailwind CSS 4 + shadcn/ui | 4.1.14 |
-| **Tipografía** | Playfair Display + Outfit | Google Fonts |
-| **Enrutamiento** | Wouter | 3.3.5 |
-| **Iconos** | Lucide React | 0.453.0 |
-| **Animaciones** | Framer Motion | 12.23.22 |
-| **Notificaciones** | Sonner | 2.0.7 |
-| **Backend** | Express.js (placeholder) | 4.21.2 |
-| **Hosting** | Netlify (Static) | - |
+### 3. **Panel Admin** (`/admin`)
+- Gestión de pedidos de candidatos
+- Generación de Tokens para reclutadores (Starter/Pro)
+- Aprobación de servicios y generación de entregables
 
----
+### 4. **Monetización Triple**
+- **Ingresos Directos (WhatsApp):** Venta de optimización de CV (₲50k-120k)
+- **Ingresos Pasivos (AdSense):** Tráfico masivo de búsquedas globales
+- **Ingresos B2B (Reclutadores):** Tokens de acceso Pro (₲150k-350k/mes)
 
-## Estructura del Proyecto
+## 🏗️ Arquitectura Técnica
 
+### Stack
+- **Frontend:** React 19 + Vite + TypeScript + Tailwind CSS + shadcn/ui
+- **Backend:** Express.js (Node.js)
+- **Hosting:** Netlify (Frontend + Functions)
+- **Database:** Supabase (PostgreSQL)
+- **IA:** Gemini Flash (Diagnósticos) + Anthropic (Análisis avanzado)
+
+### Estructura de Carpetas
 ```
 cvitae/
 ├── client/
-│   ├── public/
-│   │   ├── favicon.ico
-│   │   ├── robots.txt
-│   │   └── manifest.json
 │   ├── src/
 │   │   ├── pages/
-│   │   │   ├── Home.tsx                 # Landing page principal
-│   │   │   ├── RecruitersLots.tsx       # Herramienta B2B para reclutadores
-│   │   │   ├── JobOpportunities.tsx     # Búsqueda de trabajos para candidatos
-│   │   │   └── NotFound.tsx
-│   │   ├── components/
-│   │   │   ├── ui/                      # shadcn/ui components
-│   │   │   ├── ErrorBoundary.tsx
-│   │   │   └── Map.tsx                  # Google Maps integration
-│   │   ├── contexts/
-│   │   │   └── ThemeContext.tsx
-│   │   ├── hooks/
-│   │   ├── lib/
-│   │   ├── App.tsx                      # Router principal
-│   │   ├── main.tsx                     # React entry point
-│   │   └── index.css                    # Diseño tokens + Tailwind
-│   ├── index.html
-│   └── tsconfig.json
+│   │   │   ├── Home.tsx              # Landing con esencia V1
+│   │   │   ├── JobOpportunities.tsx  # Hub de 350+ oportunidades
+│   │   │   ├── RecruitersLots.tsx    # Herramienta de reclutadores
+│   │   │   └── Admin.tsx             # Panel de gestión
+│   │   ├── components/               # shadcn/ui + custom
+│   │   └── App.tsx                   # Rutas principales
+│   └── index.html                    # SEO masivo (JSON-LD)
+├── netlify/
+│   └── functions/
+│       ├── update-opportunities.ts   # Cron Job diario (scrapping)
+│       └── admin.ts                  # Funciones serverless
 ├── server/
-│   └── index.ts                         # Express server (placeholder)
-├── shared/
-│   └── const.ts                         # Constantes compartidas
-├── package.json
-├── vite.config.ts
-├── tailwind.config.ts
-├── tsconfig.json
-└── README.md                            # Este archivo
+│   └── index.ts                      # Express backend
+└── netlify.toml                      # Configuración de despliegue
 ```
 
----
+## 📊 Modelo de Negocio
 
-## Características Principales
+### Ingresos Proyectados (Año 1)
+| Fuente | Mes 1-2 | Mes 3-4 | Mes 5-6 | Mes 7-12 |
+|--------|---------|---------|---------|----------|
+| WhatsApp (CVs) | ₲200k | ₲500k | ₲1.5M | ₲2M-3M |
+| AdSense | $50 | $300 | $1k | $2k-5k |
+| Reclutadores | ₲0 | ₲100k | ₲300k | ₲500k-1M |
+| **Total** | **₲250k** | **₲600k** | **₲1.8M** | **₲2.5M-4M** |
 
-### 1. Landing Page (Home.tsx)
-- **Hero Section:** Propuesta de valor con mockup de CV animado
-- **Estadísticas:** 6 segundos, 75% descartados, ₲50k, 30 minutos
-- **Optimizador Interactivo:** Diagnóstico gratuito en 3 pasos
-- **Sección "Cómo Funciona":** 4 pasos del proceso
-- **Antes/Después:** Casos reales con transformación visual
-- **Precios:** Dos planes para candidatos (Perfil Digital, Portafolio Web)
-- **B2B Reclutadores:** Tres planes (Starter, Pro, Enterprise)
-- **FAQ:** Preguntas frecuentes expandibles
-- **CTA Final:** Botón flotante de WhatsApp
+**Total Año 1:** ₲25M-30M (~$4k-5k USD)
 
-### 2. Herramienta de Reclutadores (/recruiters/lots)
-- **Paso 1:** Indicar puesto y descripción del aviso
-- **Paso 2:** Subir múltiples CVs en PDF
-- **Paso 3:** Ranking automático con:
-  - Score de compatibilidad (0-100)
-  - Porcentaje de match con el aviso
-  - Fortalezas detectadas
-  - Áreas de mejora
-  - Botones para agendar entrevista
+## 🔄 Flujo de Conversión
 
-### 3. Búsqueda de Oportunidades (/jobs)
-- **Subir Perfil:** Candidatos cargan su CV optimizado
-- **Búsqueda y Filtros:** Por compatibilidad, tipo de contrato, ubicación
-- **Listado de Trabajos:** Con score de compatibilidad individual
-- **Guardar Favoritos:** Sistema de likes
-- **Aplicar Directamente:** Integración con ofertas
-- **Estadísticas:** Oportunidades compatibles, compatibilidad promedio
+### Para Candidatos
+1. Usuario entra a `/jobs` buscando una beca o empleo
+2. Ve la sección "¿Por qué tu CV es invisible?" (75% rechazados por ATS)
+3. Hace clic en una oportunidad → Ve detalles ricos en contenido (AdSense)
+4. Si quiere aplicar → Botón "Optimizar CV para este puesto" → WhatsApp
+5. En WhatsApp: Diagnóstico gratuito → Venta de plan (₲50k-120k)
 
----
+### Para Reclutadores
+1. Entran a `/recruiters/lots`
+2. Ven demo gratuita (hasta 10 CVs, análisis simulado)
+3. Si quieren versión Pro → Ingresan Token de acceso
+4. Token desbloqueado por vos en Admin → Acceso a análisis real por IA
 
-## Paleta de Diseño
+## 🌐 SEO y Monetización
 
-| Elemento | Color | Código | Uso |
-|---|---|---|---|
-| **Gold (Primario)** | Dorado | `#c9a84c` | Acentos, botones principales, bordes destacados |
-| **Teal (Secundario)** | Verde azulado | `#0d5c63` | Backgrounds alternos, texto secundario |
-| **Rust (Destructivo)** | Óxido | `#c24b2a` | Alertas, errores, acciones destructivas |
-| **Ink (Sidebar)** | Negro profundo | `#0a0a0f` | Backgrounds oscuros, texto en modo oscuro |
-| **Paper (Background)** | Crema clara | `#f5f0e8` | Background principal, tarjetas |
-| **Cream (Cards)** | Crema media | `#ede8d8` | Tarjetas, backgrounds alternos |
-| **Muted (Texto)** | Gris tostado | `#7a7060` | Texto secundario, labels |
+### JSON-LD Implementado
+- `JobPosting` (Google Jobs)
+- `SoftwareApplication` (Herramienta de CV)
+- `Service` (Consultoría B2B)
 
-**Tipografía:**
-- **Playfair Display** (serif): Títulos, headings (h1-h6)
-- **Outfit** (sans-serif): Body, labels, botones
+### Palabras Clave Objetivo
+- "Scholarships for Latinos"
+- "CV Optimization ATS"
+- "Remote Jobs Latin America"
+- "Becas Paraguay"
+- "Trabajo en Latam"
 
----
+### AdSense Ready
+- 350+ páginas de contenido indexable
+- Actualización diaria (Cron Job)
+- Tráfico esperado: 50k+ usuarios/mes en 6 meses
 
-## Guía de Instalación y Desarrollo
+## 🚀 Cómo Desplegar
 
-### Requisitos Previos
-- Node.js 18+
-- pnpm 10.4.1+
-- Git
-
-### Instalación Local
-
+### 1. Clonar el Repositorio
 ```bash
-# Clonar repositorio
-git clone https://github.com/tu-usuario/cvitae.git
+git clone https://github.com/Isasola/cvitae.git
 cd cvitae
+git checkout dev/v2
+```
 
-# Instalar dependencias
+### 2. Instalar Dependencias
+```bash
 pnpm install
-
-# Iniciar servidor de desarrollo
-pnpm dev
-
-# Acceder a http://localhost:3000
 ```
 
-### Compilar para Producción
-
-```bash
-# Build
-pnpm build
-
-# Preview (local)
-pnpm preview
-
-# Deploy a Netlify (ver sección siguiente)
-```
-
----
-
-## Despliegue en Netlify
-
-### Opción 1: Conectar GitHub (Recomendado)
-
-1. **Crear repositorio en GitHub**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit: CVitae v2.1"
-   git branch -M main
-   git remote add origin https://github.com/tu-usuario/cvitae.git
-   git push -u origin main
-   ```
-
-2. **Conectar a Netlify**
-   - Ir a [netlify.com](https://netlify.com)
-   - Hacer clic en "New site from Git"
-   - Seleccionar GitHub y autorizar
-   - Elegir el repositorio `cvitae`
-   - Configurar:
-     - **Build command:** `pnpm build`
-     - **Publish directory:** `dist`
-     - **Node version:** 18.x o superior
-
-3. **Variables de Entorno (si aplica)**
-   - En Netlify: Settings → Environment
-   - Agregar variables necesarias (ver `.env.example`)
-
-4. **Deploy Automático**
-   - Cada push a `main` dispara un nuevo deploy
-   - Los cambios estarán en vivo en ~2 minutos
-
-### Opción 2: Deploy Manual
-
-```bash
-# Instalar Netlify CLI
-npm install -g netlify-cli
-
-# Loguear
-netlify login
-
-# Deploy
-netlify deploy --prod
-```
-
----
-
-## Configuración de Dominio Personalizado
-
-1. **Comprar dominio** (Namecheap, GoDaddy, etc.)
-2. **En Netlify:**
-   - Settings → Domain management
-   - Agregar dominio personalizado
-   - Seguir instrucciones de DNS
-3. **SSL/HTTPS:** Automático con Netlify
-
----
-
-## Variables de Entorno
-
-Crear archivo `.env.local` en la raíz del proyecto:
-
+### 3. Variables de Entorno
+Crear `.env.local` en la raíz:
 ```env
-# API
-VITE_API_URL=https://tu-api.com
-VITE_API_KEY=tu-api-key
-
-# Analytics
-VITE_ANALYTICS_ENDPOINT=https://analytics.example.com
-VITE_ANALYTICS_WEBSITE_ID=tu-website-id
-
-# OAuth (si aplica)
-VITE_OAUTH_PORTAL_URL=https://oauth.example.com
+VITE_SUPABASE_URL=tu_url
+VITE_SUPABASE_KEY=tu_key
+ADMIN_PASSWORD=tu_contraseña
+ANTHROPIC_API_KEY=tu_key
 ```
 
----
-
-## Rutas Disponibles
-
-| Ruta | Componente | Descripción |
-|---|---|---|
-| `/` | Home.tsx | Landing page principal |
-| `/recruiters/lots` | RecruitersLots.tsx | Herramienta B2B para rankear candidatos |
-| `/jobs` | JobOpportunities.tsx | Búsqueda de oportunidades para candidatos |
-| `/404` | NotFound.tsx | Página no encontrada |
-
----
-
-## API Integration (Futuro)
-
-### Endpoints Esperados
-
-```
-POST /api/cv/generate
-  - Input: CV data, job description, format
-  - Output: Optimized CV HTML
-
-POST /api/cv/analyze
-  - Input: CV PDF, job description
-  - Output: Score, compatibility, gaps
-
-POST /api/jobs/search
-  - Input: Profile data, filters
-  - Output: Compatible job listings
-
-POST /api/recruiters/rank
-  - Input: Job description, candidate PDFs
-  - Output: Ranked candidates with scores
-```
-
----
-
-## Personalización
-
-### Cambiar Colores
-
-Editar `/client/src/index.css`:
-
-```css
-:root {
-  --primary: #c9a84c;        /* Gold */
-  --secondary: #0d5c63;      /* Teal */
-  --destructive: #c24b2a;    /* Rust */
-  /* ... más colores */
-}
-```
-
-### Cambiar Tipografía
-
-Editar `/client/index.html`:
-
-```html
-<link href="https://fonts.googleapis.com/css2?family=TU-FONT:wght@400;700&display=swap" rel="stylesheet" />
-```
-
-Luego actualizar `/client/src/index.css`:
-
-```css
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Tu Font', serif;
-}
-```
-
-### Agregar Nueva Página
-
-1. Crear componente en `/client/src/pages/MiPagina.tsx`
-2. Importar en `/client/src/App.tsx`
-3. Agregar ruta en el Router:
-   ```tsx
-   <Route path="/mi-pagina" component={MiPagina} />
-   ```
-
----
-
-## Performance y Optimización
-
-- **Code Splitting:** Vite automáticamente divide el código por ruta
-- **Image Optimization:** Usar CDN para imágenes (no guardar en `/public`)
-- **Lazy Loading:** Componentes se cargan bajo demanda
-- **Caching:** Netlify cachea automáticamente assets estáticos
-- **Lighthouse Score:** Objetivo 90+ en todas las métricas
-
----
-
-## Seguridad
-
-- **HTTPS:** Obligatorio en Netlify
-- **Headers de Seguridad:** Configurados automáticamente
-- **CORS:** Restringido a dominios autorizados
-- **Sanitización:** Inputs validados con Zod
-- **Secretos:** Nunca commitear `.env` a Git
-
----
-
-## Monitoreo y Analytics
-
-- **Google Analytics 4:** Integrado en el HTML
-- **Netlify Analytics:** Dashboard incluido
-- **Error Tracking:** Sentry (opcional)
-- **Performance:** Web Vitals monitoreados
-
----
-
-## Roadmap v2.2+
-
-- [ ] Integración con LangChain para embeddings
-- [ ] Base de datos de trabajos en tiempo real
-- [ ] Sistema de notificaciones por email
-- [ ] Perfil de usuario con historial
-- [ ] Integración con LinkedIn API
-- [ ] Generación de carta de presentación automática
-- [ ] Preguntas de entrevista personalizadas por IA
-- [ ] Panel de reclutadores con CRM integrado
-- [ ] Reportes de compatibilidad en PDF
-- [ ] Soporte multiidioma (EN, PT, IT)
-
----
-
-## Troubleshooting
-
-### El servidor no inicia
+### 4. Desplegar en Netlify
 ```bash
-# Limpiar cache y reinstalar
-rm -rf node_modules pnpm-lock.yaml
-pnpm install
-pnpm dev
+# Conectar repo a Netlify
+# Rama: dev/v2
+# Build command: pnpm build
+# Publish directory: dist/public
 ```
 
-### Build falla
-```bash
-# Verificar TypeScript
-pnpm check
+## 📈 Roadmap (Próximas Mejoras)
 
-# Limpiar build
-rm -rf dist
-pnpm build
-```
+### V2.1 (Próximas 2 semanas)
+- [ ] Página de detalles completa para cada oportunidad
+- [ ] Campo de Token en Reclutadores (UX mejorada)
+- [ ] Inyección de 200+ empleos adicionales (500+ total)
+- [ ] Integración con LinkedIn API para scrapping de empleos
 
-### Estilos no se aplican
-- Verificar que `index.css` esté importado en `main.tsx`
-- Limpiar cache del navegador (Ctrl+Shift+R)
-- Reiniciar servidor de desarrollo
+### V2.2 (Mes 2)
+- [ ] Perfiles de usuario livianos (sin login, solo email)
+- [ ] Sistema de alertas por email (nuevas oportunidades según perfil)
+- [ ] Dashboard de seguimiento de aplicaciones
+- [ ] Integración con Google AdSense
 
----
+### V3 (Mes 3+)
+- [ ] Automatización de cobros (Stripe/PayPal)
+- [ ] Análisis de IA mejorado (Gemini + LangChain)
+- [ ] Integración con Zapier/Make para automatización
+- [ ] App móvil (React Native)
 
-## Contribuir
+## 💡 Por Qué Ganamos
 
-1. Fork el repositorio
-2. Crear rama: `git checkout -b feature/mi-feature`
-3. Commit cambios: `git commit -m "Add: mi feature"`
-4. Push: `git push origin feature/mi-feature`
-5. Abrir Pull Request
+1. **Específico para Latam:** No somos un agregador genérico. Entendemos el mercado paraguayo y latinoamericano.
+2. **Asesoría Humana:** No es un bot. Hablamos por WhatsApp y ajustamos según el perfil del usuario.
+3. **Modelo Híbrido:** Ingresos directos (WhatsApp) + Pasivos (AdSense) + B2B (Reclutadores).
+4. **Escalabilidad:** El motor de scrapping trae datos automáticamente. Costo marginal cercano a cero.
+5. **Diferenciación:** Combinamos oportunidades globales + optimización local + asesoría personalizada.
 
----
+## 📞 Contacto
 
-## Licencia
-
-MIT License - Ver `LICENSE` para detalles
-
----
-
-## Contacto y Soporte
-
-- **WhatsApp:** +595 992 954 169
+- **WhatsApp:** +595 9 9295-4169
 - **Email:** isasolaeche@gmail.com
-- **Website:** https://cvitae.netlify.app
+- **Sitio:** https://cvitae-pry.netlify.app
 
 ---
 
-## Changelog
-
-### v2.1 (Marzo 2026)
-- ✅ Migración a React 19 + Vite
-- ✅ Nuevo diseño premium (dorado/negro/teal)
-- ✅ Herramienta de reclutadores con ranking
-- ✅ Sistema de búsqueda de oportunidades
-- ✅ Optimizador interactivo mejorado
-- ✅ Casos reales antes/después
-
-### v2.0 (Febrero 2026)
-- ✅ Landing page completa
-- ✅ Generador de CVs
-- ✅ Integración de pago
-- ✅ Waitlist NEXO
-
-### v1.0 (Enero 2026)
-- ✅ MVP inicial
-- ✅ Prototipo de concepto
-
----
-
-**Hecho con ❤️ en Paraguay | © 2026 CVitae**
+**CVitae - Haciendo visible tu talento en el mundo.** 🌟
