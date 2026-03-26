@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useLocation } from "wouter";
 import { opportunities } from "@/data/opportunities-massive";
 import { ArrowLeft, MapPin, DollarSign, Zap, Heart, ExternalLink, MessageCircle, AlertCircle } from "lucide-react";
 
@@ -6,8 +6,8 @@ const WA_NUMBER = "595992954169";
 const WA_BASE = `https://wa.me/${WA_NUMBER}`;
 
 export default function OpportunityDetail() {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+  const { id } = useParams();
+  const [, setLocation] = useLocation();
   const opportunity = opportunities.find(o => o.id === id);
 
   if (!opportunity) {
@@ -16,7 +16,7 @@ export default function OpportunityDetail() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-2">Oportunidad no encontrada</h1>
           <button
-            onClick={() => navigate("/jobs")}
+            onClick={() => setLocation("/jobs")}
             className="text-blue-400 hover:text-blue-300 flex items-center gap-2 mx-auto mt-4"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -49,7 +49,7 @@ export default function OpportunityDetail() {
       <div className="bg-slate-900/80 backdrop-blur-md border-b border-slate-700/50 sticky top-0 z-40">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <button
-            onClick={() => navigate("/jobs")}
+            onClick={() => setLocation("/jobs")}
             className="flex items-center gap-2 text-slate-400 hover:text-white transition"
           >
             <ArrowLeft className="h-5 w-5" />
