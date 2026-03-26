@@ -11,6 +11,7 @@ import JobOpportunities from "./pages/JobOpportunities";
 import OpportunityDetail from "./pages/OpportunityDetail";
 import Admin from "./pages/Admin";
 import CVOptimization from "./pages/CVOptimization";
+import AdminPanel from "./pages/AdminPanel";
 
 
 function Router() {
@@ -24,6 +25,7 @@ function Router() {
       <Route path={"/cv-optimization"} component={CVOptimization} />
       <Route path={"/#admin"} component={Admin} />
       <Route path={"/admin"} component={Admin} />
+      <Route path={"/admin-panel"} component={AdminPanel} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

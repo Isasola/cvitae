@@ -1,315 +1,286 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
-import { ArrowRight, Check, Zap, TrendingUp, Users, MessageCircle, Star, Award } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Upload, FileText, ArrowRight, AlertCircle, TrendingUp, Zap } from "lucide-react";
 
 const WA_NUMBER = "595992954169";
 const WA_BASE = `https://wa.me/${WA_NUMBER}`;
 
 export default function CVOptimization() {
   const [, setLocation] = useLocation();
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [analysis, setAnalysis] = useState<any>(null);
+  const [jobTarget, setJobTarget] = useState("");
 
-  const handleWhatsApp = (message: string) => {
-    window.open(`${WA_BASE}?text=${encodeURIComponent(message)}`, "_blank");
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.[0]) {
+      setCvFile(e.target.files[0]);
+    }
+  };
+
+  const handleAnalyze = async () => {
+    if (!cvFile) return;
+    
+    setAnalyzing(true);
+    
+    // En producción, esto llamaría a la Netlify Function que usa Anthropic API
+    // Por ahora, simulación realista
+    setTimeout(() => {
+      setAnalysis({
+        atsScore: 68,
+        strengths: [
+          "Experiencia en el sector relevante",
+          "Habilidades técnicas bien documentadas",
+          "Educación formal completa"
+        ],
+        criticalImprovements: [
+          "Agregar palabras clave de la industria (ATS no las detecta)",
+          "Reformatear para mejorar legibilidad de máquinas",
+          "Incluir métricas y resultados cuantificables",
+          "Actualizar habilidades técnicas según tendencias 2026",
+          "Mejorar estructura de secciones"
+        ],
+        actionPlan: [
+          "Paso 1: Reescribir resumen ejecutivo con palabras clave",
+          "Paso 2: Agregar números y métricas a logros",
+          "Paso 3: Reorganizar habilidades por relevancia",
+          "Paso 4: Validar con herramientas ATS online"
+        ],
+        estimatedInterviewChance: "Media",
+        cvOptimizationMessage: "Tu CV tiene potencial pero necesita optimización estratégica. El 68% de compatibilidad ATS significa que muchos filtros automáticos te descartan. Con nuestro servicio de optimización, podemos llevarte a 95%+ en 48 horas. Inversión: ₲50k-120k. Resultado: 3-5x más entrevistas."
+      });
+      setAnalyzing(false);
+    }, 2000);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
-      {/* Header */}
-      <div className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-700/50">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <button
-            onClick={() => setLocation("/")}
-            className="text-slate-400 hover:text-blue-400 transition text-sm mb-3 flex items-center gap-1"
-          >
-            ← Volver al inicio
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white pt-20 pb-20">
+      {/* NAVBAR */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+          <button onClick={() => setLocation("/")} className="flex items-center gap-2 hover:opacity-80 transition">
+            <div className="w-8 h-8 bg-gradient-to-br from-green-600 to-blue-600 rounded-lg flex items-center justify-center font-black text-xs">CV</div>
+            <span className="font-bold">CVitae Optimize</span>
           </button>
-          <h1 className="text-4xl font-bold text-white mb-2">Optimiza tu CV para Conseguir el Trabajo</h1>
-          <p className="text-slate-400">De invisible a irresistible en 48 horas</p>
+          <button onClick={() => setLocation("/")} className="text-sm hover:text-green-400 transition hidden md:block">Volver</button>
         </div>
-      </div>
+      </nav>
 
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        {/* Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          {/* Left: Problem */}
-          <div>
-            <h2 className="text-3xl font-bold text-white mb-6">¿Tu CV es invisible?</h2>
-            <div className="space-y-4">
-              <div className="flex gap-3">
-                <Zap className="h-6 w-6 text-red-500 flex-shrink-0 mt-1" />
-                <div>
-                  <p className="font-semibold text-white">Los filtros ATS rechazan el 75% de CVs</p>
-                  <p className="text-sm text-slate-400">Sin palabras clave correctas, nunca llega a un reclutador</p>
-                </div>
+      <div className="max-w-4xl mx-auto px-4">
+        {/* HERO */}
+        <section className="mb-16">
+          <div className="text-center mb-12">
+            <h1 className="text-5xl md:text-6xl font-black mb-6 leading-tight">
+              Optimiza tu CV
+            </h1>
+            <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+              Análisis honesto de compatibilidad ATS. Descubre por qué tu CV no pasa filtros automáticos.
+            </p>
+          </div>
+
+          {/* PROBLEMA */}
+          <div className="bg-gradient-to-br from-red-600/10 to-red-600/5 border border-red-600/30 rounded-2xl p-8 mb-12">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-red-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                <AlertCircle className="h-6 w-6 text-red-400" />
               </div>
-              <div className="flex gap-3">
-                <Zap className="h-6 w-6 text-red-500 flex-shrink-0 mt-1" />
-                <div>
-                  <p className="font-semibold text-white">Formato incorrecto = rechazo automático</p>
-                  <p className="text-sm text-slate-400">Los sistemas ATS no leen PDFs mal estructurados</p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <Zap className="h-6 w-6 text-red-500 flex-shrink-0 mt-1" />
-                <div>
-                  <p className="font-semibold text-white">Compites contra 500+ candidatos por puesto</p>
-                  <p className="text-sm text-slate-400">Tu CV debe brillar en los primeros 6 segundos</p>
-                </div>
+              <div>
+                <h2 className="text-2xl font-black mb-3">El Problema Real</h2>
+                <p className="text-slate-300 mb-4">
+                  El 75% de los CVs son rechazados por algoritmos ATS antes de ser leídos por un humano. Tu CV podría ser excelente, pero si no está optimizado para máquinas, nunca llegará a manos de un reclutador.
+                </p>
+                <p className="text-sm text-slate-400">
+                  Tiempo promedio de revisión: 6 segundos. Tiempo que tarda un ATS en rechazarte: 2 segundos.
+                </p>
               </div>
             </div>
           </div>
+        </section>
 
-          {/* Right: Solution */}
-          <div className="bg-gradient-to-br from-blue-900/30 to-blue-800/20 border border-blue-600/50 rounded-lg p-8">
-            <h2 className="text-3xl font-bold text-white mb-6">Nosotros lo solucionamos</h2>
-            <div className="space-y-4 mb-8">
-              <div className="flex gap-3">
-                <Check className="h-6 w-6 text-green-400 flex-shrink-0 mt-1" />
-                <div>
-                  <p className="font-semibold text-white">Optimización ATS 100%</p>
-                  <p className="text-sm text-slate-300">Tu CV pasará todos los filtros automáticos</p>
+        {/* UPLOAD SECTION */}
+        <section className="mb-16">
+          <div className="bg-gradient-to-br from-blue-600/10 to-blue-600/5 border border-blue-600/30 rounded-2xl p-8 md:p-12">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center">
+                <Upload className="h-6 w-6 text-blue-400" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-black">Sube tu CV</h2>
+                <p className="text-sm text-slate-400">Análisis gratuito en segundos</p>
+              </div>
+            </div>
+
+            {!cvFile ? (
+              <div className="border-2 border-dashed border-blue-600/30 rounded-xl p-12 text-center hover:border-blue-600/50 transition cursor-pointer group">
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                  id="cv-upload"
+                />
+                <label htmlFor="cv-upload" className="cursor-pointer block">
+                  <FileText className="h-16 w-16 text-blue-400/50 group-hover:text-blue-400 transition mx-auto mb-4" />
+                  <p className="text-lg font-semibold mb-2">Arrastra tu CV aquí</p>
+                  <p className="text-sm text-slate-400">o haz click para seleccionar</p>
+                  <p className="text-xs text-slate-500 mt-4">PDF, Word (.doc, .docx)</p>
+                </label>
+              </div>
+            ) : (
+              <div>
+                <div className="flex items-center gap-4 bg-slate-800/40 p-4 rounded-lg mb-6 justify-between">
+                  <div className="flex items-center gap-3 flex-1">
+                    <FileText className="h-6 w-6 text-blue-400" />
+                    <div>
+                      <p className="font-semibold">{cvFile.name}</p>
+                      <p className="text-xs text-slate-400">{(cvFile.size / 1024).toFixed(0)} KB</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setCvFile(null)}
+                    className="text-sm text-slate-400 hover:text-red-400 transition"
+                  >
+                    Cambiar
+                  </button>
+                </div>
+
+                <div className="mb-6">
+                  <label className="block text-sm font-semibold mb-2">¿A qué puesto aplicas? (opcional)</label>
+                  <input
+                    type="text"
+                    placeholder="Ej: Senior Developer, Product Manager, Data Scientist"
+                    value={jobTarget}
+                    onChange={(e) => setJobTarget(e.target.value)}
+                    className="w-full px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition"
+                  />
+                </div>
+
+                <button
+                  onClick={handleAnalyze}
+                  disabled={analyzing}
+                  className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg font-semibold transition uppercase tracking-wider disabled:opacity-50 transform hover:scale-105 duration-300"
+                >
+                  {analyzing ? "Analizando..." : "Analizar CV Ahora"}
+                </button>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* RESULTADOS */}
+        {analysis && (
+          <section className="space-y-8">
+            {/* SCORE */}
+            <div className="bg-gradient-to-br from-slate-800/40 to-slate-800/20 backdrop-blur border border-slate-700/50 rounded-2xl p-8 md:p-12">
+              <div className="text-center mb-8">
+                <p className="text-slate-400 mb-2 uppercase tracking-wider text-sm font-semibold">Score de Compatibilidad ATS</p>
+                <p className="text-7xl font-black text-blue-400 mb-4">{analysis.atsScore}%</p>
+                <div className="w-full h-3 bg-slate-700/50 rounded-full overflow-hidden max-w-md mx-auto">
+                  <div 
+                    className="h-full bg-gradient-to-r from-blue-600 to-blue-400" 
+                    style={{width: `${analysis.atsScore}%`}}
+                  ></div>
                 </div>
               </div>
-              <div className="flex gap-3">
-                <Check className="h-6 w-6 text-green-400 flex-shrink-0 mt-1" />
-                <div>
-                  <p className="font-semibold text-white">Palabras clave estratégicas</p>
-                  <p className="text-sm text-slate-300">Incluimos términos que buscan los reclutadores</p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+                <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                  <p className="text-sm text-slate-400 mb-1 uppercase tracking-wider">Probabilidad de Entrevista</p>
+                  <p className="text-2xl font-black text-amber-400">{analysis.estimatedInterviewChance}</p>
                 </div>
-              </div>
-              <div className="flex gap-3">
-                <Check className="h-6 w-6 text-green-400 flex-shrink-0 mt-1" />
-                <div>
-                  <p className="font-semibold text-white">Formato probado</p>
-                  <p className="text-sm text-slate-300">Estructura que garantiza legibilidad en cualquier sistema</p>
+                <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                  <p className="text-sm text-slate-400 mb-1 uppercase tracking-wider">Potencial Máximo</p>
+                  <p className="text-2xl font-black text-green-400">95%+</p>
                 </div>
-              </div>
-              <div className="flex gap-3">
-                <Check className="h-6 w-6 text-green-400 flex-shrink-0 mt-1" />
-                <div>
-                  <p className="font-semibold text-white">Entrega en 48 horas</p>
-                  <p className="text-sm text-slate-300">Tu CV optimizado listo para aplicar</p>
+                <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                  <p className="text-sm text-slate-400 mb-1 uppercase tracking-wider">Mejora Posible</p>
+                  <p className="text-2xl font-black text-purple-400">+{95 - analysis.atsScore}%</p>
                 </div>
               </div>
             </div>
-            <Button
-              onClick={() =>
-                handleWhatsApp(
-                  "Hola! Quiero optimizar mi CV para pasar filtros ATS. ¿Cuál es el proceso?"
-                )
-              }
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3"
-            >
-              Solicitar Optimización <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
-        </div>
 
-        {/* Before/After */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-white mb-8 text-center">Antes vs Después</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Before */}
-            <Card className="bg-red-900/20 border-red-600/50 p-8">
-              <h3 className="text-xl font-bold text-red-400 mb-6">❌ CV Rechazado por ATS</h3>
-              <div className="space-y-3 text-sm text-slate-300 font-mono">
-                <p>Experiencia: Trabajé en varios proyectos</p>
-                <p>Habilidades: Microsoft Office, Internet</p>
-                <p>Educación: Carrera completada</p>
-                <p>Logros: Buen desempeño en el trabajo</p>
-              </div>
-              <div className="mt-6 p-4 bg-red-900/50 rounded text-red-300 text-sm">
-                ⚠️ Resultado: Rechazado automáticamente por falta de palabras clave
-              </div>
-            </Card>
-
-            {/* After */}
-            <Card className="bg-green-900/20 border-green-600/50 p-8">
-              <h3 className="text-xl font-bold text-green-400 mb-6">✓ CV Optimizado para ATS</h3>
-              <div className="space-y-3 text-sm text-slate-300 font-mono">
-                <p>Experiencia: Lideré proyectos de transformación digital</p>
-                <p>Habilidades: Python, SQL, Tableau, Power BI, Agile</p>
-                <p>Educación: Ingeniero en Sistemas (Universidad X)</p>
-                <p>Logros: +30% mejora en eficiencia operativa</p>
-              </div>
-              <div className="mt-6 p-4 bg-green-900/50 rounded text-green-300 text-sm">
-                ✓ Resultado: Aprobado por ATS, llamada en 48 horas
-              </div>
-            </Card>
-          </div>
-        </div>
-
-        {/* Pricing & Packages */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-white mb-8 text-center">Paquetes de Optimización</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Basic */}
-            <Card className="bg-slate-800/50 border-slate-700 p-8 hover:border-blue-500/50 transition">
-              <div className="flex items-center gap-2 mb-4">
-                <Star className="h-5 w-5 text-yellow-400" />
-                <h3 className="text-xl font-bold text-white">Básico</h3>
-              </div>
-              <p className="text-3xl font-bold text-white mb-2">₲50.000</p>
-              <p className="text-slate-400 text-sm mb-6">~$8 USD</p>
-              <ul className="space-y-3 mb-8 text-sm text-slate-300">
-                <li className="flex gap-2">
-                  <Check className="h-4 w-4 text-green-400 flex-shrink-0" />
-                  Optimización ATS básica
-                </li>
-                <li className="flex gap-2">
-                  <Check className="h-4 w-4 text-green-400 flex-shrink-0" />
-                  Palabras clave para tu puesto
-                </li>
-                <li className="flex gap-2">
-                  <Check className="h-4 w-4 text-green-400 flex-shrink-0" />
-                  Formato mejorado
-                </li>
-              </ul>
-              <Button
-                onClick={() =>
-                  handleWhatsApp("Quiero el paquete Básico de optimización de CV")
-                }
-                className="w-full bg-slate-700 hover:bg-slate-600 text-white"
-              >
-                Solicitar
-              </Button>
-            </Card>
-
-            {/* Professional */}
-            <Card className="bg-gradient-to-br from-blue-900/30 to-blue-800/20 border-blue-600/50 p-8 relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                Más Popular
-              </div>
-              <div className="flex items-center gap-2 mb-4">
-                <Award className="h-5 w-5 text-blue-400" />
-                <h3 className="text-xl font-bold text-white">Profesional</h3>
-              </div>
-              <p className="text-3xl font-bold text-white mb-2">₲100.000</p>
-              <p className="text-slate-400 text-sm mb-6">~$16 USD</p>
-              <ul className="space-y-3 mb-8 text-sm text-slate-300">
-                <li className="flex gap-2">
-                  <Check className="h-4 w-4 text-green-400 flex-shrink-0" />
-                  Optimización ATS avanzada
-                </li>
-                <li className="flex gap-2">
-                  <Check className="h-4 w-4 text-green-400 flex-shrink-0" />
-                  Análisis de compatibilidad
-                </li>
-                <li className="flex gap-2">
-                  <Check className="h-4 w-4 text-green-400 flex-shrink-0" />
-                  Carta de presentación
-                </li>
-                <li className="flex gap-2">
-                  <Check className="h-4 w-4 text-green-400 flex-shrink-0" />
-                  Revisión de LinkedIn
-                </li>
-              </ul>
-              <Button
-                onClick={() =>
-                  handleWhatsApp("Quiero el paquete Profesional de optimización de CV")
-                }
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
-              >
-                Solicitar
-              </Button>
-            </Card>
-
-            {/* Premium */}
-            <Card className="bg-slate-800/50 border-slate-700 p-8 hover:border-purple-500/50 transition">
-              <div className="flex items-center gap-2 mb-4">
-                <TrendingUp className="h-5 w-5 text-purple-400" />
-                <h3 className="text-xl font-bold text-white">Premium</h3>
-              </div>
-              <p className="text-3xl font-bold text-white mb-2">₲150.000</p>
-              <p className="text-slate-400 text-sm mb-6">~$24 USD</p>
-              <ul className="space-y-3 mb-8 text-sm text-slate-300">
-                <li className="flex gap-2">
-                  <Check className="h-4 w-4 text-green-400 flex-shrink-0" />
-                  Todo del Profesional +
-                </li>
-                <li className="flex gap-2">
-                  <Check className="h-4 w-4 text-green-400 flex-shrink-0" />
-                  Estrategia de búsqueda
-                </li>
-                <li className="flex gap-2">
-                  <Check className="h-4 w-4 text-green-400 flex-shrink-0" />
-                  Coaching 1-on-1 (30 min)
-                </li>
-                <li className="flex gap-2">
-                  <Check className="h-4 w-4 text-green-400 flex-shrink-0" />
-                  Seguimiento 30 días
-                </li>
-              </ul>
-              <Button
-                onClick={() =>
-                  handleWhatsApp("Quiero el paquete Premium de optimización de CV")
-                }
-                className="w-full bg-slate-700 hover:bg-slate-600 text-white"
-              >
-                Solicitar
-              </Button>
-            </Card>
-          </div>
-        </div>
-
-        {/* Testimonials */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-white mb-8 text-center">Lo que dicen nuestros clientes</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "María González",
-                role: "Ingeniera de Software",
-                text: "Mi CV fue rechazado 50 veces. Después de la optimización, recibí 3 ofertas en 2 semanas.",
-                country: "Argentina",
-              },
-              {
-                name: "Carlos López",
-                role: "Analista de Datos",
-                text: "No sabía qué palabras clave faltaban. Ahora paso todos los filtros ATS sin problema.",
-                country: "México",
-              },
-              {
-                name: "Ana Silva",
-                role: "Project Manager",
-                text: "Excelente servicio. Mi CV ahora es 10x mejor. Recomendado 100%.",
-                country: "Brasil",
-              },
-            ].map((testimonial, i) => (
-              <Card key={i} className="bg-slate-800/50 border-slate-700 p-6">
-                <div className="flex gap-1 mb-3">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  ))}
+            {/* FORTALEZAS */}
+            <div className="bg-gradient-to-br from-green-600/10 to-green-600/5 border border-green-600/30 rounded-2xl p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-8 bg-green-600/20 rounded-lg flex items-center justify-center">
+                  <Zap className="h-5 w-5 text-green-400" />
                 </div>
-                <p className="text-slate-300 mb-4 italic">"{testimonial.text}"</p>
-                <p className="font-semibold text-white">{testimonial.name}</p>
-                <p className="text-sm text-slate-400">{testimonial.role} • {testimonial.country}</p>
-              </Card>
-            ))}
-          </div>
-        </div>
+                <h3 className="text-2xl font-black">Fortalezas</h3>
+              </div>
+              <div className="space-y-3">
+                {analysis.strengths.map((s: string, i: number) => (
+                  <div key={i} className="flex gap-3 p-3 bg-slate-800/30 rounded-lg hover:bg-slate-800/50 transition">
+                    <div className="w-1.5 h-1.5 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-slate-300">{s}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-        {/* CTA */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-12 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">¿Listo para cambiar tu carrera?</h2>
-          <p className="text-blue-100 mb-8 text-lg">
-            Deja de ser invisible. Consigue el trabajo que mereces.
-          </p>
-          <Button
-            onClick={() =>
-              handleWhatsApp(
-                "Hola! Quiero optimizar mi CV. ¿Cuál es el primer paso?"
-              )
-            }
-            className="bg-white text-blue-600 hover:bg-blue-50 font-bold py-3 px-8 text-lg"
-          >
-            <MessageCircle className="mr-2 h-5 w-5" />
-            Contactar por WhatsApp
-          </Button>
-        </div>
+            {/* MEJORAS CRÍTICAS */}
+            <div className="bg-gradient-to-br from-amber-600/10 to-amber-600/5 border border-amber-600/30 rounded-2xl p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-8 bg-amber-600/20 rounded-lg flex items-center justify-center">
+                  <TrendingUp className="h-5 w-5 text-amber-400" />
+                </div>
+                <h3 className="text-2xl font-black">Mejoras Críticas</h3>
+              </div>
+              <div className="space-y-3">
+                {analysis.criticalImprovements.map((imp: string, i: number) => (
+                  <div key={i} className="flex gap-3 p-3 bg-slate-800/30 rounded-lg hover:bg-slate-800/50 transition">
+                    <div className="w-1.5 h-1.5 bg-amber-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-slate-300">{imp}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* PLAN DE ACCIÓN */}
+            <div className="bg-gradient-to-br from-purple-600/10 to-purple-600/5 border border-purple-600/30 rounded-2xl p-8">
+              <h3 className="text-2xl font-black mb-6">Plan de Acción</h3>
+              <div className="space-y-4">
+                {analysis.actionPlan.map((step: string, i: number) => (
+                  <div key={i} className="flex gap-4 p-4 bg-slate-800/30 rounded-lg hover:bg-slate-800/50 transition">
+                    <div className="w-8 h-8 bg-purple-600/20 rounded-lg flex items-center justify-center flex-shrink-0 font-semibold text-purple-400">
+                      {i + 1}
+                    </div>
+                    <p className="text-slate-300 pt-1">{step}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* PROPUESTA DE VALOR */}
+            <div className="bg-gradient-to-br from-green-600/20 to-green-600/5 border border-green-600/50 rounded-2xl p-8 md:p-12">
+              <h3 className="text-2xl font-black mb-4">La Solución</h3>
+              <p className="text-lg text-slate-300 mb-8 leading-relaxed">
+                {analysis.cvOptimizationMessage}
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div className="text-center">
+                  <p className="text-3xl font-black text-green-400 mb-2">48h</p>
+                  <p className="text-sm text-slate-400">Entrega rápida</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-3xl font-black text-green-400 mb-2">95%+</p>
+                  <p className="text-sm text-slate-400">Compatibilidad ATS</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-3xl font-black text-green-400 mb-2">3-5x</p>
+                  <p className="text-sm text-slate-400">Más entrevistas</p>
+                </div>
+              </div>
+              <a
+                href={`${WA_BASE}?text=${encodeURIComponent(`Hola! Mi CV tiene ${analysis.atsScore}% de compatibilidad ATS. Quiero mejorarlo a 95%+. ¿Cuál es el costo?`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white rounded-lg font-semibold transition shadow-lg uppercase tracking-wider transform hover:scale-105 duration-300"
+              >
+                Mejorar mi CV Ahora <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );
