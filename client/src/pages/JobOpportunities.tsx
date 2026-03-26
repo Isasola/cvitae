@@ -134,7 +134,7 @@ export default function JobOpportunities() {
         {/* Grid de Oportunidades */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredOpportunities.map((opp) => (
-            <Card key={opp.id} className="bg-slate-800/50 border-slate-700 hover:border-blue-500/50 transition overflow-hidden group cursor-pointer" onClick={() => navigate(`/opportunities/${opp.id}")}>
+            <Card key={opp.id} className="bg-slate-800/50 border-slate-700 hover:border-blue-500/50 transition overflow-hidden group cursor-pointer" onClick={() => navigate(`/opportunities/${opp.id}`)}>
               <div className="p-5">
                 {/* Header */}
                 <div className="flex justify-between items-start mb-3">
@@ -143,7 +143,10 @@ export default function JobOpportunities() {
                     <p className="text-xs text-slate-400 mt-1">{opp.organization}</p>
                   </div>
                   <button
-                    onClick={() => toggleLike(opp.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleLike(opp.id);
+                    }}
                     className="ml-2 p-1.5 hover:bg-slate-700 rounded transition"
                   >
                     <Heart
