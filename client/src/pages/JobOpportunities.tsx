@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { useState, useMemo } from "react";
-import { useNavigate } from "wouter";
+import { useLocation } from "wouter";
 import { Search, MapPin, Briefcase, DollarSign, Heart, ArrowRight, Upload, Filter, MessageCircle, Globe, Zap, TrendingUp, Star } from "lucide-react";
 import { opportunities } from "@/data/opportunities-massive";
 
@@ -12,7 +12,7 @@ const WA_APLICAR = (oportunidad: string, tipo: string) =>
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function JobOpportunities() {
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [selectedContinent, setSelectedContinent] = useState<string | null>(null);
@@ -134,7 +134,7 @@ export default function JobOpportunities() {
         {/* Grid de Oportunidades */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredOpportunities.map((opp) => (
-            <Card key={opp.id} className="bg-slate-800/50 border-slate-700 hover:border-blue-500/50 transition overflow-hidden group cursor-pointer" onClick={() => navigate(`/opportunities/${opp.id}`)}>
+            <Card key={opp.id} className="bg-slate-800/50 border-slate-700 hover:border-blue-500/50 transition overflow-hidden group cursor-pointer" onClick={() => setLocation(`/opportunities/${opp.id}`)}>
               <div className="p-5">
                 {/* Header */}
                 <div className="flex justify-between items-start mb-3">
@@ -200,7 +200,7 @@ export default function JobOpportunities() {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate(`/opportunities/${opp.id}`);
+                    setLocation(`/opportunities/${opp.id}`);
                   }}
                   className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white rounded-lg font-medium text-sm transition"
                 >
