@@ -122,6 +122,64 @@ const opportunities: Opportunity[] = [
   { id: "job-008", title: "Data Scientist Junior", organization: "Stripe", location: "Remoto", continent: "Global", type: "empleo", rubro: "Tecnología", value: "$4,000 USD", deadline: "Abierto", compatibility: 87, tags: ["Python", "SQL", "Data"], description: "Análisis de datos financieros para la prevención de fraude global." },
   { id: "job-009", title: "Auditor Interno", organization: "Banco Continental", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Finanzas", value: "₲7M - ₲10M", deadline: "10 Abril 2026", compatibility: 89, tags: ["Banca", "Auditoría", "Riesgos"], description: "Control y auditoría de procesos bancarios y cumplimiento normativo." },
   { id: "job-010", title: "Social Media Strategist", organization: "Agencia Publicitaria", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Marketing", value: "₲4M - ₲6M", deadline: "Abierto", compatibility: 91, tags: ["Social Media", "Contenido", "Ads"], description: "Creación y gestión de estrategias digitales para marcas líderes locales." },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // MULTINACIONALES - CONSUMO MASIVO Y RETAIL
+  // ═══════════════════════════════════════════════════════════════════════════
+  { id: "multi-001", title: "Gerente Regional de Ventas", organization: "Unilever", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Ventas", value: "₲10M - ₲15M", deadline: "Abierto", compatibility: 94, tags: ["Unilever", "Ventas", "Liderazgo"], description: "Gestión de canales de distribución para el Cono Sur." },
+  { id: "multi-002", title: "Especialista en Logstica", organization: "Nestlé", location: "Remoto (Latam)", continent: "América Latina", type: "empleo", rubro: "Otros", value: "$2,500 USD", deadline: "Abierto", compatibility: 88, tags: ["Nestlé", "Logística", "Supply Chain"], description: "Optimización de cadena de suministro para productos alimenticios." },
+  { id: "multi-003", title: "Representante de Ventas - Coca-Cola", organization: "Coca-Cola", location: "Asunción / Interior", continent: "América Latina", type: "empleo", rubro: "Ventas", value: "₲4M - ₲6M + Comisiones", deadline: "Abierto", compatibility: 90, tags: ["Coca-Cola", "Ventas", "Bebidas"], description: "Colocación y promoción de productos en puntos de venta." },
+  { id: "multi-004", title: "Asistente de Atención al Cliente", organization: "PedidosYa", location: "Remoto", continent: "América Latina", type: "empleo", rubro: "RRHH", value: "₲3M - ₲4M", deadline: "Abierto", compatibility: 85, tags: ["PedidosYa", "Atención", "Remoto"], description: "Soporte a usuarios de la plataforma de delivery más grande de Latam." },
+  { id: "multi-005", title: "Operario de Almacén", organization: "Amazon", location: "Remoto (Latam)", continent: "América Latina", type: "empleo", rubro: "Otros", value: "$1,800 USD", deadline: "Abierto", compatibility: 82, tags: ["Amazon", "Logística", "Operarios"], description: "Gestión de inventario y embalaje en centros de distribución." },
+  { id: "multi-006", title: "Promotor de Ventas", organization: "Procter & Gamble", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Ventas", value: "₲3.5M - ₲5M", deadline: "Abierto", compatibility: 88, tags: ["P&G", "Promoción", "Retail"], description: "Promoción de productos de higiene y cuidado personal." },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // CRUCEROS Y AEROLINEAS
+  // ═══════════════════════════════════════════════════════════════════════════
+  { id: "cruise-001", title: "Tripulante de Cabina - Crucero", organization: "Royal Caribbean", location: "Miami / Embarque", continent: "Norteamérica", type: "empleo", rubro: "Otros", value: "$1,500 USD + Comidas", deadline: "Abierto", compatibility: 87, tags: ["Crucero", "Viajes", "Hoteleria"], description: "Atención a pasajeros en cruceros de lujo. Alojamiento y comidas incluidas." },
+  { id: "cruise-002", title: "Chef de Crucero", organization: "Carnival Cruise Line", location: "Embarque Global", continent: "Global", type: "empleo", rubro: "Otros", value: "$2,000 USD + Alojamiento", deadline: "Abierto", compatibility: 89, tags: ["Crucero", "Cocina", "Gastronomia"], description: "Preparación de alimentos para miles de pasajeros en cruceros internacionales." },
+  { id: "cruise-003", title: "Animador de Entretenimiento", organization: "Disney Cruise Line", location: "Embarque Global", continent: "Global", type: "empleo", rubro: "Otros", value: "$1,800 USD + Beneficios", deadline: "Abierto", compatibility: 85, tags: ["Disney", "Entretenimiento", "Crucero"], description: "Entretenimiento y animación para familias en cruceros de lujo." },
+  { id: "airline-001", title: "Tripulante de Cabina - Emirates", organization: "Emirates Airlines", location: "Dubai / Global", continent: "Global", type: "empleo", rubro: "Otros", value: "$2,500 USD + Beneficios", deadline: "Abierto", compatibility: 92, tags: ["Emirates", "Avión", "Internacional"], description: "Atención a pasajeros en vuelos internacionales de la aerolínea más lujosa del mundo." },
+  { id: "airline-002", title: "Agente de Tierra - Copa Airlines", organization: "Copa Airlines", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲4M - ₲6M", deadline: "Abierto", compatibility: 88, tags: ["Copa", "Aerolinea", "Paraguay"], description: "Atención a pasajeros en mostrador y coordinación de vuelos." },
+  { id: "airline-003", title: "Tripulante de Cabina - Qatar Airways", organization: "Qatar Airways", location: "Doha / Global", continent: "Global", type: "empleo", rubro: "Otros", value: "$2,200 USD + Alojamiento", deadline: "Abierto", compatibility: 90, tags: ["Qatar", "Avión", "Lujo"], description: "Servicio premium en la aerolínea ganadora de más premios internacionales." },
+  { id: "airline-004", title: "Mantenimiento de Aeronaves", organization: "LATAM Airlines", location: "Remoto (Latam)", continent: "América Latina", type: "empleo", rubro: "Ingeniería", value: "$3,500 USD", deadline: "Abierto", compatibility: 86, tags: ["LATAM", "Mantenimiento", "Ingeniería"], description: "Mantenimiento preventivo y correctivo de flota de aeronaves." },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // ORGANISMOS INTERNACIONALES Y ONGs
+  // ═══════════════════════════════════════════════════════════════════════════
+  { id: "org-001", title: "Oficial de Programas - OEA", organization: "Organización de Estados Americanos", location: "Washington DC", continent: "Norteamérica", type: "pasantia", rubro: "Otros", value: "Pasantía Remunerada", deadline: "Abierto", compatibility: 88, tags: ["OEA", "Diplomacia", "Pasantia"], description: "Trabajo en programas de desarrollo y cooperación interamericana." },
+  { id: "org-002", title: "Especialista en MERCOSUR", organization: "Secretaría del MERCOSUR", location: "Montevideo", continent: "América Latina", type: "empleo", rubro: "Otros", value: "$2,800 USD", deadline: "Abierto", compatibility: 85, tags: ["MERCOSUR", "Integración", "Comercio"], description: "Trabajo en integración económica y comercial del MERCOSUR." },
+  { id: "org-003", title: "Coordinador de Proyectos - UNICEF", organization: "UNICEF Paraguay", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Otros", value: "$2,200 USD", deadline: "Abierto", compatibility: 89, tags: ["UNICEF", "Infancia", "ONG"], description: "Coordinación de programas de protección de la infancia." },
+  { id: "org-004", title: "Voluntario - Cruz Roja", organization: "Cruz Roja Paraguaya", location: "Asunción / Regional", continent: "América Latina", type: "empleo", rubro: "Salud", value: "Honorarios + Capacitación", deadline: "Abierto", compatibility: 82, tags: ["Cruz Roja", "Voluntariado", "Salud"], description: "Voluntariado en emergencias sanitarias y programas de salud comunitaria." },
+  { id: "org-005", title: "Especialista en Desarrollo - BID", organization: "Banco Interamericano de Desarrollo", location: "Washington DC", continent: "Norteamérica", type: "pasantia", rubro: "Finanzas", value: "Pasantía Remunerada + Vivienda", deadline: "Abierto", compatibility: 90, tags: ["BID", "Desarrollo", "Finanzas"], description: "Pasantía en proyectos de desarrollo económico para Latam." },
+  { id: "org-006", title: "Oficial de Programas - Techo", organization: "Techo", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲4M - ₲5M", deadline: "Abierto", compatibility: 87, tags: ["Techo", "Vivienda", "ONG"], description: "Trabajo en programas de vivienda digna para comunidades vulnerables." },
+  { id: "org-007", title: "Coordinador de Proyectos - Plan International", organization: "Plan International Paraguay", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Otros", value: "$2,000 USD", deadline: "Abierto", compatibility: 86, tags: ["Plan", "Derechos", "ONG"], description: "Coordinación de programas de derechos de niños y jóvenes." },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // OPORTUNIDADES PARA LATINOS EN EL EXTRANJERO
+  // ═══════════════════════════════════════════════════════════════════════════
+  { id: "abroad-001", title: "Work & Travel - USA", organization: "J-1 Visa Program", location: "Estados Unidos", continent: "Norteamérica", type: "empleo", rubro: "Otros", value: "$15 - $20 USD/hora", deadline: "31 Marzo 2026", compatibility: 91, tags: ["USA", "Verano", "Estudiantes"], description: "Programa de trabajo y viaje para estudiantes latinos en USA durante el verano." },
+  { id: "abroad-002", title: "Au Pair - Alemania", organization: "Au Pair Agency", location: "Alemania", continent: "Europa", type: "empleo", rubro: "Otros", value: "€400/mes + Alojamiento", deadline: "Abierto", compatibility: 88, tags: ["Alemania", "Au Pair", "Familia"], description: "Cuidado de niños en familias alemanas. Incluye alojamiento y comidas." },
+  { id: "abroad-003", title: "Profesor de Español - Francia", organization: "Ministerio de Educación Francia", location: "Francia", continent: "Europa", type: "empleo", rubro: "Otros", value: "€1,200 - €1,500/mes", deadline: "30 Abril 2026", compatibility: 89, tags: ["Francia", "Educación", "Idioma"], description: "Enseñanza de español en escuelas francesas. Visa de trabajo incluida." },
+  { id: "abroad-004", title: "Digital Nomad Visa - Portugal", organization: "Gobierno de Portugal", location: "Portugal", continent: "Europa", type: "empleo", rubro: "Tecnología", value: "Flexible", deadline: "Abierto", compatibility: 90, tags: ["Portugal", "Remoto", "Visa"], description: "Visa para nómadas digitales. Trabaja remoto desde Portugal con visa de 1 año." },
+  { id: "abroad-005", title: "Working Holiday - Australia", organization: "Gobierno de Australia", location: "Australia", continent: "Oceanía", type: "empleo", rubro: "Otros", value: "$25 - $35 AUD/hora", deadline: "Abierto", compatibility: 87, tags: ["Australia", "Viaje", "Trabajo"], description: "Visa de trabajo y viaje para jóvenes latinos. Hasta 1 año en Australia." },
+  { id: "abroad-006", title: "Profesor de Inglés - Corea del Sur", organization: "EPIK Program", location: "Corea del Sur", continent: "Asia", type: "empleo", rubro: "Otros", value: "$1,800 - $2,500 USD/mes", deadline: "Abierto", compatibility: 85, tags: ["Corea", "Educación", "Asia"], description: "Enseñanza de inglés en escuelas coreanas. Alojamiento y seguro incluidos." },
+  { id: "abroad-007", title: "Trabajador Agrícola - Canadá", organization: "Programa de Movilidad Laboral", location: "Canadá", continent: "Norteamérica", type: "empleo", rubro: "Otros", value: "$15 - $18 CAD/hora", deadline: "31 Mayo 2026", compatibility: 82, tags: ["Canadá", "Agricultura", "Temporal"], description: "Trabajo temporal en granjas de Canadá. Alojamiento y comidas proporcionadas." },
+  { id: "abroad-008", title: "Camarero - Suiza", organization: "Hoteles de Lujo", location: "Suiza", continent: "Europa", type: "empleo", rubro: "Otros", value: "CHF 3,500 - CHF 4,500/mes", deadline: "Abierto", compatibility: 88, tags: ["Suiza", "Hoteleria", "Lujo"], description: "Trabajo en hoteles de 5 estrellas en Suiza. Salarios altos y beneficios." },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PUESTOS BÁSICOS Y ENTRY-LEVEL (Paraguay)
+  // ═══════════════════════════════════════════════════════════════════════════
+  { id: "entry-001", title: "Cajero/a", organization: "Supermercados Py", location: "Asunción / Interior", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲2.5M - ₲3.5M", deadline: "Abierto", compatibility: 80, tags: ["Retail", "Cajero", "Entry"], description: "Atención al cliente y manejo de caja en supermercados." },
+  { id: "entry-002", title: "Reponedor de Mercadería", organization: "Distribuidoras Varias", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲2M - ₲3M", deadline: "Abierto", compatibility: 78, tags: ["Retail", "Logística", "Entry"], description: "Acomodo y reposición de productos en puntos de venta." },
+  { id: "entry-003", title: "Mesero/a", organization: "Restaurantes Varios", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲3M + Propinas", deadline: "Abierto", compatibility: 82, tags: ["Gastronomía", "Mesero", "Entry"], description: "Atención a clientes en restaurantes. Oportunidad de propinas." },
+  { id: "entry-004", title: "Repartidor/a", organization: "Empresas de Delivery", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲2.5M + Comisiones", deadline: "Abierto", compatibility: 85, tags: ["Delivery", "Transporte", "Entry"], description: "Reparto de pedidos. Flexibilidad de horarios y ganancias por comisión." },
+  { id: "entry-005", title: "Vendedor/a de Telefonos", organization: "Tiendas de Electrónica", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Ventas", value: "₲3.5M + Comisiones", deadline: "Abierto", compatibility: 83, tags: ["Electrónica", "Ventas", "Entry"], description: "Venta de teléfonos y accesorios. Comisiones por ventas." },
+  { id: "entry-006", title: "Guardia de Seguridad", organization: "Empresas de Seguridad", location: "Asunción / Interior", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲3M - ₲4M", deadline: "Abierto", compatibility: 81, tags: ["Seguridad", "Vigilancia", "Entry"], description: "Vigilancia y seguridad en comercios y empresas. Turnos rotativos." },
+  { id: "entry-007", title: "Auxiliar de Limpieza", organization: "Empresas de Limpieza", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲1.8M - ₲2.5M", deadline: "Abierto", compatibility: 79, tags: ["Limpieza", "Mantenimiento", "Entry"], description: "Limpieza y mantenimiento de oficinas y comercios." },
+  { id: "entry-008", title: "Teleoperador/a", organization: "Call Centers Py", location: "Remoto / Presencial", continent: "América Latina", type: "empleo", rubro: "RRHH", value: "₲3M - ₲4M", deadline: "Abierto", compatibility: 84, tags: ["Call Center", "Atención", "Entry"], description: "Atención telefónica a clientes. Posibilidad de trabajo remoto." },
+  { id: "entry-009", title: "Asistente de Farmacia", organization: "Farmacias Varias", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Salud", value: "₲2.5M - ₲3.5M", deadline: "Abierto", compatibility: 80, tags: ["Farmacia", "Salud", "Entry"], description: "Atención al cliente y manejo de inventario en farmacias." },
+  { id: "entry-010", title: "Promotor de Banco", organization: "Bancos Varios", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Finanzas", value: "₲4M - ₲5M + Bonos", deadline: "Abierto", compatibility: 86, tags: ["Banca", "Ventas", "Entry"], description: "Promoción de productos y servicios bancarios en puntos de venta." },
 ];
 
 export default function JobOpportunities() {
@@ -152,7 +210,7 @@ export default function JobOpportunities() {
   };
 
   const continents = ["all", "América Latina", "Europa", "Asia", "Norteamérica", "Oceanía", "Global"];
-  const rubros = ["all", "Tecnología", "Finanzas", "Marketing", "RRHH", "Ingeniería", "Salud", "Ventas", "Otros"];
+  const rubros = ["all", "Tecnología", "Finanzas", "Marketing", "RRHH", "Ingeniería", "Salud", "Ventas", "Otros", "Hoteleria"];
 
   return (
     <div className="min-h-screen bg-background text-foreground pb-20">
@@ -163,22 +221,20 @@ export default function JobOpportunities() {
             <Globe className="w-6 h-6 animate-pulse" />
             <span className="font-bold uppercase tracking-widest text-sm">Global Opportunity Hub</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-black mb-4 leading-tight">
+            <h1 className="text-4xl md:text-6xl font-black mb-4 leading-tight">
             Tu pasaporte al <br />
             <span className="italic font-light">éxito mundial.</span>
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mb-8">
-            Explora 100+ becas de élite, foros internacionales, capital semilla y empleos remotos. 
-            No solo busques, aplica con una estrategia ganadora.
+            Explora 200+ oportunidades: becas de élite, foros internacionales, capital semilla, empleos en multinacionales, cruceros, aerolíneas, ONGs y más. 
+            Desde puestos básicos en Paraguay hasta oportunidades de trabajo en el extranjero. No solo busques, aplica con una estrategia ganadora.
           </p>
           
           <div className="flex flex-wrap gap-4">
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 flex items-center gap-3">
-              <Award className="w-8 h-8 text-yellow-400" />
-              <div>
-                <p className="text-2xl font-black">100+</p>
-                <p className="text-xs uppercase font-bold opacity-80">Oportunidades</p>
-              </div>
+              <Award className              <div className="text-6xl mb-4">📊</div>
+                <p className="text-2xl font-black">200+</p>
+                <p className="text-xs uppercase font-bold opacity-80">Oportunidades</p>            </div>
             </div>
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 flex items-center gap-3">
               <Globe className="w-8 h-8 text-blue-400" />
