@@ -1,4 +1,4 @@
-import { useLocation, useParams } from "wouter";
+import { useLocation, useRoute } from "wouter";
 import { opportunities } from "@/data/opportunities-massive";
 import { ArrowLeft, MapPin, DollarSign, Zap, Heart, ExternalLink, MessageCircle, AlertCircle, Globe } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -7,9 +7,9 @@ const WA_NUMBER = "595992954169";
 const WA_BASE = `https://wa.me/${WA_NUMBER}`;
 
 export default function OpportunityDetail() {
-  const { id } = useParams();
+  const [match, params] = useRoute("/opportunities/:id");
   const [, setLocation] = useLocation();
-  const opportunity = opportunities.find(o => o.id === id);
+  const opportunity = match && params?.id ? opportunities.find(o => o.id === params.id) : null;
 
   if (!opportunity) {
     return (

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { Upload, Plus, Trash2, BarChart3, ArrowRight, Users, FileUp, CheckCircle, AlertCircle, MessageCircle, Info, Key, Lock, Unlock } from "lucide-react";
+import { Upload, Plus, Trash2, BarChart3, ArrowRight, Users, FileUp, CheckCircle, AlertCircle, MessageCircle, Info, Key, Lock, Unlock, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { tokenManager, TokenData } from "@/utils/tokenManager";
 
 const WA_NUMBER = "595992954169";
 const WA_BASE = `https://wa.me/${WA_NUMBER}`;
@@ -19,6 +20,10 @@ interface Candidate {
 
 export default function RecruitersLots() {
   const [, setLocation] = useLocation();
+  const [tokenData, setTokenData] = useState<TokenData | null>(null);
+  const [showTokenInput, setShowTokenInput] = useState(false);
+  const [tokenInput, setTokenInput] = useState("");
+  const [tokenError, setTokenError] = useState("");
   const [step, setStep] = useState(1);
   const [jobTitle, setJobTitle] = useState("");
   const [jobDesc, setJobDesc] = useState("");
@@ -26,7 +31,50 @@ export default function RecruitersLots() {
   const [results, setResults] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const token = tokenManager.getToken();
+    setTokenData(token);
+  }, []);
+
+  const handleTokenSubmit = () => {
+    setTokenError("");
+
+    if (!tokenInput.trim()) {
+      setTokenError("Por favor ingresa un token válido");
+      return;
+    }
+
+    if (!tokenManager.isValidTokenFormat(tokenInput)) {
+      setTokenError("Formato de token inválido. Debe ser: CVT-XXXXXXXXXXXXXXXX");
+      return;
+    }
+
+    // For demo, accept any properly formatted token
+    const plan = tokenInput.includes("PRO") ? "pro" : "starter";
+    const success = tokenManager.saveToken(tokenInput, plan);
+
+    if (success) {
+      const newToken = tokenManager.getToken();
+      setTokenData(newToken);
+      setTokenInput("");
+      setShowTokenInput(false);
+    } else {
+      setTokenError("No se pudo guardar el token. Intenta de nuevo.");
+    }
+  };
+
+  const handleRemoveToken = () => {
+    tokenManager.clearToken();
+    setTokenData(null);
+    setStep(1);
+    setResults(null);
+  };
+
   const addCandidate = () => {
+    if (!tokenManager.canUploadBatch()) {
+      setTokenError("Has alcanzado el límite de lotes. Actualiza a Pro para análisis ilimitados.");
+      return;
+    }
     setCandidates([...candidates, { id: Date.now().toString(), name: `Candidato ${candidates.length + 1}`, file: null }]);
   };
 
@@ -42,8 +90,15 @@ export default function RecruitersLots() {
     if (!jobTitle.trim()) { alert("Indicá el puesto objetivo"); return; }
     if (candidates.some((c) => !c.file)) { alert("Subí todos los PDFs"); return; }
 
+    if (!tokenManager.canUploadBatch()) {
+      alert("Has alcanzado el límite de lotes. Actualiza a Pro para análisis ilimitados.");
+      return;
+    }
+
     setLoading(true);
     await new Promise((r) => setTimeout(r, 2000));
+
+    tokenManager.incrementBatchCount();
 
     const mockResults = candidates.map((c, idx) => ({
       id: c.id,
@@ -59,6 +114,113 @@ export default function RecruitersLots() {
     setLoading(false);
   };
 
+  if (!tokenData) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+        {/* NAVBAR */}
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-700/50">
+          <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <button onClick={() => setLocation("/")} className="flex items-center gap-2 hover:opacity-80 transition">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center font-black text-xs">CV</div>
+              <span className="font-bold">CVitae</span>
+            </button>
+            <button onClick={() => setLocation("/")} className="text-sm hover:text-blue-400 transition">← Volver al inicio</button>
+          </div>
+        </nav>
+
+        <div className="pt-24 pb-12">
+          <div className="max-w-4xl mx-auto px-4">
+            <div className="mb-10">
+              <div className="flex items-center gap-2 text-sm font-bold text-blue-400 uppercase tracking-wider mb-4">
+                <Users className="w-4 h-4" />
+                Herramienta para reclutadores
+              </div>
+              <h1 className="text-5xl font-black mb-4">Acceso Requerido</h1>
+              <p className="text-xl text-slate-400 max-w-2xl mb-8">
+                Para usar la herramienta de ranking de candidatos, necesitas un Token de acceso. Elige tu plan:
+              </p>
+            </div>
+
+            {/* PLANES */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+              {/* DEMO */}
+              <Card className="bg-slate-800/40 border-slate-700/50 p-8">
+                <div className="flex items-center gap-2 mb-4">
+                  <Unlock className="h-6 w-6 text-green-400" />
+                  <span className="font-bold text-lg text-green-400">DEMO GRATUITO</span>
+                </div>
+                <h3 className="text-2xl font-bold mb-2">Prueba Ahora</h3>
+                <p className="text-slate-400 mb-4">Análisis visual simulado. Perfecto para ver cómo funciona.</p>
+                <div className="bg-slate-900/50 rounded-lg p-4 mb-6 text-sm text-slate-300">
+                  <p className="font-semibold mb-2">✓ 1 lote de 30 CVs</p>
+                  <p className="font-semibold">✓ Ranking básico</p>
+                </div>
+                <button
+                  onClick={() => {
+                    tokenManager.useDemoToken("starter");
+                    const token = tokenManager.getToken();
+                    setTokenData(token);
+                  }}
+                  className="w-full px-4 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-semibold transition"
+                >
+                  Usar Demo Gratuito
+                </button>
+              </Card>
+
+              {/* PRO */}
+              <Card className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 border-blue-500/50 p-8 ring-1 ring-blue-500/50">
+                <div className="flex items-center gap-2 mb-4">
+                  <Key className="h-6 w-6 text-blue-400" />
+                  <span className="font-bold text-lg text-blue-400">TOKEN PRO</span>
+                </div>
+                <h3 className="text-2xl font-bold mb-2">Análisis Real por IA</h3>
+                <p className="text-slate-300 mb-4">Ranking preciso con análisis profundo de compatibilidad.</p>
+                <div className="bg-blue-900/20 rounded-lg p-4 mb-6 text-sm text-slate-300">
+                  <p className="font-semibold mb-2">✓ Análisis ilimitados</p>
+                  <p className="font-semibold mb-2">✓ Validez: 30 días</p>
+                  <p className="font-semibold">✓ Soporte prioritario</p>
+                </div>
+                <a
+                  href={`${WA_BASE}?text=${encodeURIComponent("Hola! Quiero contratar el Token Pro para reclutadores. ¿Cuál es el precio?")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded-lg font-semibold transition text-center block"
+                >
+                  Obtener Token Pro
+                </a>
+              </Card>
+            </div>
+
+            {/* INGRESO DE TOKEN */}
+            <Card className="bg-slate-800/40 border-slate-700/50 p-8">
+              <h3 className="text-xl font-bold mb-4">¿Ya tienes un Token?</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold mb-2">Ingresa tu Token</label>
+                  <input
+                    type="text"
+                    value={tokenInput}
+                    onChange={(e) => setTokenInput(e.target.value.toUpperCase())}
+                    placeholder="CVT-XXXXXXXXXXXXXXXX"
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                  />
+                  {tokenError && <p className="text-red-400 text-sm mt-2">{tokenError}</p>}
+                </div>
+                <button
+                  onClick={handleTokenSubmit}
+                  className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg font-semibold transition"
+                >
+                  Validar Token
+                </button>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // USUARIO CON TOKEN VÁLIDO
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
       {/* NAVBAR */}
@@ -68,7 +230,16 @@ export default function RecruitersLots() {
             <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center font-black text-xs">CV</div>
             <span className="font-bold">CVitae</span>
           </button>
-          <button onClick={() => setLocation("/")} className="text-sm hover:text-blue-400 transition">← Volver al inicio</button>
+          <div className="flex items-center gap-4">
+            <div className="text-xs bg-slate-800/50 px-3 py-1.5 rounded-full border border-slate-700">
+              <span className={tokenData.plan === "pro" ? "text-blue-400" : "text-green-400"}>
+                {tokenData.plan === "pro" ? "Plan Pro" : "Plan Starter"} • {tokenManager.getDaysRemaining()} días
+              </span>
+            </div>
+            <button onClick={handleRemoveToken} className="p-2 hover:bg-slate-800 rounded-lg transition">
+              <X className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -77,51 +248,22 @@ export default function RecruitersLots() {
           {/* HEADER */}
           <div className="mb-10">
             <div className="flex items-center gap-2 text-sm font-bold text-blue-400 uppercase tracking-wider mb-4">
-              <Users className="w-4 h-4" />
-              Herramienta para reclutadores
+              <Unlock className="w-4 h-4" />
+              {tokenData.plan === "pro" ? "Plan Pro Activo" : "Plan Starter Activo"}
             </div>
             <h1 className="text-5xl font-black mb-4">Rankea candidatos en segundos</h1>
             <p className="text-xl text-slate-400 max-w-2xl mb-8">
-              Subí el aviso del puesto y los CVs de tus candidatos. El sistema los analiza y te devuelve un ranking con score de compatibilidad.
+              Sube el aviso del puesto y los CVs de tus candidatos. El sistema los analiza y te devuelve un ranking con score de compatibilidad.
             </p>
 
-            {/* TOKEN ACCESS SECTION - PROMINENTE */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-              {/* DEMO */}
-              <div className="bg-slate-800/40 backdrop-blur border border-slate-700/50 rounded-2xl p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Unlock className="h-5 w-5 text-green-400" />
-                  <span className="font-bold text-green-400">DEMO GRATUITO</span>
+            {tokenData.plan === "starter" && (
+              <div className="flex items-start gap-3 bg-yellow-600/10 border border-yellow-500/30 rounded-lg p-4 text-sm text-slate-300 mb-8">
+                <AlertCircle className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-yellow-400">Plan Starter:</strong> Tienes <strong>{tokenManager.getRemainingBatches()}</strong> lote disponible. Después, necesitarás actualizar a Pro.
                 </div>
-                <h3 className="text-lg font-bold mb-2">Prueba Ahora</h3>
-                <p className="text-sm text-slate-400 mb-4">Análisis visual simulado. Perfecto para ver cómo funciona.</p>
-                <button onClick={() => setStep(1)} className="w-full px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg font-semibold transition">
-                  Acceder Demo
-                </button>
               </div>
-
-              {/* PRO */}
-              <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 backdrop-blur border border-blue-500/50 rounded-2xl p-6 ring-1 ring-blue-500/50">
-                <div className="flex items-center gap-2 mb-4">
-                  <Key className="h-5 w-5 text-blue-400" />
-                  <span className="font-bold text-blue-400">TOKEN PRO</span>
-                </div>
-                <h3 className="text-lg font-bold mb-2">Análisis Real por IA</h3>
-                <p className="text-sm text-slate-300 mb-4">Ranking preciso con análisis profundo de compatibilidad y recomendaciones.</p>
-                <a href={`${WA_BASE}?text=${encodeURIComponent("Hola! Quiero contratar el Token Pro para reclutadores. ¿Cuál es el precio y cómo funciona?")}`} target="_blank" rel="noopener noreferrer" className="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded-lg font-semibold transition text-center block">
-                  Obtener Token
-                </a>
-              </div>
-            </div>
-
-            {/* INFO */}
-            <div className="flex items-start gap-3 bg-slate-800/40 border border-slate-700/50 rounded-lg p-4 text-sm text-slate-400">
-              <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <strong className="text-white">Planes disponibles:</strong>
-                <p className="mt-1">Starter: 1 lote de 30 CVs · Pro: Análisis ilimitado por 30 días</p>
-              </div>
-            </div>
+            )}
           </div>
 
           {/* BARRA DE PROGRESO */}
@@ -193,7 +335,7 @@ export default function RecruitersLots() {
                 ))}
               </div>
 
-              <Button onClick={addCandidate} variant="outline" className="w-full border-blue-500/30 text-blue-400 hover:bg-blue-500/10 mb-6" disabled={candidates.length >= 10}>
+              <Button onClick={addCandidate} variant="outline" className="w-full border-blue-500/30 text-blue-400 hover:bg-blue-500/10 mb-6" disabled={candidates.length >= 10 || !tokenManager.canUploadBatch()}>
                 <Plus className="w-4 h-4 mr-2" />
                 Agregar otro candidato {candidates.length >= 10 && "(máx. 10)"}
               </Button>
