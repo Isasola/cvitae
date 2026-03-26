@@ -1,15 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { useState } from "react";
-import { Upload, Plus, Trash2, BarChart3, ArrowRight, Users, FileUp, CheckCircle, AlertCircle, MessageCircle, Info } from "lucide-react";
+import { useLocation } from "wouter";
+import { Upload, Plus, Trash2, BarChart3, ArrowRight, Users, FileUp, CheckCircle, AlertCircle, MessageCircle, Info, Key, Lock, Unlock } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
-// ─── WhatsApp ─────────────────────────────────────────────────────────────────
 const WA_NUMBER = "595992954169";
-const WA_BASE   = `https://wa.me/${WA_NUMBER}`;
-const WA_RANKEO = `${WA_BASE}?text=${encodeURIComponent("Hola! Quiero usar el servicio de ranking de candidatos para reclutadores. ¿Cómo funciona?")}`;
-const WA_AGENDAR = (nombre: string) =>
-  `${WA_BASE}?text=${encodeURIComponent(`Hola! Quiero agendar una entrevista con el candidato: ${nombre}.`)}`;
-// ─────────────────────────────────────────────────────────────────────────────
+const WA_BASE = `https://wa.me/${WA_NUMBER}`;
 
 interface Candidate {
   id: string;
@@ -22,34 +18,24 @@ interface Candidate {
 }
 
 export default function RecruitersLots() {
+  const [, setLocation] = useLocation();
   const [step, setStep] = useState(1);
   const [jobTitle, setJobTitle] = useState("");
   const [jobDesc, setJobDesc] = useState("");
-  const [candidates, setCandidates] = useState<Candidate[]>([
-    { id: "1", name: "Candidato 1", file: null },
-  ]);
+  const [candidates, setCandidates] = useState<Candidate[]>([{ id: "1", name: "Candidato 1", file: null }]);
   const [results, setResults] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
   const addCandidate = () => {
-    setCandidates([
-      ...candidates,
-      { id: Date.now().toString(), name: `Candidato ${candidates.length + 1}`, file: null },
-    ]);
+    setCandidates([...candidates, { id: Date.now().toString(), name: `Candidato ${candidates.length + 1}`, file: null }]);
   };
 
   const removeCandidate = (id: string) => {
-    if (candidates.length > 1) {
-      setCandidates(candidates.filter((c) => c.id !== id));
-    }
+    if (candidates.length > 1) setCandidates(candidates.filter((c) => c.id !== id));
   };
 
   const handleFileUpload = (id: string, file: File) => {
-    setCandidates(
-      candidates.map((c) =>
-        c.id === id ? { ...c, file, name: file.name.replace(".pdf", "") } : c
-      )
-    );
+    setCandidates(candidates.map((c) => (c.id === id ? { ...c, file, name: file.name.replace(".pdf", "") } : c)));
   };
 
   const analyzeAll = async () => {
@@ -57,7 +43,6 @@ export default function RecruitersLots() {
     if (candidates.some((c) => !c.file)) { alert("Subí todos los PDFs"); return; }
 
     setLoading(true);
-    // Demo: simula análisis (en producción esto llamaría a la API)
     await new Promise((r) => setTimeout(r, 2000));
 
     const mockResults = candidates.map((c, idx) => ({
@@ -75,95 +60,95 @@ export default function RecruitersLots() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-
-      {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="container flex items-center justify-between h-14 md:h-16">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 md:w-9 md:h-9 bg-sidebar rounded flex items-center justify-center text-accent font-bold text-xs md:text-sm">CV</div>
-            <span className="font-bold text-sm md:text-lg"><span className="italic">itae</span></span>
-          </div>
-          <div className="flex items-center gap-4">
-            <a href="/" className="text-xs md:text-sm font-medium hover:text-accent transition">← Volver al inicio</a>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+      {/* NAVBAR */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-700/50">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+          <button onClick={() => setLocation("/")} className="flex items-center gap-2 hover:opacity-80 transition">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center font-black text-xs">CV</div>
+            <span className="font-bold">CVitae</span>
+          </button>
+          <button onClick={() => setLocation("/")} className="text-sm hover:text-blue-400 transition">← Volver al inicio</button>
         </div>
       </nav>
 
-      <div className="pt-20 md:pt-24 pb-12 md:pb-20">
-        <div className="container max-w-4xl px-4">
-
+      <div className="pt-24 pb-12">
+        <div className="max-w-4xl mx-auto px-4">
           {/* HEADER */}
-          <div className="mb-6 md:mb-10">
-            <div className="text-xs md:text-sm font-bold text-accent uppercase tracking-wider mb-3 md:mb-4 flex items-center gap-2">
+          <div className="mb-10">
+            <div className="flex items-center gap-2 text-sm font-bold text-blue-400 uppercase tracking-wider mb-4">
               <Users className="w-4 h-4" />
               Herramienta para reclutadores
             </div>
-            <h1 className="text-2xl md:text-5xl font-black mb-3 md:mb-4">
-              Rankea candidatos<br /><span className="italic font-light">en segundos.</span>
-            </h1>
-            <p className="text-sm md:text-lg text-muted max-w-2xl mb-4">
-              Subí el aviso del puesto y los CVs de tus candidatos. El sistema los analiza y te devuelve un <strong>ranking con score de compatibilidad</strong>, fortalezas y áreas de mejora para cada uno.
+            <h1 className="text-5xl font-black mb-4">Rankea candidatos en segundos</h1>
+            <p className="text-xl text-slate-400 max-w-2xl mb-8">
+              Subí el aviso del puesto y los CVs de tus candidatos. El sistema los analiza y te devuelve un ranking con score de compatibilidad.
             </p>
 
-            {/* Aviso explicativo */}
-            <div className="flex items-start gap-3 bg-accent/5 border border-accent/20 rounded-lg p-4 text-sm text-muted max-w-2xl">
-              <Info className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-              <div>
-                <strong className="text-foreground">¿Cómo funciona esta herramienta?</strong>
-                <p className="mt-1">
-                  Esta es una <strong>demostración visual</strong> del servicio. Completá los pasos para ver cómo se vería el ranking.
-                  Para contratar el servicio real con análisis por IA, contactanos por WhatsApp.
-                </p>
-                <a href={WA_RANKEO} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 mt-2 text-accent font-bold hover:underline">
-                  <MessageCircle className="w-4 h-4" />
-                  Contratar servicio de ranking →
+            {/* TOKEN ACCESS SECTION - PROMINENTE */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+              {/* DEMO */}
+              <div className="bg-slate-800/40 backdrop-blur border border-slate-700/50 rounded-2xl p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Unlock className="h-5 w-5 text-green-400" />
+                  <span className="font-bold text-green-400">DEMO GRATUITO</span>
+                </div>
+                <h3 className="text-lg font-bold mb-2">Prueba Ahora</h3>
+                <p className="text-sm text-slate-400 mb-4">Análisis visual simulado. Perfecto para ver cómo funciona.</p>
+                <button onClick={() => setStep(1)} className="w-full px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg font-semibold transition">
+                  Acceder Demo
+                </button>
+              </div>
+
+              {/* PRO */}
+              <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 backdrop-blur border border-blue-500/50 rounded-2xl p-6 ring-1 ring-blue-500/50">
+                <div className="flex items-center gap-2 mb-4">
+                  <Key className="h-5 w-5 text-blue-400" />
+                  <span className="font-bold text-blue-400">TOKEN PRO</span>
+                </div>
+                <h3 className="text-lg font-bold mb-2">Análisis Real por IA</h3>
+                <p className="text-sm text-slate-300 mb-4">Ranking preciso con análisis profundo de compatibilidad y recomendaciones.</p>
+                <a href={`${WA_BASE}?text=${encodeURIComponent("Hola! Quiero contratar el Token Pro para reclutadores. ¿Cuál es el precio y cómo funciona?")}`} target="_blank" rel="noopener noreferrer" className="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded-lg font-semibold transition text-center block">
+                  Obtener Token
                 </a>
+              </div>
+            </div>
+
+            {/* INFO */}
+            <div className="flex items-start gap-3 bg-slate-800/40 border border-slate-700/50 rounded-lg p-4 text-sm text-slate-400">
+              <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <strong className="text-white">Planes disponibles:</strong>
+                <p className="mt-1">Starter: 1 lote de 30 CVs · Pro: Análisis ilimitado por 30 días</p>
               </div>
             </div>
           </div>
 
           {/* BARRA DE PROGRESO */}
-          <div className="flex gap-2 md:gap-4 mb-8 md:mb-12">
+          <div className="flex gap-4 mb-12">
             {["Puesto", "Candidatos", "Resultados"].map((label, i) => (
               <div key={i} className="flex-1 flex flex-col gap-1">
-                <div className={`h-1 md:h-2 rounded transition ${step > i ? "bg-accent" : step === i + 1 ? "bg-accent/60" : "bg-border"}`} />
-                <span className={`text-xs hidden md:block ${step === i + 1 ? "text-accent font-bold" : "text-muted"}`}>{label}</span>
+                <div className={`h-2 rounded transition ${step > i ? "bg-blue-500" : step === i + 1 ? "bg-blue-500/60" : "bg-slate-700"}`} />
+                <span className={`text-xs ${step === i + 1 ? "text-blue-400 font-bold" : "text-slate-400"}`}>{label}</span>
               </div>
             ))}
           </div>
 
           {/* PASO 1: Detalles del puesto */}
           {step === 1 && (
-            <Card className="p-4 md:p-8 border-border">
-              <h2 className="text-xl md:text-2xl font-black mb-1 md:mb-2">Paso 1: Detalles del puesto</h2>
-              <p className="text-xs md:text-sm text-muted mb-4 md:mb-6">Indicá el cargo y pegá la descripción del aviso para que el sistema detecte los indicadores clave.</p>
-              <div className="space-y-4 md:space-y-6">
+            <Card className="bg-slate-800/40 border-slate-700/50 p-8">
+              <h2 className="text-2xl font-black mb-2">Paso 1: Detalles del puesto</h2>
+              <p className="text-slate-400 mb-6">Indicá el cargo y pegá la descripción del aviso para que el sistema detecte los indicadores clave.</p>
+              <div className="space-y-6">
                 <div>
-                  <label className="block text-xs md:text-sm font-bold mb-2">Puesto objetivo *</label>
-                  <input
-                    type="text"
-                    value={jobTitle}
-                    onChange={(e) => setJobTitle(e.target.value)}
-                    placeholder="Ej: Analista Contable Senior"
-                    className="w-full bg-card border border-border rounded px-3 md:px-4 py-2 md:py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent text-sm md:text-base"
-                  />
+                  <label className="block text-sm font-bold mb-2">Puesto objetivo *</label>
+                  <input type="text" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} placeholder="Ej: Analista Contable Senior" className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500" />
                 </div>
                 <div>
-                  <label className="block text-xs md:text-sm font-bold mb-2">Descripción del aviso <span className="text-muted font-normal">(recomendado)</span></label>
-                  <textarea
-                    value={jobDesc}
-                    onChange={(e) => setJobDesc(e.target.value)}
-                    placeholder="Pegá la descripción completa del aviso para obtener un ranking más preciso..."
-                    rows={5}
-                    className="w-full bg-card border border-border rounded px-3 md:px-4 py-2 md:py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent text-sm md:text-base"
-                  />
+                  <label className="block text-sm font-bold mb-2">Descripción del aviso <span className="text-slate-400 font-normal">(recomendado)</span></label>
+                  <textarea value={jobDesc} onChange={(e) => setJobDesc(e.target.value)} placeholder="Pegá la descripción completa del aviso..." rows={5} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500" />
                 </div>
-                <Button
-                  onClick={() => setStep(2)}
-                  disabled={!jobTitle.trim()}
-                  className="w-full bg-accent text-accent-foreground hover:bg-accent/90 disabled:opacity-50 text-sm md:text-base"
-                >
+                <Button onClick={() => setStep(2)} disabled={!jobTitle.trim()} className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white disabled:opacity-50">
                   Continuar <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </div>
@@ -172,49 +157,35 @@ export default function RecruitersLots() {
 
           {/* PASO 2: Subir candidatos */}
           {step === 2 && (
-            <Card className="p-4 md:p-8 border-border">
-              <h2 className="text-xl md:text-2xl font-black mb-1 md:mb-2">Paso 2: Candidatos</h2>
-              <p className="text-xs md:text-sm text-muted mb-4 md:mb-6">
-                Subí los CVs en PDF de cada candidato. Podés agregar hasta 10 por lote.
-              </p>
+            <Card className="bg-slate-800/40 border-slate-700/50 p-8">
+              <h2 className="text-2xl font-black mb-2">Paso 2: Candidatos</h2>
+              <p className="text-slate-400 mb-6">Subí los CVs en PDF de cada candidato. Podés agregar hasta 10 por lote.</p>
 
-              <div className="space-y-3 md:space-y-4 mb-4 md:mb-6">
+              <div className="space-y-4 mb-6">
                 {candidates.map((candidate, idx) => (
-                  <div key={candidate.id} className="flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-end">
-                    <div className="flex-1 w-full">
-                      <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-2">
-                        Candidato {idx + 1}
-                      </label>
+                  <div key={candidate.id} className="flex gap-4 items-end">
+                    <div className="flex-1">
+                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Candidato {idx + 1}</label>
                       <div className="relative">
-                        <input
-                          type="file"
-                          accept=".pdf"
-                          onChange={(e) => e.target.files && handleFileUpload(candidate.id, e.target.files[0])}
-                          className="absolute inset-0 opacity-0 cursor-pointer z-10"
-                        />
-                        <div className="bg-card border-2 border-dashed border-border hover:border-accent transition rounded px-3 md:px-4 py-3 cursor-pointer flex items-center gap-2 md:gap-3">
+                        <input type="file" accept=".pdf" onChange={(e) => e.target.files && handleFileUpload(candidate.id, e.target.files[0])} className="absolute inset-0 opacity-0 cursor-pointer z-10" />
+                        <div className="bg-slate-800 border-2 border-dashed border-slate-700 hover:border-blue-500 transition rounded-lg px-4 py-3 cursor-pointer flex items-center gap-3">
                           {candidate.file ? (
                             <>
-                              <CheckCircle className="w-4 md:w-5 h-4 md:h-5 text-secondary flex-shrink-0" />
-                              <span className="text-xs md:text-sm font-medium truncate">{candidate.name}</span>
-                              <span className="text-xs text-muted ml-auto">PDF cargado ✓</span>
+                              <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                              <span className="text-sm font-medium truncate">{candidate.name}</span>
+                              <span className="text-xs text-slate-400 ml-auto">PDF cargado ✓</span>
                             </>
                           ) : (
                             <>
-                              <FileUp className="w-4 md:w-5 h-4 md:h-5 text-muted flex-shrink-0" />
-                              <span className="text-xs md:text-sm text-muted">Hacé click o arrastrá el PDF aquí</span>
+                              <FileUp className="w-5 h-5 text-slate-500 flex-shrink-0" />
+                              <span className="text-sm text-slate-400">Hacé click o arrastrá el PDF aquí</span>
                             </>
                           )}
                         </div>
                       </div>
                     </div>
                     {candidates.length > 1 && (
-                      <Button
-                        onClick={() => removeCandidate(candidate.id)}
-                        variant="outline"
-                        size="sm"
-                        className="border-destructive text-destructive hover:bg-destructive/10 mt-2 md:mt-0 w-full md:w-auto"
-                      >
+                      <Button onClick={() => removeCandidate(candidate.id)} variant="outline" className="border-red-500/30 text-red-400 hover:bg-red-500/10">
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     )}
@@ -222,28 +193,17 @@ export default function RecruitersLots() {
                 ))}
               </div>
 
-              <Button
-                onClick={addCandidate}
-                variant="outline"
-                className="w-full border-accent text-accent hover:bg-accent/10 mb-4 md:mb-6 text-sm md:text-base"
-                disabled={candidates.length >= 10}
-              >
+              <Button onClick={addCandidate} variant="outline" className="w-full border-blue-500/30 text-blue-400 hover:bg-blue-500/10 mb-6" disabled={candidates.length >= 10}>
                 <Plus className="w-4 h-4 mr-2" />
                 Agregar otro candidato {candidates.length >= 10 && "(máx. 10)"}
               </Button>
 
-              <div className="flex flex-col md:flex-row gap-2 md:gap-4">
-                <Button onClick={() => setStep(1)} variant="outline" className="flex-1 text-sm md:text-base">
-                  Atrás
-                </Button>
-                <Button
-                  onClick={analyzeAll}
-                  disabled={loading || candidates.some((c) => !c.file)}
-                  className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90 disabled:opacity-50 text-sm md:text-base"
-                >
+              <div className="flex gap-4">
+                <Button onClick={() => setStep(1)} variant="outline" className="flex-1 border-slate-700 text-slate-300 hover:bg-slate-800">Atrás</Button>
+                <Button onClick={analyzeAll} disabled={loading || candidates.some((c) => !c.file)} className="flex-1 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white disabled:opacity-50">
                   {loading ? (
                     <span className="flex items-center gap-2">
-                      <span className="w-4 h-4 border-2 border-accent-foreground/30 border-t-accent-foreground rounded-full animate-spin" />
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       Analizando...
                     </span>
                   ) : (
@@ -259,115 +219,72 @@ export default function RecruitersLots() {
 
           {/* PASO 3: Resultados */}
           {step === 3 && results && (
-            <div className="space-y-4 md:space-y-6">
-              <Card className="p-4 md:p-8 border-border">
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6 mb-2">
+            <div className="space-y-6">
+              <Card className="bg-slate-800/40 border-slate-700/50 p-8">
+                <div className="flex items-center justify-between mb-2">
                   <div>
-                    <h2 className="text-xl md:text-2xl font-black mb-1">Ranking de candidatos</h2>
-                    <p className="text-xs md:text-sm text-muted">Para: <strong>{jobTitle}</strong> · {results.length} candidatos analizados</p>
+                    <h2 className="text-2xl font-black mb-1">Ranking de candidatos</h2>
+                    <p className="text-slate-400">Para: <strong>{jobTitle}</strong> · {results.length} candidatos analizados</p>
                   </div>
-                  {/* Contratar servicio real → WhatsApp */}
-                  <a href={WA_RANKEO} target="_blank" rel="noopener noreferrer">
-                    <Button className="bg-accent text-accent-foreground hover:bg-accent/90 text-sm md:text-base w-full md:w-auto">
+                  <a href={`${WA_BASE}?text=${encodeURIComponent("Hola! Quiero contratar el servicio real de ranking con IA.")}`} target="_blank" rel="noopener noreferrer">
+                    <Button className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white">
                       <MessageCircle className="w-4 h-4 mr-2" />
-                      Contratar servicio real
+                      Contratar Servicio Real
                     </Button>
                   </a>
                 </div>
-                <div className="flex items-start gap-2 bg-accent/5 border border-accent/20 rounded p-3 text-xs text-muted mt-2">
-                  <Info className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
-                  <span>Este es un ranking de <strong>demostración</strong>. Los datos son simulados. Para análisis real por IA, contactanos por WhatsApp.</span>
+                <div className="flex items-start gap-2 bg-blue-600/10 border border-blue-500/30 rounded-lg p-3 text-xs text-slate-300 mt-4">
+                  <Info className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
+                  <span>Este es un ranking de <strong>demostración</strong>. Para análisis real por IA, contactanos por WhatsApp.</span>
                 </div>
               </Card>
 
               {results.map((candidate: any, idx: number) => (
-                <Card key={candidate.id} className="p-4 md:p-6 border-border overflow-hidden">
-                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-4 mb-4">
+                <Card key={candidate.id} className="bg-slate-800/40 border-slate-700/50 p-6">
+                  <div className="flex items-center justify-between mb-4">
                     <div>
-                      <div className="text-xs font-bold text-accent uppercase tracking-wider mb-1">
-                        #{idx + 1} · {candidate.name}
-                      </div>
-                      <h3 className="text-lg md:text-xl font-black">{candidate.score}<span className="text-sm font-normal text-muted">/100</span></h3>
+                      <div className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-1">#{idx + 1} · {candidate.name}</div>
+                      <h3 className="text-2xl font-black">{candidate.score}<span className="text-sm font-normal text-slate-400">/100</span></h3>
                     </div>
                     <div className="text-right">
-                      <div className="text-xs font-bold text-muted uppercase tracking-wider mb-1">Compatibilidad</div>
-                      <div className={`text-xl md:text-2xl font-black ${candidate.match >= 80 ? "text-secondary" : candidate.match >= 60 ? "text-accent" : "text-destructive"}`}>
-                        {candidate.match}%
-                      </div>
+                      <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Compatibilidad</div>
+                      <div className={`text-2xl font-black ${candidate.match >= 80 ? "text-green-400" : candidate.match >= 60 ? "text-blue-400" : "text-red-400"}`}>{candidate.match}%</div>
                     </div>
                   </div>
 
-                  {/* Barra de progreso */}
-                  <div className="w-full bg-border rounded-full h-2 mb-4">
-                    <div
-                      className="bg-accent h-2 rounded-full transition-all"
-                      style={{ width: `${candidate.match}%` }}
-                    />
+                  <div className="w-full bg-slate-700 rounded-full h-2 mb-6">
+                    <div className={`h-2 rounded-full transition ${candidate.match >= 80 ? "bg-green-500" : candidate.match >= 60 ? "bg-blue-500" : "bg-red-500"}`} style={{ width: `${candidate.match}%` }} />
                   </div>
 
-                  <div className="space-y-3 md:space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <div className="text-xs font-bold text-secondary uppercase tracking-wider mb-2">Fortalezas detectadas</div>
-                      <div className="flex flex-wrap gap-1 md:gap-2">
-                        {candidate.strengths.map((s: string, i: number) => (
-                          <span key={i} className="px-2 md:px-3 py-1 bg-secondary/10 border border-secondary/20 text-xs rounded text-secondary font-medium flex items-center gap-1">
-                            <CheckCircle className="w-3 h-3" /> {s}
-                          </span>
+                      <h4 className="text-xs font-bold text-green-400 uppercase tracking-wider mb-2">Fortalezas</h4>
+                      <ul className="space-y-1">
+                        {candidate.strengths.map((s: string) => (
+                          <li key={s} className="text-sm text-slate-300">✓ {s}</li>
                         ))}
-                      </div>
+                      </ul>
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-destructive uppercase tracking-wider mb-2">Áreas de mejora</div>
-                      <div className="flex flex-wrap gap-1 md:gap-2">
-                        {candidate.gaps.map((g: string, i: number) => (
-                          <span key={i} className="px-2 md:px-3 py-1 bg-destructive/10 border border-destructive/20 text-xs rounded text-destructive font-medium flex items-center gap-1">
-                            <AlertCircle className="w-3 h-3" /> {g}
-                          </span>
+                      <h4 className="text-xs font-bold text-red-400 uppercase tracking-wider mb-2">Áreas de mejora</h4>
+                      <ul className="space-y-1">
+                        {candidate.gaps.map((g: string) => (
+                          <li key={g} className="text-sm text-slate-300">✗ {g}</li>
                         ))}
-                      </div>
+                      </ul>
                     </div>
-                  </div>
-
-                  <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-border flex flex-col md:flex-row gap-2">
-                    <Button variant="outline" className="flex-1 text-xs md:text-sm" size="sm">
-                      Ver perfil
-                    </Button>
-                    {/* Agendar entrevista → WhatsApp */}
-                    <a href={WA_AGENDAR(candidate.name)} target="_blank" rel="noopener noreferrer" className="flex-1">
-                      <Button className="w-full bg-secondary text-sidebar-foreground hover:bg-secondary/90 text-xs md:text-sm" size="sm">
-                        <MessageCircle className="w-4 h-4 mr-1" />
-                        Agendar entrevista
-                      </Button>
-                    </a>
                   </div>
                 </Card>
               ))}
 
-              <div className="flex flex-col md:flex-row gap-2 md:gap-4">
-                <Button
-                  onClick={() => {
-                    setStep(1);
-                    setResults(null);
-                    setCandidates([{ id: "1", name: "Candidato 1", file: null }]);
-                    setJobTitle("");
-                    setJobDesc("");
-                  }}
-                  variant="outline"
-                  className="flex-1 text-sm md:text-base"
-                >
+              <div className="flex gap-4">
+                <Button onClick={() => setStep(2)} variant="outline" className="flex-1 border-slate-700 text-slate-300 hover:bg-slate-800">Atrás</Button>
+                <Button onClick={() => { setStep(1); setResults(null); }} className="flex-1 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white">
                   Analizar otro lote
                 </Button>
-                {/* Contratar servicio real → WhatsApp */}
-                <a href={WA_RANKEO} target="_blank" rel="noopener noreferrer" className="flex-1">
-                  <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 text-sm md:text-base">
-                    <MessageCircle className="w-4 h-4 mr-2" />
-                    Hablar con especialista
-                  </Button>
-                </a>
               </div>
             </div>
           )}
-
         </div>
       </div>
     </div>

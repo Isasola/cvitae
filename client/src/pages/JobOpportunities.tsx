@@ -1,15 +1,11 @@
 import { Card } from "@/components/ui/card";
 import { useState, useMemo } from "react";
 import { useLocation } from "wouter";
-import { Search, MapPin, Briefcase, DollarSign, Heart, ArrowRight, Upload, Filter, MessageCircle, Globe, Zap, TrendingUp, Star } from "lucide-react";
+import { Search, MapPin, Briefcase, DollarSign, Heart, ArrowRight, Upload, Filter, MessageCircle, Globe, Zap, TrendingUp, Star, ExternalLink } from "lucide-react";
 import { opportunities } from "@/data/opportunities-massive";
 
-// ─── WhatsApp ─────────────────────────────────────────────────────────────────
-const WA_NUMBER  = "595992954169";
-const WA_BASE    = `https://wa.me/${WA_NUMBER}`;
-const WA_APLICAR = (oportunidad: string, tipo: string) =>
-  `${WA_BASE}?text=${encodeURIComponent(`Hola! Quiero aplicar a: ${oportunidad} (${tipo}). ¿Me pueden ayudar?`)}`;
-// ─────────────────────────────────────────────────────────────────────────────
+const WA_NUMBER = "595992954169";
+const WA_BASE = `https://wa.me/${WA_NUMBER}`;
 
 export default function JobOpportunities() {
   const [, setLocation] = useLocation();
@@ -19,7 +15,6 @@ export default function JobOpportunities() {
   const [selectedRubro, setSelectedRubro] = useState<string | null>(null);
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
 
-  // Filtrar oportunidades
   const filteredOpportunities = useMemo(() => {
     return opportunities.filter((opp) => {
       const matchesSearch = opp.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -44,10 +39,13 @@ export default function JobOpportunities() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-700/50">
+      <div className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-700/50">
         <div className="max-w-7xl mx-auto px-4 py-6">
+          <button onClick={() => setLocation("/")} className="text-slate-400 hover:text-blue-400 transition text-sm mb-3 flex items-center gap-1">
+            ← Volver al inicio
+          </button>
           <h1 className="text-3xl font-bold text-white mb-2">Oportunidades Globales</h1>
           <p className="text-slate-400 text-sm">{filteredOpportunities.length} oportunidades encontradas</p>
         </div>
@@ -70,7 +68,6 @@ export default function JobOpportunities() {
 
         {/* Filtros */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          {/* Tipo */}
           <div>
             <label className="block text-xs font-semibold text-slate-400 mb-2 uppercase">Tipo</label>
             <select
@@ -85,7 +82,6 @@ export default function JobOpportunities() {
             </select>
           </div>
 
-          {/* Continente */}
           <div>
             <label className="block text-xs font-semibold text-slate-400 mb-2 uppercase">Continente</label>
             <select
@@ -100,7 +96,6 @@ export default function JobOpportunities() {
             </select>
           </div>
 
-          {/* Rubro */}
           <div>
             <label className="block text-xs font-semibold text-slate-400 mb-2 uppercase">Rubro</label>
             <select
@@ -115,7 +110,6 @@ export default function JobOpportunities() {
             </select>
           </div>
 
-          {/* Reset */}
           <div className="flex items-end">
             <button
               onClick={() => {
@@ -134,7 +128,7 @@ export default function JobOpportunities() {
         {/* Grid de Oportunidades */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredOpportunities.map((opp) => (
-            <Card key={opp.id} className="bg-slate-800/50 border-slate-700 hover:border-blue-500/50 transition overflow-hidden group cursor-pointer" onClick={() => setLocation(`/opportunities/${opp.id}`)}>
+            <Card key={opp.id} className="bg-slate-800/50 border-slate-700 hover:border-blue-500/50 transition overflow-hidden group">
               <div className="p-5">
                 {/* Header */}
                 <div className="flex justify-between items-start mb-3">
@@ -173,20 +167,6 @@ export default function JobOpportunities() {
                   </div>
                 </div>
 
-                {/* Compatibilidad */}
-                <div className="mb-4">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="text-xs font-semibold text-slate-300">Compatibilidad</span>
-                    <span className="text-xs font-bold text-blue-400">{opp.compatibility}%</span>
-                  </div>
-                  <div className="w-full bg-slate-700 rounded-full h-1.5">
-                    <div
-                      className="bg-gradient-to-r from-blue-500 to-blue-400 h-1.5 rounded-full transition"
-                      style={{ width: `${opp.compatibility}%` }}
-                    />
-                  </div>
-                </div>
-
                 {/* Tags */}
                 <div className="flex flex-wrap gap-1 mb-4">
                   {opp.tags.slice(0, 2).map(tag => (
@@ -196,17 +176,25 @@ export default function JobOpportunities() {
                   ))}
                 </div>
 
-                {/* Botón */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setLocation(`/opportunities/${opp.id}`);
-                  }}
-                  className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white rounded-lg font-medium text-sm transition"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                  Ver Detalles
-                </button>
+                {/* Botones */}
+                <div className="space-y-2">
+                  <button
+                    onClick={() => setLocation(`/opportunities/${opp.id}`)}
+                    className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg font-medium text-sm transition"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Ver Detalles
+                  </button>
+                  <a
+                    href={`${WA_BASE}?text=${encodeURIComponent(`Hola! Quiero aplicar a: ${opp.title}. ¿Me pueden ayudar?`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium text-sm transition"
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    Aplicar por WhatsApp
+                  </a>
+                </div>
               </div>
             </Card>
           ))}
