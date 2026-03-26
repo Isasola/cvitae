@@ -6,9 +6,11 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import RecruitersLots from "./pages/RecruitersLots";
+import RecruitersTokens from "./pages/RecruitersTokens";
 import JobOpportunities from "./pages/JobOpportunities";
 import OpportunityDetail from "./pages/OpportunityDetail";
 import Admin from "./pages/Admin";
+import CVOptimization from "./pages/CVOptimization";
 
 
 function Router() {
@@ -16,8 +18,10 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/recruiters/lots"} component={RecruitersLots} />
+      <Route path={"/recruiters/tokens"} component={RecruitersTokens} />
       <Route path={"/jobs"} component={JobOpportunities} />
       <Route path={"/opportunities/:id"} component={OpportunityDetail} />
+      <Route path={"/cv-optimization"} component={CVOptimization} />
       <Route path={"/#admin"} component={Admin} />
       <Route path={"/admin"} component={Admin} />
       <Route path={"/404"} component={NotFound} />

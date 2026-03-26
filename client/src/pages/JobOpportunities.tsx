@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { useState, useMemo } from "react";
 import { useLocation } from "wouter";
 import { Search, MapPin, Briefcase, DollarSign, Heart, ArrowRight, Upload, Filter, MessageCircle, Globe, Zap, TrendingUp, Star, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
-import { opportunities } from "@/data/opportunities-massive";
+import { opportunities } from "@/data/opportunities";
 
 const WA_NUMBER = "595992954169";
 const WA_BASE = `https://wa.me/${WA_NUMBER}`;
@@ -14,6 +14,7 @@ export default function JobOpportunities() {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [selectedContinent, setSelectedContinent] = useState<string | null>(null);
   const [selectedRubro, setSelectedRubro] = useState<string | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -30,10 +31,11 @@ export default function JobOpportunities() {
       const matchesType = !selectedType || opp.type === selectedType;
       const matchesContinent = !selectedContinent || opp.continent === selectedContinent;
       const matchesRubro = !selectedRubro || opp.rubro === selectedRubro;
+      const matchesCountry = !selectedCountry || opp.location.toLowerCase().includes(selectedCountry.toLowerCase());
       
-      return matchesSearch && matchesType && matchesContinent && matchesRubro;
+      return matchesSearch && matchesType && matchesContinent && matchesRubro && matchesCountry;
     });
-  }, [searchTerm, selectedType, selectedContinent, selectedRubro]);
+    }, [searchTerm, selectedType, selectedContinent, selectedRubro, selectedCountry]);
 
   // Pagination
   const totalPages = Math.ceil(filteredOpportunities.length / ITEMS_PER_PAGE);
@@ -41,9 +43,10 @@ export default function JobOpportunities() {
   const endIdx = startIdx + ITEMS_PER_PAGE;
   const paginatedOpportunities = filteredOpportunities.slice(startIdx, endIdx);
 
-  const types = ["empleo", "beca_nacional", "beca_internacional", "capital_semilla", "curso", "foro_internacional", "pasantia", "crucero", "aerolinea"];
-  const continents = ["América Latina", "Europa", "Asia", "Norteamérica", "Oceanía", "Global"];
+  const types = ["empleo", "beca_nacional", "beca_internacional", "capital_semilla", "curso", "foro_internacional", "pasantia", "voluntariado"];
+  const continents = ["América Latina", "Europa", "Asia", "Oriente Medio", "Global"];
   const rubros = Array.from(new Set(opportunities.filter(o => o.rubro).map(o => o.rubro))).sort();
+  const countries = Array.from(new Set(opportunities.map(o => o.location).filter(l => l && l !== 'Remote' && l !== 'Online'))).sort();
 
   const toggleLike = (id: string) => {
     const newLiked = new Set(likedIds);
@@ -89,7 +92,7 @@ export default function JobOpportunities() {
         </div>
 
         {/* Filtros */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
           <div>
             <label className="block text-xs font-semibold text-slate-400 mb-2 uppercase">Tipo</label>
             <select
@@ -125,6 +128,23 @@ export default function JobOpportunities() {
           </div>
 
           <div>
+            <label className="block text-xs font-semibold text-slate-400 mb-2 uppercase">País</label>
+            <select
+              value={selectedCountry || ""}
+              onChange={(e) => {
+                setSelectedCountry(e.target.value || null);
+                setCurrentPage(1);
+              }}
+              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
+            >
+              <option value="">Todos</option>
+              {countries.map(c => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
             <label className="block text-xs font-semibold text-slate-400 mb-2 uppercase">Rubro</label>
             <select
               value={selectedRubro || ""}
@@ -148,11 +168,12 @@ export default function JobOpportunities() {
                 setSelectedType(null);
                 setSelectedContinent(null);
                 setSelectedRubro(null);
+                setSelectedCountry(null);
                 setCurrentPage(1);
               }}
               className="w-full px-3 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-sm font-medium transition"
             >
-              Limpiar Filtros
+              Limpiar
             </button>
           </div>
         </div>
