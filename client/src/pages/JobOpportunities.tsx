@@ -180,6 +180,48 @@ const opportunities: Opportunity[] = [
   { id: "entry-008", title: "Teleoperador/a", organization: "Call Centers Py", location: "Remoto / Presencial", continent: "América Latina", type: "empleo", rubro: "RRHH", value: "₲3M - ₲4M", deadline: "Abierto", compatibility: 84, tags: ["Call Center", "Atención", "Entry"], description: "Atención telefónica a clientes. Posibilidad de trabajo remoto." },
   { id: "entry-009", title: "Asistente de Farmacia", organization: "Farmacias Varias", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Salud", value: "₲2.5M - ₲3.5M", deadline: "Abierto", compatibility: 80, tags: ["Farmacia", "Salud", "Entry"], description: "Atención al cliente y manejo de inventario en farmacias." },
   { id: "entry-010", title: "Promotor de Banco", organization: "Bancos Varios", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Finanzas", value: "₲4M - ₲5M + Bonos", deadline: "Abierto", compatibility: 86, tags: ["Banca", "Ventas", "Entry"], description: "Promoción de productos y servicios bancarios en puntos de venta." },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // SICCA Y EMPLEOS PÚBLICOS (Paraguay & Latam)
+  // ═══════════════════════════════════════════════════════════════════════════
+  { id: "sicca-001", title: "Abogado/a - Ministerio de Justicia", organization: "SICCA - Función Pública", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲8M - ₲12M", deadline: "15 Abril 2026", compatibility: 90, tags: ["SICCA", "Público", "Abogado"], description: "Concurso de mérito para abogados en el Ministerio de Justicia." },
+  { id: "sicca-002", title: "Contador/a - Ministerio de Hacienda", organization: "SICCA - Función Pública", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Finanzas", value: "₲6M - ₲9M", deadline: "20 Abril 2026", compatibility: 88, tags: ["SICCA", "Público", "Contabilidad"], description: "Concurso para contadores en el Ministerio de Hacienda." },
+  { id: "sicca-003", title: "Enfermero/a - Ministerio de Salud", organization: "SICCA - Función Pública", location: "Asunción / Regional", continent: "América Latina", type: "empleo", rubro: "Salud", value: "₲4M - ₲6M", deadline: "10 Abril 2026", compatibility: 85, tags: ["SICCA", "Salud", "Público"], description: "Concurso para enfermeros en hospitales públicos." },
+  { id: "sicca-004", title: "Profesor/a - Ministerio de Educación", organization: "SICCA - Función Pública", location: "Asunción / Interior", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲4M - ₲5M", deadline: "25 Abril 2026", compatibility: 87, tags: ["SICCA", "Educación", "Público"], description: "Concurso para docentes en escuelas públicas de Paraguay." },
+  { id: "sicca-005", title: "Ingeniero Civil - Ministerio de Obras Públicas", organization: "SICCA - Función Pública", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Ingeniería", value: "₲10M - ₲14M", deadline: "30 Abril 2026", compatibility: 89, tags: ["SICCA", "Ingeniería", "Obras"], description: "Concurso para ingenieros civiles en proyectos de infraestructura." },
+  { id: "portal-chile-001", title: "Especialista en Desarrollo - Gobierno de Chile", organization: "Portal Empleos Públicos Chile", location: "Santiago", continent: "América Latina", type: "empleo", rubro: "Otros", value: "$2,500 USD", deadline: "Abierto", compatibility: 84, tags: ["Chile", "Público", "Desarrollo"], description: "Empleos en la administración pública chilena." },
+  { id: "portal-col-001", title: "Oficial de Programas - Gobierno de Colombia", organization: "Portal del Estado Colombia", location: "Bogotá", continent: "América Latina", type: "empleo", rubro: "Otros", value: "$2,200 USD", deadline: "Abierto", compatibility: 83, tags: ["Colombia", "Público", "Programas"], description: "Empleos en entidades del gobierno colombiano." },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // CONSTRUCCIÓN Y OBRAS
+  // ═══════════════════════════════════════════════════════════════════════════
+  { id: "const-001", title: "Capataz de Obra", organization: "Empresas Constructoras", location: "Asunción / Interior", continent: "América Latina", type: "empleo", rubro: "Ingeniería", value: "₲8M - ₲12M", deadline: "Abierto", compatibility: 82, tags: ["Construcción", "Liderazgo", "Obra"], description: "Supervisión de obras y coordinación de equipos de construcción." },
+  { id: "const-002", title: "Albáñil Especializado", organization: "Empresas Constructoras", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Ingeniería", value: "₲4M - ₲6M", deadline: "Abierto", compatibility: 78, tags: ["Construcción", "Albáñil", "Obra"], description: "Trabajo en construcción de edificios y estructuras." },
+  { id: "const-003", title: "Maestro Electricista", organization: "Empresas de Construcción", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Ingeniería", value: "₲6M - ₲8M", deadline: "Abierto", compatibility: 80, tags: ["Electricidad", "Especializado", "Obra"], description: "Instalaciones eléctricas en proyectos de construcción." },
+  { id: "const-004", title: "Soldador", organization: "Empresas Industriales", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Ingeniería", value: "₲5M - ₲7M", deadline: "Abierto", compatibility: 79, tags: ["Soldadura", "Industrial", "Técnico"], description: "Soldadura de estructuras metálicas en proyectos industriales." },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TRANSPORTE Y LOGÍSTICA
+  // ═══════════════════════════════════════════════════════════════════════════
+  { id: "trans-001", title: "Chofer de Carga", organization: "Empresas de Transporte", location: "Asunción / Interior", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲5M - ₲7M", deadline: "Abierto", compatibility: 81, tags: ["Transporte", "Chofer", "Carga"], description: "Transporte de carga a nivel nacional e internacional." },
+  { id: "trans-002", title: "Coordinador de Logística", organization: "Empresas de Logística", location: "Remoto (Latam)", continent: "América Latina", type: "empleo", rubro: "Otros", value: "$2,000 USD", deadline: "Abierto", compatibility: 84, tags: ["Logística", "Coordinación", "Supply Chain"], description: "Coordinación de rutas y despachos de mercancía." },
+  { id: "trans-003", title: "Operario de Almacén", organization: "Centros de Distribución", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲3M - ₲4M", deadline: "Abierto", compatibility: 80, tags: ["Logística", "Almacén", "Operario"], description: "Manejo de inventario y preparación de pedidos en almacenes." },
+  { id: "trans-004", title: "Despachante de Aduanas", organization: "Empresas de Comercio Exterior", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲4M - ₲6M", deadline: "Abierto", compatibility: 83, tags: ["Aduanas", "Comercio Exterior", "Especializado"], description: "Trámites aduanales y documentación de importación/exportación." },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // EDUCACIÓN
+  // ═══════════════════════════════════════════════════════════════════════════
+  { id: "edu-001", title: "Profesor de Primaria", organization: "Escuelas Privadas", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲4M - ₲6M", deadline: "Abierto", compatibility: 82, tags: ["Educación", "Docencia", "Primaria"], description: "Docencia en primaria con metodología moderna." },
+  { id: "edu-002", title: "Profesor de Secundaria - Matemática", organization: "Colegios Varios", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲5M - ₲7M", deadline: "Abierto", compatibility: 84, tags: ["Educación", "Matemática", "Secundaria"], description: "Enseñanza de matemática en colegios de nivel secundario." },
+  { id: "edu-003", title: "Coordinador Pedagógico", organization: "Instituciones Educativas", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲7M - ₲9M", deadline: "Abierto", compatibility: 86, tags: ["Educación", "Coordinación", "Liderazgo"], description: "Coordinación de procesos pedagógicos en instituciones." },
+  { id: "edu-004", title: "Tutor Online", organization: "Plataformas Educativas", location: "Remoto", continent: "Global", type: "empleo", rubro: "Otros", value: "$500 - $1,500 USD/mes", deadline: "Abierto", compatibility: 85, tags: ["Educación", "Online", "Flexible"], description: "Tutoria online para estudiantes de todo el mundo." },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // AGRICULTURA Y GANADERIA
+  // ═══════════════════════════════════════════════════════════════════════════
+  { id: "agro-001", title: "Capataz Agrícola", organization: "Empresas Agrícolas", location: "Interior de Paraguay", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲6M - ₲8M", deadline: "Abierto", compatibility: 80, tags: ["Agricultura", "Liderazgo", "Campo"], description: "Supervisión de trabajos agrícolas y coordinación de equipos." },
+  { id: "agro-002", title: "Operario Agrícola", organization: "Empresas Agrícolas", location: "Interior", continent: "América Latina", type: "empleo", rubro: "Otros", value: "₲3M - ₲4M", deadline: "Abierto", compatibility: 77, tags: ["Agricultura", "Operario", "Campo"], description: "Labores agrícolas y mantenimiento de cultivos." },
+  { id: "agro-003", title: "Veterinario", organization: "Haciendas y Estancias", location: "Interior", continent: "América Latina", type: "empleo", rubro: "Salud", value: "₲8M - ₲10M", deadline: "Abierto", compatibility: 85, tags: ["Ganadería", "Veterinario", "Especializado"], description: "Atención veterinaria en haciendas y estancias." },
 ];
 
 export default function JobOpportunities() {
@@ -210,7 +252,7 @@ export default function JobOpportunities() {
   };
 
   const continents = ["all", "América Latina", "Europa", "Asia", "Norteamérica", "Oceanía", "Global"];
-  const rubros = ["all", "Tecnología", "Finanzas", "Marketing", "RRHH", "Ingeniería", "Salud", "Ventas", "Otros", "Hoteleria"];
+  const rubros = ["all", "Tecnología", "Finanzas", "Marketing", "RRHH", "Ingeniería", "Salud", "Ventas", "Otros"];
 
   return (
     <div className="min-h-screen bg-background text-foreground pb-20">
@@ -226,14 +268,14 @@ export default function JobOpportunities() {
             <span className="italic font-light">éxito mundial.</span>
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mb-8">
-            Explora 200+ oportunidades: becas de élite, foros internacionales, capital semilla, empleos en multinacionales, cruceros, aerolíneas, ONGs y más. 
+            Explora 250+ oportunidades: becas de élite, foros internacionales, capital semilla, empleos en multinacionales, cruceros, aerolíneas, ONGs, SICCA, construcción, transporte, educación y más. 
             Desde puestos básicos en Paraguay hasta oportunidades de trabajo en el extranjero. No solo busques, aplica con una estrategia ganadora.
           </p>
           
           <div className="flex flex-wrap gap-4">
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 flex items-center gap-3">
               <Award className              <div className="text-6xl mb-4">📊</div>
-                <p className="text-2xl font-black">200+</p>
+                <p className="text-2xl font-black">250+</p>
                 <p className="text-xs uppercase font-bold opacity-80">Oportunidades</p>            </div>
             </div>
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 flex items-center gap-3">
