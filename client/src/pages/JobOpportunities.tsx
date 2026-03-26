@@ -384,9 +384,11 @@ export default function JobOpportunities() {
           
           <div className="flex flex-wrap gap-4">
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 flex items-center gap-3">
-              <Award className              <div className="text-6xl mb-4">📊</div>
+              <div className="text-6xl mb-4">📊</div>
+              <div>
                 <p className="text-2xl font-black">350+</p>
-                <p className="text-xs uppercase font-bold opacity-80">Oportunidades</p>            </div>
+                <p className="text-xs uppercase font-bold opacity-80">Oportunidades</p>
+              </div>
             </div>
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 flex items-center gap-3">
               <Globe className="w-8 h-8 text-blue-400" />
