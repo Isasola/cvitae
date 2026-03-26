@@ -1,4 +1,4 @@
-# CVitae - Global Opportunity Hub 🌍
+# CVitae - Global Opportunity Hub v2.1
 
 **CVitae** es una plataforma que combina **optimización de CV con inteligencia de reclutamiento** para conectar talento latinoamericano con oportunidades globales. Desde becas de élite hasta empleos en multinacionales, pasando por capital semilla y programas de movilidad laboral.
 
@@ -6,55 +6,66 @@
 
 Resolver dos problemas simultáneamente:
 1. **Para Candidatos:** El 75% de los CVs son rechazados por algoritmos ATS antes de ser leídos por humanos. Nosotros reestructuramos tu perfil bajo los 12 indicadores que buscan los reclutadores.
-2. **Para Reclutadores:** Analizar cientos de CVs manualmente es imposible. Nuestra herramienta te muestra un ranking de compatibilidad en segundos.
+2. **Para Reclutadores:** Analizar cientos de CVs manualmente es imposible. Nuestra herramienta te muestra un ranking de compatibilidad en segundos usando Anthropic API.
 
-## 🚀 Características Principales
+## 🚀 Características Principales (v2.1)
 
 ### 1. **Global Opportunity Hub** (`/jobs`)
-- **350+ Oportunidades** en tiempo real:
-  - Becas internacionales (MEXT, Chevening, DAAD, Fulbright)
-  - Capital Semilla (Y Combinator, 500 Global, Techstars)
-  - Empleos en multinacionales (Mercado Libre, KPMG, Rappi)
-  - Cruceros y aerolíneas
-  - ONGs e instituciones internacionales
-  - Puestos básicos en Paraguay y Latam
-  - Vacantes de SICCA (Función Pública Paraguay)
+- **539 Oportunidades REALES** actualizadas diariamente:
+  - Becas internacionales (DAAD, Fulbright, Chevening, OEA, Fundación Carolina)
+  - Capital Semilla (Y Combinator, 500 Startups, Techstars, Startup Chile, NXTP)
+  - Empleos remotos (RemoteOK, The Muse, Arbeitnow, WeWorkRemotely)
+  - Empleos locales Latam (Bumeran, Computrabajo, GetOnBoard)
+  - Oportunidades de contribución open-source (GitHub Issues)
+  - Voluntariados y ONGs
+  - Puestos en 6 continentes
 
 - **Buscador Inteligente:**
-  - Filtro por tipo (Becas, Capital, Empleos, Cursos)
+  - Filtro por tipo (Becas, Capital, Empleos, Voluntariados, etc.)
   - Filtro por continente
+  - Filtro por país específico
   - Filtro por rubro
   - Búsqueda por palabras clave
+  - Paginación optimizada
 
 - **Motor de Scrapping Automático:**
-  - Cron Job diario que actualiza las oportunidades
-  - Conectado a APIs de becas, empleos y fondos
+  - Scraper en Python con 90+ fuentes
+  - Actualización cada 12 horas
+  - Verificación de URLs reales
+  - Deduplicación automática
   - Costo $0 (Netlify Functions gratuito)
 
-### 2. **Herramienta de Reclutadores** (`/recruiters/lots`)
-- Sube hasta 10 CVs
-- Obtén un ranking de compatibilidad automático
-- Demo gratuita vs. Versión Pro con Token
-- Análisis basado en indicadores de competencia
+### 2. **Herramienta de Reclutadores** (`/recruiters/tokens`)
+- **Upload de CVs:** Sube múltiples CVs en PDF/Word
+- **Análisis con Anthropic API:** Análisis profundo de cada CV
+- **Ranking Automático:** Top 5 CVs por compatibilidad
+- **Comparativa:** Análisis comparativo entre candidatos
+- **Sistema de Tokens:** Demo gratuito vs. Pro ($50 USD/mes)
+- **API Access:** Integración programática para reclutadores
 
-### 3. **Panel Admin** (`/admin`)
+### 3. **Optimización de CV para Candidatos** (`/cv-optimization`)
+- **Análisis Honesto:** Diagnóstico real de tu CV (no endulzado)
+- **Score ATS:** Compatibilidad 0-100 con filtros de reclutadores
+- **Mejoras Específicas:** Acciones concretas y medibles
+- **Plan de Acción:** Pasos claros para mejorar
+- **Venta de Solución:** Propuesta de valor de CVitae
+- **Integración WhatsApp:** Conversión directa a venta
+
+### 4. **Panel Admin** (`/admin`)
 - Gestión de pedidos de candidatos
-- Generación de Tokens para reclutadores (Starter/Pro)
-- Aprobación de servicios y generación de entregables
-
-### 4. **Monetización Triple**
-- **Ingresos Directos (WhatsApp):** Venta de optimización de CV (₲50k-120k)
-- **Ingresos Pasivos (AdSense):** Tráfico masivo de búsquedas globales
-- **Ingresos B2B (Reclutadores):** Tokens de acceso Pro (₲150k-350k/mes)
+- Generación de Tokens para reclutadores
+- Estadísticas de uso
+- Aprobación de servicios
 
 ## 🏗️ Arquitectura Técnica
 
 ### Stack
-- **Frontend:** React 19 + Vite + TypeScript + Tailwind CSS + shadcn/ui
-- **Backend:** Express.js (Node.js)
-- **Hosting:** Netlify (Frontend + Functions)
-- **Database:** Supabase (PostgreSQL)
-- **IA:** Gemini Flash (Diagnósticos) + Anthropic (Análisis avanzado)
+- **Frontend:** React 19 + Vite + TypeScript + Tailwind CSS 4 + shadcn/ui
+- **Backend:** Netlify Functions (Node.js)
+- **Hosting:** Netlify (Frontend + Serverless)
+- **IA:** Anthropic Claude 3.5 Sonnet
+- **Scraping:** Python + BeautifulSoup + Feedparser
+- **APIs:** 90+ fuentes públicas gratuitas
 
 ### Estructura de Carpetas
 ```
@@ -62,20 +73,32 @@ cvitae/
 ├── client/
 │   ├── src/
 │   │   ├── pages/
-│   │   │   ├── Home.tsx              # Landing con esencia V1
-│   │   │   ├── JobOpportunities.tsx  # Hub de 350+ oportunidades
-│   │   │   ├── RecruitersLots.tsx    # Herramienta de reclutadores
-│   │   │   └── Admin.tsx             # Panel de gestión
-│   │   ├── components/               # shadcn/ui + custom
-│   │   └── App.tsx                   # Rutas principales
-│   └── index.html                    # SEO masivo (JSON-LD)
+│   │   │   ├── Home.tsx                    # Landing optimizado
+│   │   │   ├── JobOpportunities.tsx        # Hub de 539 oportunidades
+│   │   │   ├── OpportunityDetail.tsx       # Detalles con SEO
+│   │   │   ├── CVOptimization.tsx          # Análisis de CV candidatos
+│   │   │   ├── RecruitersTokens.tsx        # Panel de reclutadores
+│   │   │   └── Admin.tsx                   # Panel de gestión
+│   │   ├── components/
+│   │   │   ├── TokenSystem.tsx             # Validación de tokens
+│   │   │   └── ...shadcn/ui components
+│   │   ├── lib/
+│   │   │   └── seo.ts                      # Configuración SEO/JSON-LD
+│   │   └── App.tsx                         # Rutas principales
+│   ├── data/
+│   │   ├── opportunities.json              # 539 oportunidades
+│   │   └── opportunities.ts                # TypeScript interface
+│   └── index.html                          # SEO masivo
 ├── netlify/
 │   └── functions/
-│       ├── update-opportunities.ts   # Cron Job diario (scrapping)
-│       └── admin.ts                  # Funciones serverless
-├── server/
-│   └── index.ts                      # Express backend
-└── netlify.toml                      # Configuración de despliegue
+│       ├── scraper_90_fuentes.py           # Motor de scraping
+│       ├── analyze-cvs.ts                  # Análisis múltiples CVs (reclutadores)
+│       ├── analyze-cv-candidate.ts         # Análisis individual (candidatos)
+│       └── ...otras funciones
+├── public/
+│   ├── sitemap.xml                         # Mapa del sitio
+│   └── robots.txt                          # Instrucciones para crawlers
+└── netlify.toml                            # Configuración de despliegue
 ```
 
 ## 📊 Modelo de Negocio
@@ -84,7 +107,7 @@ cvitae/
 | Fuente | Mes 1-2 | Mes 3-4 | Mes 5-6 | Mes 7-12 |
 |--------|---------|---------|---------|----------|
 | WhatsApp (CVs) | ₲200k | ₲500k | ₲1.5M | ₲2M-3M |
-| AdSense | $50 | $300 | $1k | $2k-5k |
+| AdSense | $50-100 | $300-500 | $1k-2k | $2k-5k |
 | Reclutadores | ₲0 | ₲100k | ₲300k | ₲500k-1M |
 | **Total** | **₲250k** | **₲600k** | **₲1.8M** | **₲2.5M-4M** |
 
@@ -94,35 +117,41 @@ cvitae/
 
 ### Para Candidatos
 1. Usuario entra a `/jobs` buscando una beca o empleo
-2. Ve la sección "¿Por qué tu CV es invisible?" (75% rechazados por ATS)
+2. Ve la sección "El Problema Real" (75% rechazados por ATS)
 3. Hace clic en una oportunidad → Ve detalles ricos en contenido (AdSense)
-4. Si quiere aplicar → Botón "Optimizar CV para este puesto" → WhatsApp
-5. En WhatsApp: Diagnóstico gratuito → Venta de plan (₲50k-120k)
+4. Si quiere aplicar → Botón "Optimizar CV para este puesto" → `/cv-optimization`
+5. En CV Optimization: Análisis honesto + Propuesta de valor → WhatsApp
+6. En WhatsApp: Diagnóstico gratuito → Venta de plan (₲50k-120k)
 
 ### Para Reclutadores
-1. Entran a `/recruiters/lots`
-2. Ven demo gratuita (hasta 10 CVs, análisis simulado)
+1. Entran a `/recruiters/tokens`
+2. Ven demo gratuita (análisis básico)
 3. Si quieren versión Pro → Ingresan Token de acceso
-4. Token desbloqueado por vos en Admin → Acceso a análisis real por IA
+4. Token desbloqueado por admin → Acceso a análisis real con Anthropic API
+5. Suben CVs → Obtienen ranking Top 5 en segundos
 
 ## 🌐 SEO y Monetización
 
 ### JSON-LD Implementado
 - `JobPosting` (Google Jobs)
-- `SoftwareApplication` (Herramienta de CV)
-- `Service` (Consultoría B2B)
+- `EducationalOccupationalCredential` (Becas)
+- `Organization` (CVitae)
+- `BreadcrumbList` (Navegación)
 
 ### Palabras Clave Objetivo
-- "Scholarships for Latinos"
+- "Scholarships for Latinos 2026"
 - "CV Optimization ATS"
 - "Remote Jobs Latin America"
-- "Becas Paraguay"
-- "Trabajo en Latam"
+- "Becas internacionales para latinoamericanos"
+- "Empleos Paraguay 2026"
+- "Capital semilla para startups"
 
 ### AdSense Ready
-- 350+ páginas de contenido indexable
+- 539 páginas de contenido único indexable
 - Actualización diaria (Cron Job)
 - Tráfico esperado: 50k+ usuarios/mes en 6 meses
+- Meta tags dinámicos por página
+- Sitemap XML + robots.txt
 
 ## 🚀 Cómo Desplegar
 
@@ -138,13 +167,10 @@ git checkout dev/v2
 pnpm install
 ```
 
-### 3. Variables de Entorno
-Crear `.env.local` en la raíz:
-```env
-VITE_SUPABASE_URL=tu_url
-VITE_SUPABASE_KEY=tu_key
-ADMIN_PASSWORD=tu_contraseña
-ANTHROPIC_API_KEY=tu_key
+### 3. Variables de Entorno en Netlify
+En Netlify Settings → Environment:
+```
+ANTHROPIC_API_KEY=tu_key_aqui
 ```
 
 ### 4. Desplegar en Netlify
@@ -153,42 +179,68 @@ ANTHROPIC_API_KEY=tu_key
 # Rama: dev/v2
 # Build command: pnpm build
 # Publish directory: dist/public
+# Functions directory: netlify/functions
 ```
 
 ## 📈 Roadmap (Próximas Mejoras)
 
-### V2.1 (Próximas 2 semanas)
-- [ ] Página de detalles completa para cada oportunidad
-- [ ] Campo de Token en Reclutadores (UX mejorada)
-- [ ] Inyección de 200+ empleos adicionales (500+ total)
-- [ ] Integración con LinkedIn API para scrapping de empleos
+### V2.2 (Próximas 2 semanas)
+- [ ] Mejorar UI del panel de reclutadores (upload de CVs)
+- [ ] Integración completa de Anthropic API
+- [ ] Sistema de alertas por email
+- [ ] Dashboard de seguimiento de candidaturas
 
-### V2.2 (Mes 2)
+### V2.3 (Mes 2)
 - [ ] Perfiles de usuario livianos (sin login, solo email)
-- [ ] Sistema de alertas por email (nuevas oportunidades según perfil)
-- [ ] Dashboard de seguimiento de aplicaciones
 - [ ] Integración con Google AdSense
+- [ ] API pública para reclutadores
+- [ ] Webhooks para automatización
 
 ### V3 (Mes 3+)
-- [ ] Automatización de cobros (Stripe/PayPal)
-- [ ] Análisis de IA mejorado (Gemini + LangChain)
-- [ ] Integración con Zapier/Make para automatización
+- [ ] Automatización de cobros (Stripe)
 - [ ] App móvil (React Native)
+- [ ] Integración con Zapier/Make
+- [ ] Análisis predictivo con Machine Learning
+
+## ⚠️ QUÉ FALTA IMPLEMENTAR
+
+### Crítico (Antes de Producción)
+- [ ] Validar que Anthropic API funcione correctamente en Netlify Functions
+- [ ] Implementar upload real de CVs en panel de reclutadores
+- [ ] Crear sistema de pagos (Stripe/PayPal)
+- [ ] Validar que no haya errores en build de Netlify
+- [ ] Testing de todas las rutas
+
+### Importante (Próximas 2 semanas)
+- [ ] Mejorar diseño del panel de reclutadores (UI/UX)
+- [ ] Agregar más fuentes de scraping
+- [ ] Implementar sistema de alertas
+- [ ] Dashboard de estadísticas
+
+### Futuro (Próximo mes)
+- [ ] Integración con Google AdSense
+- [ ] Sistema de perfiles de usuario
+- [ ] API pública para reclutadores
+- [ ] Automatización de emails
 
 ## 💡 Por Qué Ganamos
 
 1. **Específico para Latam:** No somos un agregador genérico. Entendemos el mercado paraguayo y latinoamericano.
-2. **Asesoría Humana:** No es un bot. Hablamos por WhatsApp y ajustamos según el perfil del usuario.
-3. **Modelo Híbrido:** Ingresos directos (WhatsApp) + Pasivos (AdSense) + B2B (Reclutadores).
-4. **Escalabilidad:** El motor de scrapping trae datos automáticamente. Costo marginal cercano a cero.
-5. **Diferenciación:** Combinamos oportunidades globales + optimización local + asesoría personalizada.
+2. **Datos Reales:** 539 oportunidades verificadas, no simuladas.
+3. **IA Honesta:** Análisis real con Anthropic, no endulzado.
+4. **Modelo Híbrido:** Ingresos directos (WhatsApp) + Pasivos (AdSense) + B2B (Reclutadores).
+5. **Escalabilidad:** Motor de scrapping automático. Costo marginal cercano a cero.
+6. **Diferenciación:** Combinamos oportunidades globales + optimización local + asesoría personalizada.
 
 ## 📞 Contacto
 
 - **WhatsApp:** +595 9 9295-4169
 - **Email:** isasolaeche@gmail.com
-- **Sitio:** https://cvitae-pry.netlify.app
+- **Sitio:** https://cvitae-py.netlify.app
 
 ---
 
-**CVitae - Haciendo visible tu talento en el mundo.** 🌟
+**CVitae v2.1 - Haciendo visible tu talento en el mundo.** 🌟
+
+*Última actualización: Marzo 2026*
+*Estado: En desarrollo - Listo para testing*

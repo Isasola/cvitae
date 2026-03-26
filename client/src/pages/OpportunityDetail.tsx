@@ -1,5 +1,5 @@
 import { useLocation, useRoute } from "wouter";
-import { opportunities } from "@/data/opportunities-massive";
+import { opportunities } from "@/data/opportunities";
 import { ArrowLeft, MapPin, DollarSign, Zap, Heart, ExternalLink, MessageCircle, AlertCircle, Globe } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
