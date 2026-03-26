@@ -19,6 +19,7 @@ interface Opportunity {
   location: string;
   continent: string;
   type: "beca_nacional" | "beca_internacional" | "capital_semilla" | "curso" | "empleo" | "foro_internacional" | "pasantia";
+  rubro?: "Tecnología" | "Finanzas" | "Marketing" | "RRHH" | "Ingeniería" | "Salud" | "Ventas" | "Otros";
   value?: string;
   deadline: string;
   compatibility: number;
@@ -107,12 +108,27 @@ const opportunities: Opportunity[] = [
   { id: "curso-003", title: "AWS Certified Solutions Architect", organization: "Amazon Web Services", location: "Online", continent: "Global", type: "curso", value: "Certificación Cloud", deadline: "Abierto", compatibility: 92, tags: ["Cloud", "AWS", "IT"], description: "Domina la infraestructura en la nube con la plataforma líder del mercado." },
   { id: "curso-004", title: "Inglés para Negocios - British Council", organization: "British Council", location: "Online", continent: "Global", type: "curso", value: "Certificado Internacional", deadline: "Abierto", compatibility: 98, tags: ["Inglés", "Negocios", "Elite"], description: "Mejora tu nivel de inglés enfocado en el entorno profesional global." },
   { id: "curso-005", title: "Excel Avanzado para Finanzas", organization: "CVitae Academy", location: "Online", continent: "Global", type: "curso", value: "Certificado CVitae", deadline: "Abierto", compatibility: 100, tags: ["Excel", "Finanzas", "Productividad"], description: "Domina Excel al nivel que exigen los bancos y consultoras internacionales." },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // EMPLEOS POR RUBRO (Paraguay & Latam Remoto)
+  // ═══════════════════════════════════════════════════════════════════════════
+  { id: "job-001", title: "Senior Full Stack Developer", organization: "Mercado Libre", location: "Remoto (Latam)", continent: "América Latina", type: "empleo", rubro: "Tecnología", value: "$3,500 - $5,500 USD", deadline: "Abierto", compatibility: 95, tags: ["React", "Node.js", "Senior"], description: "Únete al equipo de desarrollo de la plataforma e-commerce líder de Latam." },
+  { id: "job-002", title: "Analista Contable Senior", organization: "KPMG Paraguay", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Finanzas", value: "₲8M - ₲12M", deadline: "15 Abril 2026", compatibility: 92, tags: ["Contabilidad", "NIIF", "Auditoría"], description: "Buscamos profesional contable con experiencia en auditoría externa y normas internacionales." },
+  { id: "job-003", title: "Growth Marketing Manager", organization: "Rappi", location: "Remoto (Latam)", continent: "América Latina", type: "empleo", rubro: "Marketing", value: "$2,500 - $4,000 USD", deadline: "Abierto", compatibility: 88, tags: ["Growth", "Analytics", "Digital"], description: "Lidera las estrategias de crecimiento y adquisición de usuarios en la región." },
+  { id: "job-004", title: "Especialista en Selección IT", organization: "Accenture", location: "Remoto", continent: "Global", type: "empleo", rubro: "RRHH", value: "$2,000 - $3,500 USD", deadline: "Abierto", compatibility: 90, tags: ["Recruiting", "Tech", "Talento"], description: "Búsqueda y selección de perfiles tecnológicos para proyectos globales." },
+  { id: "job-005", title: "Ingeniero de Proyectos Civiles", organization: "Jiménez Gaona & Lima", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Ingeniería", value: "₲10M - ₲15M", deadline: "20 Abril 2026", compatibility: 85, tags: ["Civil", "Obras", "Gestión"], description: "Liderazgo de obras de infraestructura vial y civil en Paraguay." },
+  { id: "job-006", title: "Médico Especialista (Telemedicina)", organization: "SaludSA", location: "Remoto", continent: "América Latina", type: "empleo", rubro: "Salud", value: "$3,000 USD", deadline: "Abierto", compatibility: 82, tags: ["Medicina", "Teleconsulta", "Salud"], description: "Atención médica remota para pacientes en toda Latinoamérica." },
+  { id: "job-007", title: "Gerente de Ventas Regional", organization: "Unilever", location: "Asunción / Regional", continent: "América Latina", type: "empleo", rubro: "Ventas", value: "Sueldo + Comisiones", deadline: "30 Abril 2026", compatibility: 94, tags: ["Ventas", "Consumo Masivo", "Liderazgo"], description: "Gestión de canales de venta y distribución para el Cono Sur." },
+  { id: "job-008", title: "Data Scientist Junior", organization: "Stripe", location: "Remoto", continent: "Global", type: "empleo", rubro: "Tecnología", value: "$4,000 USD", deadline: "Abierto", compatibility: 87, tags: ["Python", "SQL", "Data"], description: "Análisis de datos financieros para la prevención de fraude global." },
+  { id: "job-009", title: "Auditor Interno", organization: "Banco Continental", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Finanzas", value: "₲7M - ₲10M", deadline: "10 Abril 2026", compatibility: 89, tags: ["Banca", "Auditoría", "Riesgos"], description: "Control y auditoría de procesos bancarios y cumplimiento normativo." },
+  { id: "job-010", title: "Social Media Strategist", organization: "Agencia Publicitaria", location: "Asunción", continent: "América Latina", type: "empleo", rubro: "Marketing", value: "₲4M - ₲6M", deadline: "Abierto", compatibility: 91, tags: ["Social Media", "Contenido", "Ads"], description: "Creación y gestión de estrategias digitales para marcas líderes locales." },
 ];
 
 export default function JobOpportunities() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState<string>("all");
   const [selectedContinent, setSelectedContinent] = useState<string>("all");
+  const [selectedRubro, setSelectedRubro] = useState<string>("all");
 
   const filteredOpportunities = opportunities.filter((opp) => {
     const matchesSearch = opp.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -120,7 +136,8 @@ export default function JobOpportunities() {
                          opp.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
     const matchesType = selectedType === "all" || opp.type === selectedType;
     const matchesContinent = selectedContinent === "all" || opp.continent === selectedContinent;
-    return matchesSearch && matchesType && matchesContinent;
+    const matchesRubro = selectedRubro === "all" || opp.rubro === selectedRubro;
+    return matchesSearch && matchesType && matchesContinent && matchesRubro;
   });
 
   const typeLabels: Record<string, string> = {
@@ -135,6 +152,7 @@ export default function JobOpportunities() {
   };
 
   const continents = ["all", "América Latina", "Europa", "Asia", "Norteamérica", "Oceanía", "Global"];
+  const rubros = ["all", "Tecnología", "Finanzas", "Marketing", "RRHH", "Ingeniería", "Salud", "Ventas", "Otros"];
 
   return (
     <div className="min-h-screen bg-background text-foreground pb-20">
@@ -194,7 +212,7 @@ export default function JobOpportunities() {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap md:flex-nowrap gap-2">
               <select 
                 className="w-full p-2 bg-background border border-border rounded-md text-sm"
                 value={selectedType}
@@ -211,6 +229,15 @@ export default function JobOpportunities() {
               >
                 {continents.map(c => (
                   <option key={c} value={c}>{c === "all" ? "Continentes" : c}</option>
+                ))}
+              </select>
+              <select 
+                className="w-full p-2 bg-background border border-border rounded-md text-sm"
+                value={selectedRubro}
+                onChange={(e) => setSelectedRubro(e.target.value)}
+              >
+                {rubros.map(r => (
+                  <option key={r} value={r}>{r === "all" ? "Rubros" : r}</option>
                 ))}
               </select>
             </div>
