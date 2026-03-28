@@ -4,26 +4,15 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { DotGridBackground } from "./components/ui/dot-grid-background";
+import { WhatsAppButton } from "./components/ui/whatsapp-button";
 import Home from "./pages/Home";
-import RecruitersLots from "./pages/RecruitersLots";
-import RecruitersTokens from "./pages/RecruitersTokens";
-import JobOpportunities from "./pages/JobOpportunities";
-import OpportunityDetail from "./pages/OpportunityDetail";
-import Admin from "./pages/Admin";
-import CVOptimization from "./pages/CVOptimization";
 
 
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
-      <Route path={"/recruiters/lots"} component={RecruitersLots} />
-      <Route path={"/recruiters/tokens"} component={RecruitersTokens} />
-      <Route path={"/jobs"} component={JobOpportunities} />
-      <Route path={"/opportunities/:id"} component={OpportunityDetail} />
-      <Route path={"/cv-optimization"} component={CVOptimization} />
-      <Route path={"/#admin"} component={Admin} />
-      <Route path={"/admin"} component={Admin} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -45,7 +34,10 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <DotGridBackground className="min-h-screen">
+            <Router />
+            <WhatsAppButton />
+          </DotGridBackground>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
