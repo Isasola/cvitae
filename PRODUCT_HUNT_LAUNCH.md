@@ -1,3 +1,91 @@
+# CVitae · Guía de Lanzamiento en Product Hunt
+
+**Versión:** 1.0 | **Fecha:** Marzo 2026
+
+---
+
+## Resumen de Lanzamiento
+
+CVitae es la primera plataforma en Paraguay que optimiza perfiles profesionales usando **metodología de reclutamiento avanzada**. Transformamos CVs invisibles en perfiles de alto impacto que generan entrevistas en 30 minutos.
+
+**Tagline:** *Tu talento no es invisible. Tu formato sí.*
+
+---
+
+## Posicionamiento en Product Hunt
+
+### Categorías Principales
+- **Primaria:** Productivity
+- **Secundaria:** Human Resources
+- **Terciaria:** Career
+
+### Audiencia Objetivo
+- Candidatos en búsqueda activa de empleo
+- Reclutadores y equipos de RRHH
+- Freelancers y emprendedores
+- Profesionales de Latam y Paraguay
+
+---
+
+## Contenido de Lanzamiento
+
+### Título (Máx 60 caracteres)
+```
+CVitae: Perfiles Profesionales de Alto Impacto
+```
+
+### Tagline (Máx 100 caracteres)
+```
+Reestructura tu CV con IA para superar filtros ATS y conseguir la entrevista en 30 minutos
+```
+
+### Descripción Corta (Máx 250 caracteres)
+```
+CVitae es una plataforma que transforma CVs invisibles en perfiles de alto impacto. 
+Usamos metodología de reclutamiento avanzada para que tu perfil supere los filtros 
+automáticos y llegue a ojos humanos. Resultados garantizados en 30 minutos.
+```
+
+### Descripción Larga (Máx 500 palabras)
+
+**El Problema:**
+- 75% de los CVs son descartados sin ser leídos
+- Los sistemas ATS filtran candidatos por palabras clave exactas
+- Candidatos calificados no consiguen entrevistas por formato incorrecto
+- No hay herramientas que enseñen a candidatos cómo optimizar realmente
+
+**La Solución:**
+CVitae es una plataforma SaaS que reestructura tu perfil profesional usando indicadores de competencia extraídos del aviso de trabajo. En lugar de un CV genérico, obtenés un perfil personalizado que:
+
+1. **Supera filtros ATS:** Incluye palabras clave exactas del aviso
+2. **Genera impacto en 6 segundos:** Formato que el ojo humano reconoce al instante
+3. **Cuantifica logros:** Cada bullet incluye números, porcentajes, resultados medibles
+4. **Se entrega en 30 minutos:** Sin esperas de días, sin letra chica
+
+**Características Principales:**
+
+✅ **Generador de CVs Inteligente**
+- 4 formatos (Paraguay/Latam, Europass, USA Resume, Académico)
+- Adaptación automática al puesto objetivo
+- Incluye carta de presentación + kit de entrevista
+
+✅ **Optimizador Gratuito**
+- Diagnóstico en 3 pasos
+- Score de visibilidad
+- Detección de problemas específicos
+- Recomendaciones personalizadas
+
+✅ **Herramienta B2B para Reclutadores**
+- Rankea candidatos automáticamente
+- Score de compatibilidad individual
+- Filtrado por indicadores de competencia
+- Reportes listos para descargar
+
+✅ **Búsqueda de Oportunidades**
+- Candidatos encuentran trabajos compatibles
+- Filtros inteligentes por compatibilidad
+- Aplicación directa a ofertas
+
 **Diferenciales:**
 
 🎯 **Protocolo de Misterio:** No vendemos "IA" ni "automatización". Vendemos resultados: "Indicadores de Competencia", "Ingeniería de Contenido", "Metodología de Reclutamiento".
