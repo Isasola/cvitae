@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { Upload, Plus, Trash2, BarChart3, ArrowRight, Users, FileUp, CheckCircle, AlertCircle, MessageCircle, Info, Key, Lock, Unlock, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { TetrisLoader } from "@/components/ui/tetris-loader";
 import { tokenManager, TokenData } from "@/utils/tokenManager";
 
 const WA_NUMBER = "595992954169";
@@ -96,22 +97,30 @@ export default function RecruitersLots() {
     }
 
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 2000));
+    try {
+      // Call real API via api-manager (would use fetch to /.netlify/functions/analyze-cv-candidate)
+      // For now, simulating with delay
+      await new Promise((r) => setTimeout(r, 2000));
 
-    tokenManager.incrementBatchCount();
+      tokenManager.incrementBatchCount();
 
-    const mockResults = candidates.map((c, idx) => ({
-      id: c.id,
-      name: c.name,
-      score: Math.max(50, 90 - idx * 7),
-      match: Math.max(45, 92 - idx * 9),
-      strengths: ["Experiencia relevante", "Habilidades técnicas", "Formación académica"],
-      gaps: ["Inglés avanzado", "Certificaciones adicionales"],
-    }));
+      // In production, this would call the real Anthropic API
+      const mockResults = candidates.map((c, idx) => ({
+        id: c.id,
+        name: c.name,
+        score: Math.max(50, 90 - idx * 7),
+        match: Math.max(45, 92 - idx * 9),
+        strengths: ["Experiencia relevante", "Habilidades técnicas", "Formación académica"],
+        gaps: ["Inglés avanzado", "Certificaciones adicionales"],
+      }));
 
-    setResults(mockResults);
-    setStep(3);
-    setLoading(false);
+      setResults(mockResults);
+      setStep(3);
+    } catch (error) {
+      console.error('Error analyzing candidates:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!tokenData) {
@@ -222,9 +231,9 @@ export default function RecruitersLots() {
 
   // USUARIO CON TOKEN VÁLIDO
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
       {/* NAVBAR */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-700/50">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0d0d0f]/80 backdrop-blur-md border-b border-[#c9a84c]/10">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <button onClick={() => setLocation("/")} className="flex items-center gap-2 hover:opacity-80 transition">
             <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center font-black text-xs">CV</div>
@@ -247,7 +256,7 @@ export default function RecruitersLots() {
         <div className="max-w-4xl mx-auto px-4">
           {/* HEADER */}
           <div className="mb-10">
-            <div className="flex items-center gap-2 text-sm font-bold text-blue-400 uppercase tracking-wider mb-4">
+            <div className="flex items-center gap-2 text-sm font-bold text-[#c9a84c] uppercase tracking-wider mb-4">
               <Unlock className="w-4 h-4" />
               {tokenData.plan === "pro" ? "Plan Pro Activo" : "Plan Starter Activo"}
             </div>
@@ -257,10 +266,10 @@ export default function RecruitersLots() {
             </p>
 
             {tokenData.plan === "starter" && (
-              <div className="flex items-start gap-3 bg-yellow-600/10 border border-yellow-500/30 rounded-lg p-4 text-sm text-slate-300 mb-8">
-                <AlertCircle className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 bg-[#c9a84c]/10 border border-[#c9a84c]/30 rounded-lg p-4 text-sm text-gray-300 mb-8">
+                <AlertCircle className="w-5 h-5 text-[#c9a84c] flex-shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-yellow-400">Plan Starter:</strong> Tienes <strong>{tokenManager.getRemainingBatches()}</strong> lote disponible. Después, necesitarás actualizar a Pro.
+                  <strong className="text-[#c9a84c]">Plan Starter:</strong> Tienes <strong>{tokenManager.getRemainingBatches()}</strong> lote disponible. Después, necesitarás actualizar a Pro.
                 </div>
               </div>
             )}
@@ -270,15 +279,15 @@ export default function RecruitersLots() {
           <div className="flex gap-4 mb-12">
             {["Puesto", "Candidatos", "Resultados"].map((label, i) => (
               <div key={i} className="flex-1 flex flex-col gap-1">
-                <div className={`h-2 rounded transition ${step > i ? "bg-blue-500" : step === i + 1 ? "bg-blue-500/60" : "bg-slate-700"}`} />
-                <span className={`text-xs ${step === i + 1 ? "text-blue-400 font-bold" : "text-slate-400"}`}>{label}</span>
+                <div className={`h-2 rounded transition ${step > i ? "bg-[#c9a84c]" : step === i + 1 ? "bg-[#c9a84c]/60" : "bg-[#c9a84c]/10"}`} />
+                <span className={`text-xs ${step === i + 1 ? "text-[#c9a84c] font-bold" : "text-gray-400"}`}>{label}</span>
               </div>
             ))}
           </div>
 
           {/* PASO 1: Detalles del puesto */}
           {step === 1 && (
-            <Card className="bg-slate-800/40 border-slate-700/50 p-8">
+            <Card className="bg-[#0d0d0f]/40 border-[#c9a84c]/20 p-8">
               <h2 className="text-2xl font-black mb-2">Paso 1: Detalles del puesto</h2>
               <p className="text-slate-400 mb-6">Indicá el cargo y pegá la descripción del aviso para que el sistema detecte los indicadores clave.</p>
               <div className="space-y-6">
@@ -290,8 +299,8 @@ export default function RecruitersLots() {
                   <label className="block text-sm font-bold mb-2">Descripción del aviso <span className="text-slate-400 font-normal">(recomendado)</span></label>
                   <textarea value={jobDesc} onChange={(e) => setJobDesc(e.target.value)} placeholder="Pegá la descripción completa del aviso..." rows={5} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500" />
                 </div>
-                <Button onClick={() => setStep(2)} disabled={!jobTitle.trim()} className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white disabled:opacity-50">
-                  Continuar <ArrowRight className="w-4 h-4 ml-2" />
+                <Button onClick={() => setStep(2)} disabled={!jobTitle.trim()} className="w-full bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] hover:from-[#d4b85f] hover:to-[#e0c470] text-black disabled:opacity-50 font-semibold">
+                  {loading ? <><TetrisLoader /> Procesando...</> : <>Continuar <ArrowRight className="w-4 h-4 ml-2" /></>}
                 </Button>
               </div>
             </Card>
@@ -299,28 +308,28 @@ export default function RecruitersLots() {
 
           {/* PASO 2: Subir candidatos */}
           {step === 2 && (
-            <Card className="bg-slate-800/40 border-slate-700/50 p-8">
+            <Card className="bg-[#0d0d0f]/40 border-[#c9a84c]/20 p-8">
               <h2 className="text-2xl font-black mb-2">Paso 2: Candidatos</h2>
               <p className="text-slate-400 mb-6">Subí los CVs en PDF de cada candidato. Podés agregar hasta 10 por lote.</p>
 
               <div className="space-y-4 mb-6">
                 {candidates.map((candidate, idx) => (
-                  <div key={candidate.id} className="flex gap-4 items-end">
+                                 <div className="flex gap-4 items-end">
                     <div className="flex-1">
-                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Candidato {idx + 1}</label>
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Candidato {idx + 1}</label>
                       <div className="relative">
                         <input type="file" accept=".pdf" onChange={(e) => e.target.files && handleFileUpload(candidate.id, e.target.files[0])} className="absolute inset-0 opacity-0 cursor-pointer z-10" />
-                        <div className="bg-slate-800 border-2 border-dashed border-slate-700 hover:border-blue-500 transition rounded-lg px-4 py-3 cursor-pointer flex items-center gap-3">
+                        <div className="bg-[#0d0d0f] border-2 border-dashed border-[#c9a84c]/20 hover:border-[#c9a84c]/50 transition rounded-lg px-4 py-3 cursor-pointer flex items-center gap-3">-3">
                           {candidate.file ? (
                             <>
                               <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
                               <span className="text-sm font-medium truncate">{candidate.name}</span>
-                              <span className="text-xs text-slate-400 ml-auto">PDF cargado ✓</span>
+                              <span className="text-xs text-gray-400 ml-auto">PDF cargado ✓</span>
                             </>
                           ) : (
                             <>
-                              <FileUp className="w-5 h-5 text-slate-500 flex-shrink-0" />
-                              <span className="text-sm text-slate-400">Hacé click o arrastrá el PDF aquí</span>
+                              <FileUp className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                              <span className="text-sm text-gray-400">Hacé click o arrastrá el PDF aquí</span>
                             </>
                           )}
                         </div>
