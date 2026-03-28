@@ -7,12 +7,14 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { DotGridBackground } from "./components/ui/dot-grid-background";
 import { WhatsAppButton } from "./components/ui/whatsapp-button";
 import Home from "./pages/Home";
+import Opportunities from "./pages/Opportunities";
 
 
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/opportunities"} component={Opportunities} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

@@ -23,9 +23,9 @@ export const WhatsAppButton: React.FC = () => {
       whileHover={{ scale: 1.3 }}
     >
       <div className="relative">
-        {/* Pulse Background */}
+        {/* Pulse Background - Golden */}
         <motion.div
-          className="absolute inset-0 rounded-full bg-[#25D366]/30 blur-lg"
+          className="absolute inset-0 rounded-full bg-[#c9a84c]/30 blur-lg"
           animate={{ scale: [1, 1.3, 1] }}
           transition={{
             duration: 2,
@@ -34,9 +34,9 @@ export const WhatsAppButton: React.FC = () => {
           }}
         />
 
-        {/* Button */}
-        <div className="relative bg-gradient-to-br from-[#25D366] to-[#1fa855] rounded-full p-4 shadow-lg hover:shadow-xl transition-shadow">
-          <MessageCircle className="w-6 h-6 text-white" />
+        {/* Button - Golden */}
+        <div className="relative bg-gradient-to-br from-[#c9a84c] to-[#b8963f] rounded-full p-4 shadow-lg hover:shadow-xl transition-shadow">
+          <MessageCircle className="w-6 h-6 text-black" />
         </div>
       </div>
     </motion.a>
