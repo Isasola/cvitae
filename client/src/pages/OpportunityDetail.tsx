@@ -50,18 +50,20 @@ export default function OpportunityDetail() {
   // Limpiar descripción para meta-tags (primeros 150 caracteres)
   const metaDescription = opportunity.description 
     ? opportunity.description.replace(/[#*`]/g, '').substring(0, 150) + '...'
-    : `Postulate a la vacante de ${opportunity.title} en ${opportunity.company} a través de CVitae Paraguay.`;
+    : 'Oportunidad laboral en CVitae Paraguay';
+
+  const hasUrl = !!opportunity.application_url;
 
   return (
     <div className="w-full bg-black min-h-screen pt-32 pb-20 px-4">
       <Helmet>
-        <title>{opportunity.title} | {opportunity.company} | CVitae Paraguay</title>
-        <meta name="description" content={metaDescription} />
-        <meta property="og:title" content={`${opportunity.title} en ${opportunity.company}`} />
-        <meta property="og:description" content={metaDescription} />
+        <title>{`${opportunity.title || 'Vacante'} | ${opportunity.company || 'Empresa'} | CVitae Paraguay`}</title>
+        <meta name="description" content={metaDescription || 'Oportunidad laboral en CVitae Paraguay'} />
+        <meta property="og:title" content={`${opportunity.title || 'Vacante'} en ${opportunity.company || 'Empresa'}`} />
+        <meta property="og:description" content={metaDescription || 'Oportunidad laboral en CVitae Paraguay'} />
         <meta property="og:type" content="article" />
-        <meta name="twitter:title" content={`${opportunity.title} en ${opportunity.company}`} />
-        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:title" content={`${opportunity.title || 'Vacante'} en ${opportunity.company || 'Empresa'}`} />
+        <meta name="twitter:description" content={metaDescription || 'Oportunidad laboral en CVitae Paraguay'} />
       </Helmet>
 
       <motion.div 
@@ -83,7 +85,7 @@ export default function OpportunityDetail() {
               <span className="text-xs font-bold uppercase tracking-wider text-[#c9a84c] px-3 py-1 bg-[#c9a84c]/10 rounded-full border border-[#c9a84c]/20">
                 {opportunity.source || 'Vacante Verificada'}
               </span>
-              {opportunity.deadline && (
+              {opportunity.deadline && opportunity.deadline !== 'N/A' && (
                 <span className="text-xs text-gray-400 flex items-center gap-1">
                   <Calendar className="w-3 h-3" />
                   Cierra: {new Date(opportunity.deadline).toLocaleDateString()}
@@ -92,7 +94,7 @@ export default function OpportunityDetail() {
             </div>
             
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
-              {opportunity.title}
+              {opportunity.title || 'Sin título'}
             </h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -102,7 +104,7 @@ export default function OpportunityDetail() {
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 uppercase font-semibold">Empresa</p>
-                  <p className="font-medium">{opportunity.company}</p>
+                  <p className="font-medium">{opportunity.company || 'Empresa no especificada'}</p>
                 </div>
               </div>
 
@@ -124,24 +126,25 @@ export default function OpportunityDetail() {
               Descripción del Puesto
             </div>
             <div className="text-gray-300 whitespace-pre-wrap leading-relaxed bg-white/5 p-6 rounded-2xl border border-white/5">
-              {opportunity.description}
+              {opportunity.description || 'Descripción no disponible'}
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-white/10">
             <Button
               size="lg"
-              onClick={() => window.open(opportunity.application_url, '_blank')}
-              className="flex-1 bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black font-bold py-7 rounded-2xl hover:shadow-lg hover:shadow-[#c9a84c]/30 transition-all flex items-center justify-center gap-2 text-lg"
+              disabled={!hasUrl}
+              onClick={() => hasUrl && window.open(opportunity.application_url, '_blank')}
+              className={`flex-1 ${hasUrl ? 'bg-gradient-to-r from-[#c9a84c] to-[#d4b85f]' : 'bg-gray-800'} text-black font-bold py-7 rounded-2xl hover:shadow-lg transition-all flex items-center justify-center gap-2 text-lg disabled:opacity-50 disabled:cursor-not-allowed`}
             >
-              Aplicar en la fuente original
-              <ExternalLink className="w-5 h-5" />
+              {hasUrl ? 'Aplicar en la fuente original' : 'URL no disponible'}
+              {hasUrl && <ExternalLink className="w-5 h-5" />}
             </Button>
             
             <Button
               variant="outline"
               size="lg"
-              onClick={() => window.open(`https://wa.me/595992954169?text=Hola! Me interesa la vacante de ${opportunity.title} en ${opportunity.company}. Quisiera optimizar mi CV para esta postulación.`, '_blank')}
+              onClick={() => window.open(`https://wa.me/595992954169?text=Hola! Me interesa la vacante de ${opportunity.title || 'esta vacante'} en ${opportunity.company || 'esta empresa'}. Quisiera optimizar mi CV para esta postulación.`, '_blank')}
               className="border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c]/10 py-7 rounded-2xl text-lg px-8"
             >
               Optimizar mi CV para este puesto
