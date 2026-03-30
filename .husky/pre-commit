@@ -1,0 +1,17 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🔍 Ejecutando verificaciones pre-commit..."
+
+# Check if pnpm build succeeds
+echo "📦 Compilando proyecto..."
+pnpm build > /dev/null 2>&1
+
+if [ $? -ne 0 ]; then
+  echo "❌ ERROR: pnpm build falló. No se puede hacer commit."
+  echo "Ejecuta 'pnpm build' localmente para ver los errores."
+  exit 1
+fi
+
+echo "✅ Build exitoso. Permitiendo commit..."
+exit 0
