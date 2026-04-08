@@ -293,128 +293,104 @@ export const CVAnalyzer: React.FC = () => {
                         ].map((item, index) => (
                           <motion.div
                             key={index}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.3, delay: index * 0.1 }}
-                            className={`p-4 rounded-lg border ${getScoreBg(item.score)}`}
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: index * 0.1 }}
+                            className={`p-4 rounded-xl border ${getScoreBg(item.score)} text-center`}
                           >
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-sm font-semibold text-gray-300">
-                                {item.label}
-                              </span>
-                              <item.icon className={`w-4 h-4 ${getScoreColor(item.score)}`} />
-                            </div>
-                            <div className="text-2xl font-bold">
-                              <span className={getScoreColor(item.score)}>
-                                {item.score}%
-                              </span>
-                            </div>
+                            <p className="text-xs text-gray-400 uppercase font-bold mb-1">{item.label}</p>
+                            <p className={`text-3xl font-bold ${getScoreColor(item.score)}`}>
+                              {item.score}%
+                            </p>
                           </motion.div>
                         ))}
                       </div>
 
-                      {results?.strengths && results.strengths.length > 0 && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: 0.2 }}
-                          className="bg-green-400/10 border border-green-400/30 rounded-lg p-4 space-y-2"
-                        >
-                          <h4 className="font-semibold text-green-300 flex items-center gap-2">
-                            <CheckCircle className="w-4 h-4" />
-                            Fortalezas
+                      <div className="space-y-4">
+                        <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                          <h4 className="text-[#c9a84c] font-bold text-sm uppercase mb-3 flex items-center gap-2">
+                            <Zap className="w-4 h-4" /> Probabilidad de Entrevista
                           </h4>
-                          <ul className="text-sm text-gray-300 space-y-1">
-                            {results.strengths.map((strength, i) => (
-                              <li key={i}>• {strength}</li>
+                          <p className="text-white font-medium">{results?.estimatedInterviewChance}</p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                            <h4 className="text-green-400 font-bold text-sm uppercase mb-3">Fortalezas</h4>
+                            <ul className="space-y-2">
+                              {results?.strengths?.map((s, i) => (
+                                <li key={i} className="text-xs text-gray-300 flex items-start gap-2">
+                                  <span className="text-green-400">•</span> {s}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                            <h4 className="text-red-400 font-bold text-sm uppercase mb-3">Mejoras Críticas</h4>
+                            <ul className="space-y-2">
+                              {results?.criticalImprovements?.map((m, i) => (
+                                <li key={i} className="text-xs text-gray-300 flex items-start gap-2">
+                                  <span className="text-red-400">•</span> {m}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div className="bg-[#c9a84c]/10 border border-[#c9a84c]/20 rounded-xl p-6">
+                          <h4 className="text-[#c9a84c] font-bold text-sm uppercase mb-4">Plan de Acción Sugerido</h4>
+                          <ul className="space-y-3">
+                            {results?.actionPlan?.map((step, i) => (
+                              <li key={i} className="text-sm text-gray-200 flex items-start gap-3">
+                                <span className="w-5 h-5 rounded-full bg-[#c9a84c] text-black text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                                  {i + 1}
+                                </span>
+                                {step}
+                              </li>
                             ))}
                           </ul>
-                        </motion.div>
-                      )}
+                        </div>
+                      </div>
 
-                      {results?.criticalImprovements && results.criticalImprovements.length > 0 && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: 0.3 }}
-                          className="bg-red-400/10 border border-red-400/30 rounded-lg p-4 space-y-2"
+                      <div className="pt-4 space-y-4">
+                        <Button
+                          onClick={() => window.open(`https://wa.me/595992954169?text=Hola! Mi puntaje ATS fue de ${results?.atsScore}%. Quisiera optimizar mi CV para mejorar mis oportunidades.`, '_blank')}
+                          className="w-full bg-[#c9a84c] text-black font-bold py-6 rounded-xl hover:shadow-lg hover:shadow-[#c9a84c]/20 transition-all"
                         >
-                          <h4 className="font-semibold text-red-300 flex items-center gap-2">
-                            <AlertCircle className="w-4 h-4" />
-                            Mejoras Urgentes
-                          </h4>
-                          <ul className="text-sm text-gray-300 space-y-1">
-                            {results.criticalImprovements.map((improvement, i) => (
-                              <li key={i}>• {improvement}</li>
-                            ))}
-                          </ul>
-                        </motion.div>
-                      )}
-
-                      {results?.cvOptimizationMessage && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: 0.4 }}
-                          className="bg-blue-400/10 border border-blue-400/30 rounded-lg p-4"
+                          Optimizar mi CV con un Experto
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          onClick={() => {
+                            setHasAnalyzed(false);
+                            setFile(null);
+                            setFileName('');
+                            setResults(null);
+                          }}
+                          className="w-full text-gray-500 hover:text-white"
                         >
-                          <p className="text-sm text-gray-300 leading-relaxed">
-                            {results.cvOptimizationMessage}
-                          </p>
-                        </motion.div>
-                      )}
-
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.5, delay: 0.5 }}
-                        className="bg-gradient-to-r from-[#c9a84c]/20 to-[#d4b85f]/20 border border-[#c9a84c]/50 rounded-lg p-6 text-center"
-                      >
-                        <p className="text-white font-semibold mb-4">
-                          ¿Quieres optimizar tu CV Elite?
-                        </p>
-                        <a
-                          href="https://wa.me/595992954169?text=¿Quieres un CV Elite? Optimízalo con un asesor por WhatsApp"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block w-full"
-                        >
-                          <Button className="w-full bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-slate-900 font-bold text-lg py-6 hover:shadow-lg hover:shadow-[#c9a84c]/40">
-                            Contactar Asesor por WhatsApp
-                          </Button>
-                        </a>
-                      </motion.div>
+                          Analizar otro archivo
+                        </Button>
+                      </div>
                     </>
                   ) : (
-                    <div className="bg-red-400/10 border border-red-400/30 rounded-lg p-4">
-                      <h4 className="font-semibold text-red-300 flex items-center gap-2">
-                        <AlertCircle className="w-4 h-4" />
-                        Error en el análisis
-                      </h4>
-                      <p className="text-sm text-gray-300 mt-2">
-                        {results?.error}
-                      </p>
+                    <div className="text-center py-8">
+                      <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
+                      <h3 className="text-xl font-bold text-white mb-2">Error en el análisis</h3>
+                      <p className="text-gray-400 mb-6">{results?.error}</p>
+                      <Button
+                        onClick={() => {
+                          setHasAnalyzed(false);
+                          setFile(null);
+                          setFileName('');
+                          setResults(null);
+                        }}
+                        className="bg-white/10 text-white hover:bg-white/20"
+                      >
+                        Reintentar
+                      </Button>
                     </div>
                   )}
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.6 }}
-                    className="flex flex-col gap-3"
-                  >
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setHasAnalyzed(false);
-                        setFile(null);
-                        setFileName('');
-                      }}
-                      className="w-full border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c]/10"
-                    >
-                      Analizar Otro CV
-                    </Button>
-                  </motion.div>
                 </motion.div>
               </>
             )}
@@ -424,5 +400,3 @@ export const CVAnalyzer: React.FC = () => {
     </section>
   );
 };
-
-export default CVAnalyzer;

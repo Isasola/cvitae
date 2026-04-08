@@ -1,9 +1,7 @@
 'use client';
-// TooltipProvider removed for simplicity
+
 import NotFound from "@/pages/NotFound.tsx";
 import { Route, Switch } from "wouter";
-// ErrorBoundary and ThemeProvider removed for simplicity
-// DotGridBackground and WhatsAppButton removed for simplicity
 import { HelmetProvider } from 'react-helmet-async';
 import Home from "./pages/Home";
 import Opportunities from "./pages/Opportunities";
@@ -19,12 +17,11 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/opportunities"} component={Opportunities} />
-      {/* RecruitersInterface removed for simplicity */}
+      <Route path={"/opportunities/:id"} component={OpportunityDetail} />
       <Route path={"/admin"} component={Admin} />
       <Route path={"/privacy"} component={Privacy} />
       <Route path={"/blog"} component={Blog} />
       <Route path={"/blog/:slug"} component={BlogPost} />
-      <Route path={"/opportunities/:id"} component={OpportunityDetail} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
