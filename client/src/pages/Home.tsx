@@ -333,7 +333,7 @@ export default function Home() {
                 highlighted: false,
               },
             ].map((plan, index) => (
-              <GlowCard key={index} className={`flex flex-col h-full ${plan.highlighted ? 'border-[#c9a84c] shadow-lg shadow-[#c9a84c]/20' : 'border-white/10'}`}>
+              <div key={index} className={`flex flex-col h-full rounded-2xl border bg-[#0a0a0a] p-0 ${plan.highlighted ? 'border-[#c9a84c] shadow-lg shadow-[#c9a84c]/20' : 'border-white/10'}`}>
                 <div className="p-8 flex-grow">
                   <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
                   <div className="flex items-baseline gap-1 mb-4">
@@ -357,7 +357,7 @@ export default function Home() {
                     Comenzar Ahora
                   </Button>
                 </div>
-              </GlowCard>
+              </div>
             ))}
           </div>
         </div>
