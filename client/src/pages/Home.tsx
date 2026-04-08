@@ -4,15 +4,12 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { JobsMarquee } from '@/components/ui/jobs-marquee';
-import { TestimonialsGrid } from '@/components/ui/testimonials-grid';
-import { CVAnalyzer } from '@/components/ui/cv-analyzer';
-import { RecruitersPromo } from '@/components/RecruitersPromo';
-import { GlowCard } from '@/components/ui/spotlight-card';
+// Complex UI components removed for simplicity during Supabase migration
 import { useLocation } from 'wouter';
 // Footer removed (now global in App.tsx)
-import Newsletter from '@/components/Newsletter';
-import opportunitiesData from '@/data/opportunities.json';
+import Newsletter from '@/components/Newsletter.tsx';
+import { supabase } from '@/lib/supabase';
+import ReactMarkdown from 'react-markdown';
 
 const WA_NUMBER = '595992954169';
 const WA_BASE = `https://wa.me/${WA_NUMBER}`;
@@ -20,12 +17,45 @@ const WA_BASE = `https://wa.me/${WA_NUMBER}`;
 export default function Home() {
   const [, setLocation] = useLocation();
   const [opportunitiesCount, setOpportunitiesCount] = useState(539);
+  const [latestOpportunities, setLatestOpportunities] = useState<any[]>([]);
+  const [loadingOpps, setLoadingOpps] = useState(true);
 
   useEffect(() => {
-    // Load dynamic opportunities count from JSON
-    if (opportunitiesData && opportunitiesData.total) {
-      setOpportunitiesCount(opportunitiesData.total);
-    }
+    const fetchStatsAndOpps = async () => {
+      try {
+        // 1. Obtener conteo total (API + Supabase)
+        // Por ahora sumamos un base de 500 (APIs) + lo que haya en Supabase
+        const { count, error: countError } = await supabase
+          .from('content_hub')
+          .select('*', { count: 'exact', head: true })
+          .eq('is_active', true)
+          .gte('fecha_vencimiento', new Date().toISOString());
+        
+        if (!countError && count !== null) {
+          setOpportunitiesCount(500 + count);
+        }
+
+        // 2. Obtener las últimas 3 oportunidades cargadas en el Admin
+        const { data: opps, error: oppsError } = await supabase
+          .from('content_hub')
+          .select('*')
+          .eq('is_active', true)
+          .eq('tipo', 'oportunidad')
+          .gte('fecha_vencimiento', new Date().toISOString())
+          .order('fecha_vencimiento', { ascending: true })
+          .limit(3);
+
+        if (!oppsError && opps) {
+          setLatestOpportunities(opps);
+        }
+      } catch (error) {
+        console.error('Error fetching Home data:', error);
+      } finally {
+        setLoadingOpps(false);
+      }
+    };
+
+    fetchStatsAndOpps();
   }, []);
 
   return (
@@ -149,28 +179,67 @@ export default function Home() {
         {/* AdSense slot will be injected here */}
       </div>
 
-      {/* ==================== JOBS MARQUEE SECTION ==================== */}
-      <section className="py-16 border-t border-[#c9a84c]/10">
+      {/* ==================== LATEST OPPORTUNITIES SECTION ==================== */}
+      <section className="py-20 border-t border-[#c9a84c]/10 bg-gradient-to-b from-black to-[#0d0d0f]/50">
         <div className="max-w-7xl mx-auto px-4">
-          <motion.h2
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl font-bold text-white text-center mb-12"
-          >
-            Mercado Laboral en Tiempo Real
-          </motion.h2>
-          <p className="text-gray-400 text-center mb-8 max-w-2xl mx-auto">
-            Estas son algunas búsquedas actuales. Actualizamos nuestra base de datos cada 12 horas para traerte lo último de Paraguay y la región.
-          </p>
-          <JobsMarquee />
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div className="max-w-2xl">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Últimas <span className="text-[#c9a84c]">Oportunidades Elite</span>
+              </h2>
+              <p className="text-gray-400">
+                Seleccionamos y verificamos manualmente las mejores convocatorias de Paraguay y el mundo.
+              </p>
+            </div>
+            <Button 
+              onClick={() => setLocation('/opportunities')}
+              variant="outline" 
+              className="border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c]/10"
+            >
+              Ver todas las vacantes
+            </Button>
+          </div>
+
+          {loadingOpps ? (
+            <div className="flex justify-center py-20">
+              <div className="w-8 h-8 border-4 border-[#c9a84c] border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {latestOpportunities.map((opp, idx) => (
+                <motion.div
+                  key={opp.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  onClick={() => setLocation(`/opportunities/${opp.slug}`)}
+                  className="group cursor-pointer bg-[#0a0a0a] border border-[#c9a84c]/10 rounded-2xl p-6 hover:border-[#c9a84c]/40 transition-all duration-300"
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#c9a84c] bg-[#c9a84c]/10 px-2 py-1 rounded">
+                      {opp.categoria}
+                    </span>
+                    <span className="text-[10px] text-gray-500 font-mono">
+                      {opp.ubicacion}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-3 group-hover:text-[#c9a84c] transition-colors line-clamp-2">
+                    {opp.titulo}
+                  </h3>
+                  <div className="text-gray-400 text-sm line-clamp-3 mb-6">
+                    <ReactMarkdown>{opp.cuerpo}</ReactMarkdown>
+                  </div>
+                  <div className="flex items-center text-[#c9a84c] text-xs font-bold gap-2">
+                    VER DETALLES <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* ==================== CV ANALYZER SECTION (Diagnóstico) ==================== */}
-      <div id="cv-analyzer">
-        <CVAnalyzer />
-      </div>
+      {/* Jobs Marquee and CV Analyzer removed for simplicity */}
 
       {/* ==================== ADSENSE PLACEHOLDER - MIDDLE ==================== */}
       <div id="adsense-middle" className="py-8 border-t border-[#c9a84c]/10 flex items-center justify-center min-h-[100px] bg-slate-900/30">

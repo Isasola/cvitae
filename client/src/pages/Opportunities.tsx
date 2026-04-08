@@ -2,8 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Briefcase, DollarSign, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { getOpportunitiesWithCache, type Opportunity } from '@/services/opportunitiesService';
 import { useLocation } from 'wouter';
+import { supabase } from '@/lib/supabase';
+import ReactMarkdown from 'react-markdown';
+
+interface Opportunity {
+  id: string;
+  titulo: string;
+  slug: string;
+  cuerpo: string;
+  categoria: string;
+  imagen_url: string;
+  fecha_vencimiento: string;
+  tipo: 'blog' | 'oportunidad';
+  ubicacion: string;
+  is_active: boolean;
+}
 
 export default function Opportunities() {
   const [, setLocation] = useLocation();
@@ -25,8 +39,16 @@ export default function Opportunities() {
   useEffect(() => {
     const loadOpportunities = async () => {
       try {
-        const data = await getOpportunitiesWithCache();
-        setOpportunities(data);
+        const { data, error } = await supabase
+          .from('content_hub')
+          .select('*')
+          .eq('is_active', true)
+          .eq('tipo', 'oportunidad')
+          .gte('fecha_vencimiento', new Date().toISOString())
+          .order('fecha_vencimiento', { ascending: true });
+
+        if (error) throw error;
+        setOpportunities(data || []);
       } catch (error) {
         console.error('Error loading opportunities:', error);
       } finally {
@@ -42,8 +64,7 @@ export default function Opportunities() {
     const matchesLocation = selectedLocation === 'all' || opp.location === selectedLocation;
     const matchesRubro = selectedRubro === 'all' || opp.rubro === selectedRubro;
     const matchesSearch = searchTerm === '' || 
-      opp.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      opp.company.toLowerCase().includes(searchTerm.toLowerCase());
+      opp.titulo.toLowerCase().includes(searchTerm.toLowerCase());
     
     return matchesCategory && matchesLocation && matchesRubro && matchesSearch;
   });
@@ -173,10 +194,10 @@ export default function Opportunities() {
                 {/* Header */}
                 <div className="mb-4">
                   <h3 className="text-xl font-bold text-white group-hover:text-[#c9a84c] transition-colors">
-                    {opp.title}
+                    {opp.titulo}
                   </h3>
                   <p className="text-[#c9a84c] font-semibold text-sm mt-1">
-                    {opp.company}
+                    {opp.categoria}
                   </p>
                 </div>
 
@@ -184,28 +205,22 @@ export default function Opportunities() {
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center gap-2 text-gray-400 text-sm">
                     <MapPin className="w-4 h-4 text-[#c9a84c]" />
-                    {opp.location}
+                    {opp.ubicacion}
                   </div>
                   <div className="flex items-center gap-2 text-gray-400 text-sm">
                     <Briefcase className="w-4 h-4 text-[#c9a84c]" />
-                    {opp.type}
+                    {opp.tipo}
                   </div>
-                  {opp.salary && (
-                    <div className="flex items-center gap-2 text-gray-400 text-sm">
-                      <DollarSign className="w-4 h-4 text-[#c9a84c]" />
-                      {opp.salary}
-                    </div>
-                  )}
                 </div>
 
                 {/* Description */}
-                <p className="text-gray-300 text-sm mb-6 line-clamp-2">
-                  {opp.description}
-                </p>
+                <div className="text-gray-300 text-sm mb-6 line-clamp-2">
+                  <ReactMarkdown>{opp.cuerpo}</ReactMarkdown>
+                </div>
 
                 {/* Button */}
                 <Button
-                  onClick={() => setLocation(`/opportunities/${opp.id}`)}
+                  onClick={() => setLocation(`/opportunities/${opp.slug}`)}
                   className="w-full bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black font-semibold hover:shadow-lg hover:shadow-[#c9a84c]/30 flex items-center justify-center gap-2 transition-all duration-300 group-hover:scale-[1.02]"
                 >
                   Ver Oportunidad

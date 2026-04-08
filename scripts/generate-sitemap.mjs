@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.join(__dirname, '..');
 const opportunitiesPath = path.join(projectRoot, 'client/src/data/opportunities.json');
 const blogIndexPath = path.join(projectRoot, 'client/src/data/blog-index.json');
-const distPath = path.join(projectRoot, 'dist/public');
+const distPath = path.join(projectRoot, 'dist');
 const sitemapPath = path.join(distPath, 'sitemap.xml');
 
 const SITE_URL = 'https://cvitae-py.netlify.app';
@@ -22,18 +22,7 @@ try {
   const data = fs.readFileSync(opportunitiesPath, 'utf-8');
   const parsed = JSON.parse(data);
   opportunities = parsed.opportunities || [];
-  
-  // Fix 3: Deduplicación y filtrado de 'None'
-  const seenIds = new Set();
-  opportunities = opportunities.filter(opp => {
-    if (!opp.id || opp.id.includes('None') || seenIds.has(opp.id)) {
-      return false;
-    }
-    seenIds.add(opp.id);
-    return true;
-  });
-  
-  console.log('✅ Loaded and filtered ' + opportunities.length + ' unique opportunities');
+  console.log('✅ Loaded ' + opportunities.length + ' opportunities');
 } catch (error) {
   console.error('❌ Error reading opportunities.json:', error.message);
 }
@@ -54,7 +43,6 @@ const staticPages = [
   { url: '/', priority: '1.0', changefreq: 'daily' },
   { url: '/opportunities', priority: '0.9', changefreq: 'daily' },
   { url: '/blog', priority: '0.8', changefreq: 'weekly' },
-  { url: '/privacy', priority: '0.5', changefreq: 'monthly' },
   { url: '/recruiters/interface', priority: '0.7', changefreq: 'weekly' },
 ];
 
@@ -81,10 +69,8 @@ opportunities.forEach((opp) => {
   sitemap += '    <loc>' + SITE_URL + '/opportunities/' + opp.id + '</loc>\n';
   sitemap += '    <changefreq>weekly</changefreq>\n';
   sitemap += '    <priority>0.6</priority>\n';
-  if (opp.deadline && opp.deadline !== 'N/A') {
-    try {
-        sitemap += '    <lastmod>' + opp.deadline.split('T')[0] + '</lastmod>\n';
-    } catch(e) {}
+  if (opp.deadline) {
+    sitemap += '    <lastmod>' + opp.deadline.split('T')[0] + '</lastmod>\n';
   }
   sitemap += '  </url>\n';
 });

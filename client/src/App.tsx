@@ -1,15 +1,12 @@
 'use client';
-import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
+// TooltipProvider removed for simplicity
+import NotFound from "@/pages/NotFound.tsx";
 import { Route, Switch } from "wouter";
-import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
-import { DotGridBackground } from "./components/ui/dot-grid-background";
-import { WhatsAppButton } from "./components/ui/whatsapp-button";
+// ErrorBoundary and ThemeProvider removed for simplicity
+// DotGridBackground and WhatsAppButton removed for simplicity
 import { HelmetProvider } from 'react-helmet-async';
 import Home from "./pages/Home";
 import Opportunities from "./pages/Opportunities";
-import RecruitersInterface from "./pages/RecruitersInterface";
 import Admin from "./pages/Admin";
 import Privacy from "./pages/Privacy";
 import Blog from "./pages/Blog";
@@ -22,7 +19,7 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/opportunities"} component={Opportunities} />
-      <Route path={"/recruiters/interface"} component={RecruitersInterface} />
+      {/* RecruitersInterface removed for simplicity */}
       <Route path={"/admin"} component={Admin} />
       <Route path={"/privacy"} component={Privacy} />
       <Route path={"/blog"} component={Blog} />
@@ -38,17 +35,10 @@ function Router() {
 function App() {
   return (
     <HelmetProvider>
-      <ErrorBoundary>
-        <ThemeProvider defaultTheme="dark">
-          <TooltipProvider>
-            <DotGridBackground>
-              <Router />
-              <Footer />
-              <WhatsAppButton />
-            </DotGridBackground>
-          </TooltipProvider>
-        </ThemeProvider>
-      </ErrorBoundary>
+      <div className="bg-black min-h-screen text-white">
+        <Router />
+        <Footer />
+      </div>
     </HelmetProvider>
   );
 }

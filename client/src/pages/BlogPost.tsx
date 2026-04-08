@@ -3,49 +3,52 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'wouter';
 import { Helmet } from 'react-helmet-async';
-import { marked } from 'marked';
 import { motion } from 'framer-motion';
-import { blogIndex } from '@/data/blog-index';
+import { supabase } from '@/lib/supabase';
+import ReactMarkdown from 'react-markdown';
+import rehypeSanitize from 'rehype-sanitize';
 import NotFound from '@/pages/NotFound';
-import Newsletter from '@/components/Newsletter';
+import Newsletter from '@/components/Newsletter.tsx';
+
+interface ContentItem {
+  id: string;
+  titulo: string;
+  slug: string;
+  cuerpo: string;
+  categoria: string;
+  imagen_url: string;
+  fecha_vencimiento: string;
+  tipo: 'blog' | 'oportunidad';
+  ubicacion: string;
+}
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const [, setLocation] = useLocation();
-  const [content, setContent] = useState<string>('');
+  const [post, setPost] = useState<ContentItem | null>(null);
   const [loading, setLoading] = useState(true);
-  const meta = blogIndex.find(p => p.slug === slug);
 
   useEffect(() => {
-    if (!meta) {
-      setLoading(false);
-      return;
-    }
-
-    const loadMarkdown = async () => {
+    const fetchPost = async () => {
       try {
-        // Vite dynamic import for markdown files as raw strings
-        const modules = import.meta.glob('../data/blog-posts/*.md', { query: '?raw', import: 'default' });
-        const path = `../data/blog-posts/${slug}.md`;
-        
-        if (modules[path]) {
-          const rawContent = await modules[path]() as string;
-          // Remove frontmatter if present
-          const cleanContent = rawContent.replace(/^---[\s\S]*?---/, '');
-          // marked v17 is synchronous
-          setContent(marked.parse(cleanContent) as string);
-        } else {
-          console.error('Post not found in modules');
-        }
+        const { data, error } = await supabase
+          .from('content_hub')
+          .select('*')
+          .eq('slug', slug)
+          .eq('is_active', true)
+          .single();
+
+        if (error) throw error;
+        setPost(data);
       } catch (err) {
-        console.error('Error loading markdown:', err);
+        console.error('Error fetching post:', err);
       } finally {
         setLoading(false);
       }
     };
 
-    loadMarkdown();
-  }, [slug, meta]);
+    if (slug) fetchPost();
+  }, [slug]);
 
   if (loading) {
     return (
@@ -55,28 +58,16 @@ export default function BlogPost() {
     );
   }
 
-  if (!meta) return <NotFound />;
+  if (!post) return <NotFound />;
 
   return (
     <div className="w-full bg-black min-h-screen pt-32 pb-20 px-4">
       <Helmet>
-        <title>{meta.title} | Blog CVitae</title>
-        <meta name="description" content={meta.description} />
-        <meta name="keywords" content={meta.keywords.join(', ')} />
-        <meta property="og:title" content={meta.title} />
-        <meta property="og:description" content={meta.description} />
+        <title>{post.titulo} | Blog CVitae</title>
+        <meta name="description" content={post.titulo} />
+        <meta property="og:title" content={post.titulo} />
         <meta property="og:type" content="article" />
-        <meta property="article:published_time" content={meta.date} />
-        <meta property="article:section" content={meta.category} />
-        <script type="application/ld+json">{JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Article",
-          "headline": meta.title,
-          "description": meta.description,
-          "datePublished": meta.date,
-          "author": { "@type": "Organization", "name": "CVitae" },
-          "publisher": { "@type": "Organization", "name": "CVitae" }
-        })}</script>
+        <meta property="og:image" content={post.imagen_url} />
       </Helmet>
 
       <motion.article
@@ -94,19 +85,25 @@ export default function BlogPost() {
         <header className="mb-12">
           <div className="flex items-center gap-3 mb-4">
             <span className="text-xs font-bold uppercase tracking-wider text-[#c9a84c] px-2 py-1 bg-[#c9a84c]/10 rounded">
-              {meta.category}
+              {post.categoria}
             </span>
-            <span className="text-sm text-gray-500">{meta.date}</span>
+            <span className="text-sm text-gray-500">
+              Vence: {new Date(post.fecha_vencimiento).toLocaleDateString()}
+            </span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-            {meta.title}
+            {post.titulo}
           </h1>
+          {post.imagen_url && (
+            <div className="aspect-video overflow-hidden rounded-xl mb-12">
+              <img src={post.imagen_url} alt={post.titulo} className="w-full h-full object-cover" />
+            </div>
+          )}
         </header>
 
-        <div 
-          className="prose prose-invert prose-[#c9a84c] max-w-none text-gray-300 mb-20"
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
+        <div className="prose prose-invert prose-[#c9a84c] max-w-none text-gray-300 mb-20">
+          <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{post.cuerpo}</ReactMarkdown>
+        </div>
 
         <div className="mt-20 pt-12 border-t border-[#c9a84c]/10">
           <Newsletter source="blog" title="¿Te gustó este artículo?" />

@@ -6,36 +6,51 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ExternalLink, Building2, MapPin, Calendar, Briefcase } from 'lucide-react';
-import opportunitiesData from '@/data/opportunities.json';
+import { supabase } from '@/lib/supabase';
+import ReactMarkdown from 'react-markdown';
+import rehypeSanitize from 'rehype-sanitize';
 import NotFound from '@/pages/NotFound';
 
 interface Opportunity {
   id: string;
-  title: string;
-  company: string;
-  description: string;
-  application_url: string;
-  location?: string;
-  deadline?: string;
-  source?: string;
+  titulo: string;
+  slug: string;
+  cuerpo: string;
+  categoria: string;
+  imagen_url: string;
+  fecha_vencimiento: string;
+  tipo: 'blog' | 'oportunidad';
+  ubicacion: string;
+  is_active: boolean;
 }
 
 export default function OpportunityDetail() {
-  const { id } = useParams<{ id: string }>();
+  const { id: slug } = useParams<{ id: string }>();
   const [, setLocation] = useLocation();
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Buscar la oportunidad en el JSON de datos
-    if (opportunitiesData && opportunitiesData.opportunities) {
-      const found = opportunitiesData.opportunities.find((opp: any) => opp.id === id);
-      if (found) {
-        setOpportunity(found as Opportunity);
+    const fetchOpportunity = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('content_hub')
+          .select('*')
+          .eq('slug', slug)
+          .eq('is_active', true)
+          .single();
+
+        if (error) throw error;
+        setOpportunity(data);
+      } catch (err) {
+        console.error('Error fetching opportunity:', err);
+      } finally {
+        setLoading(false);
       }
-    }
-    setLoading(false);
-  }, [id]);
+    };
+
+    if (slug) fetchOpportunity();
+  }, [slug]);
 
   if (loading) {
     return (
@@ -48,22 +63,19 @@ export default function OpportunityDetail() {
   if (!opportunity) return <NotFound />;
 
   // Limpiar descripción para meta-tags (primeros 150 caracteres)
-  const metaDescription = opportunity.description 
-    ? opportunity.description.replace(/[#*`]/g, '').substring(0, 150) + '...'
+  const metaDescription = opportunity.cuerpo 
+    ? opportunity.cuerpo.replace(/[#*`]/g, '').substring(0, 150) + '...'
     : 'Oportunidad laboral en CVitae Paraguay';
-
-  const hasUrl = !!opportunity.application_url;
 
   return (
     <div className="w-full bg-black min-h-screen pt-32 pb-20 px-4">
       <Helmet>
-        <title>{`${opportunity.title || 'Vacante'} | ${opportunity.company || 'Empresa'} | CVitae Paraguay`}</title>
+        <title>{`${opportunity.titulo || 'Vacante'} | CVitae Paraguay`}</title>
         <meta name="description" content={metaDescription || 'Oportunidad laboral en CVitae Paraguay'} />
-        <meta property="og:title" content={`${opportunity.title || 'Vacante'} en ${opportunity.company || 'Empresa'}`} />
+        <meta property="og:title" content={opportunity.titulo || 'Vacante'} />
         <meta property="og:description" content={metaDescription || 'Oportunidad laboral en CVitae Paraguay'} />
         <meta property="og:type" content="article" />
-        <meta name="twitter:title" content={`${opportunity.title || 'Vacante'} en ${opportunity.company || 'Empresa'}`} />
-        <meta name="twitter:description" content={metaDescription || 'Oportunidad laboral en CVitae Paraguay'} />
+        <meta property="og:image" content={opportunity.imagen_url} />
       </Helmet>
 
       <motion.div 
@@ -83,18 +95,16 @@ export default function OpportunityDetail() {
           <header className="mb-10">
             <div className="flex flex-wrap items-center gap-3 mb-6">
               <span className="text-xs font-bold uppercase tracking-wider text-[#c9a84c] px-3 py-1 bg-[#c9a84c]/10 rounded-full border border-[#c9a84c]/20">
-                {opportunity.source || 'Vacante Verificada'}
+                {opportunity.categoria || 'Vacante Verificada'}
               </span>
-              {opportunity.deadline && opportunity.deadline !== 'N/A' && (
-                <span className="text-xs text-gray-400 flex items-center gap-1">
-                  <Calendar className="w-3 h-3" />
-                  Cierra: {new Date(opportunity.deadline).toLocaleDateString()}
-                </span>
-              )}
+              <span className="text-xs text-gray-400 flex items-center gap-1">
+                <Calendar className="w-3 h-3" />
+                Vence: {new Date(opportunity.fecha_vencimiento).toLocaleDateString()}
+              </span>
             </div>
             
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
-              {opportunity.title || 'Sin título'}
+              {opportunity.titulo || 'Sin título'}
             </h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -103,8 +113,8 @@ export default function OpportunityDetail() {
                   <Building2 className="w-5 h-5 text-[#c9a84c]" />
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 uppercase font-semibold">Empresa</p>
-                  <p className="font-medium">{opportunity.company || 'Empresa no especificada'}</p>
+                  <p className="text-xs text-gray-500 uppercase font-semibold">Categoría</p>
+                  <p className="font-medium">{opportunity.categoria || 'General'}</p>
                 </div>
               </div>
 
@@ -114,45 +124,50 @@ export default function OpportunityDetail() {
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 uppercase font-semibold">Ubicación</p>
-                  <p className="font-medium">{opportunity.location || 'Paraguay (Remoto/Presencial)'}</p>
+                  <p className="font-medium">{opportunity.ubicacion || 'Paraguay (Remoto/Presencial)'}</p>
                 </div>
               </div>
             </div>
           </header>
 
+          {opportunity.imagen_url && (
+            <div className="aspect-video overflow-hidden rounded-xl mb-10 border border-white/10">
+              <img src={opportunity.imagen_url} alt={opportunity.titulo} className="w-full h-full object-cover" />
+            </div>
+          )}
+
           <div className="prose prose-invert max-w-none mb-12">
             <div className="flex items-center gap-2 text-white font-bold mb-4 text-xl">
               <Briefcase className="w-5 h-5 text-[#c9a84c]" />
-              Descripción del Puesto
+              Descripción y Detalles
             </div>
-            <div className="text-gray-300 whitespace-pre-wrap leading-relaxed bg-white/5 p-6 rounded-2xl border border-white/5">
-              {opportunity.description || 'Descripción no disponible'}
+            <div className="text-gray-300 leading-relaxed bg-white/5 p-6 rounded-2xl border border-white/5">
+              <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{opportunity.cuerpo || 'Descripción no disponible'}</ReactMarkdown>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-white/10">
             <Button
               size="lg"
-              disabled={!hasUrl}
-              onClick={() => hasUrl && window.open(opportunity.application_url, '_blank')}
-              className={`flex-1 ${hasUrl ? 'bg-gradient-to-r from-[#c9a84c] to-[#d4b85f]' : 'bg-gray-800'} text-black font-bold py-7 rounded-2xl hover:shadow-lg transition-all flex items-center justify-center gap-2 text-lg disabled:opacity-50 disabled:cursor-not-allowed`}
+              onClick={() => window.open('https://cvitae-py.netlify.app/cv-optimization', '_blank')}
+              className="flex-1 bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black font-bold py-7 rounded-2xl hover:shadow-lg transition-all flex items-center justify-center gap-2 text-lg"
             >
-              {hasUrl ? 'Aplicar en la fuente original' : 'URL no disponible'}
-              {hasUrl && <ExternalLink className="w-5 h-5" />}
+              Optimizar mi CV para esta vacante
+              <ExternalLink className="w-5 h-5" />
             </Button>
             
             <Button
               variant="outline"
               size="lg"
-              onClick={() => window.open(`https://wa.me/595992954169?text=Hola! Me interesa la vacante de ${opportunity.title || 'esta vacante'} en ${opportunity.company || 'esta empresa'}. Quisiera optimizar mi CV para esta postulación.`, '_blank')}
+              onClick={() => window.open(`https://wa.me/595992954169?text=Hola! Me interesa la vacante de ${opportunity.titulo || 'esta vacante'}. Quisiera optimizar mi CV para esta postulación.`, '_blank')}
               className="border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c]/10 py-7 rounded-2xl text-lg px-8"
             >
-              Optimizar mi CV para este puesto
+              Consultar por WhatsApp
             </Button>
           </div>
           
           <p className="text-center text-gray-500 text-xs mt-8 italic">
-            Al hacer clic en "Aplicar", serás redirigido al sitio web oficial de la empresa o portal de empleo.
+            Esta oportunidad es gestionada a través de CVitae Paraguay.
           </p>
         </div>
       </motion.div>

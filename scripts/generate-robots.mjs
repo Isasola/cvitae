@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.join(__dirname, '..');
-const distPath = path.join(projectRoot, 'dist/public');
+const distPath = path.join(projectRoot, 'dist');
 const robotsPath = path.join(distPath, 'robots.txt');
 
 const SITE_URL = 'https://cvitae-py.netlify.app';
