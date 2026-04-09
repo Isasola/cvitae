@@ -18,7 +18,11 @@ import {
   Tag,
   AlertCircle,
   CheckCircle2,
-  Lock
+  Lock,
+  Edit,
+  Trash2,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -52,7 +56,7 @@ const CATEGORIES = [
 export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'content'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'blog' | 'content'>('dashboard');
   const [items, setItems] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -125,7 +129,6 @@ export default function Admin() {
     setLoading(true);
 
     try {
-      // Validar slug duplicado si es nuevo
       if (!isEditing) {
         const { data: existing } = await supabase
           .from('content_hub')
@@ -138,7 +141,6 @@ export default function Admin() {
         }
       }
 
-      // Normalizar fecha para que venza al final del día (23:59:59)
       const normalizedDate = `${formData.fecha_vencimiento}T23:59:59Z`;
 
       const dataToSave = {
@@ -169,6 +171,7 @@ export default function Admin() {
       
       resetForm();
       fetchItems();
+      setActiveTab('dashboard');
     } catch (err: any) {
       setNotification({ type: 'error', message: err.message });
     } finally {
@@ -209,7 +212,16 @@ export default function Admin() {
     if (!error) fetchItems();
   };
 
-  // Render Login
+  const deleteItem = async (id: string) => {
+    if (!confirm('¿Estás seguro de eliminar este contenido?')) return;
+    const { error } = await supabase
+      .from('content_hub')
+      .delete()
+      .eq('id', id);
+    
+    if (!error) fetchItems();
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center p-4">
@@ -262,6 +274,79 @@ export default function Admin() {
     );
   }
 
+  const renderDashboard = (filterType?: 'blog' | 'oportunidad') => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between mb-8">
+        <h3 className="text-xl font-bold">{filterType === 'blog' ? 'Posts de Blog' : 'Dashboard de Vacantes'}</h3>
+        <Button 
+          onClick={() => {
+            resetForm();
+            setFormData(prev => ({ ...prev, tipo: filterType || 'oportunidad' }));
+            setActiveTab('content');
+          }}
+          className="bg-[#c9a84c] text-black font-bold"
+        >
+          <Plus size={18} className="mr-2" /> {filterType === 'blog' ? 'Nuevo Post' : 'Nueva Vacante'}
+        </Button>
+      </div>
+
+      <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl overflow-hidden">
+        <table className="w-full text-left">
+          <thead>
+            <tr className="border-b border-white/5 bg-white/5">
+              <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-400">Título</th>
+              <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-400">Categoría</th>
+              <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-400">Estado</th>
+              <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-400 text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-white/5">
+            {items
+              .filter(item => !filterType || item.tipo === filterType)
+              .map((item) => (
+              <tr key={item.id} className="hover:bg-white/5 transition-colors group">
+                <td className="px-6 py-4">
+                  <div className="font-medium text-white">{item.titulo}</div>
+                  <div className="text-xs text-gray-500 mt-1">/{item.slug}</div>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="px-2 py-1 bg-white/5 rounded-md text-xs text-gray-400 border border-white/10">
+                    {item.categoria}
+                  </span>
+                </td>
+                <td className="px-6 py-4">
+                  <button 
+                    onClick={() => toggleStatus(item)}
+                    className={`flex items-center gap-2 text-xs font-bold ${item.is_active ? 'text-green-500' : 'text-red-500'}`}
+                  >
+                    {item.is_active ? <Eye size={14} /> : <EyeOff size={14} />}
+                    {item.is_active ? 'ACTIVO' : 'OCULTO'}
+                  </button>
+                </td>
+                <td className="px-6 py-4 text-right">
+                  <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button 
+                      onClick={() => handleEdit(item)}
+                      className="p-2 hover:bg-[#c9a84c]/10 text-[#c9a84c] rounded-lg transition-all"
+                    >
+                      <Edit size={18} />
+                    </button>
+                    <button 
+                      onClick={() => item.id && deleteItem(item.id)}
+                      className="p-2 hover:bg-red-500/10 text-red-500 rounded-lg transition-all"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-black text-white flex">
       {/* Sidebar */}
@@ -276,6 +361,12 @@ export default function Admin() {
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'dashboard' ? 'bg-[#c9a84c] text-black font-bold shadow-lg' : 'text-gray-400 hover:bg-white/5'}`}
           >
             <LayoutDashboard size={20} /> Dashboard
+          </button>
+          <button 
+            onClick={() => setActiveTab('blog')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'blog' ? 'bg-[#c9a84c] text-black font-bold shadow-lg' : 'text-gray-400 hover:bg-white/5'}`}
+          >
+            <FileText size={20} /> Posts de Blog
           </button>
           <button 
             onClick={() => { setActiveTab('content'); resetForm(); }}
@@ -297,254 +388,135 @@ export default function Admin() {
       <main className="flex-1 p-4 md:p-10 overflow-y-auto max-h-screen">
         <header className="flex items-center justify-between mb-10">
           <div>
-            <h2 className="text-3xl font-bold">{activeTab === 'dashboard' ? 'Panel General' : isEditing ? 'Editar Contenido' : 'Crear Contenido'}</h2>
+            <h2 className="text-3xl font-bold">
+              {activeTab === 'dashboard' ? 'Panel General' : activeTab === 'blog' ? 'Gestión de Blog' : isEditing ? 'Editar Contenido' : 'Crear Contenido'}
+            </h2>
             <p className="text-gray-500 mt-1">Gestiona las vacantes y el blog de CVitae</p>
           </div>
-          
-          <AnimatePresence>
-            {notification && (
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0 }}
-                className={`p-4 rounded-2xl flex items-center gap-3 shadow-xl ${
-                  notification.type === 'success' ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'
-                }`}
-              >
-                {notification.type === 'success' ? <CheckCircle2 className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
-                <span className="font-medium">{notification.message}</span>
-                <button onClick={() => setNotification(null)} className="ml-2 hover:opacity-70"><X size={16}/></button>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </header>
 
-        {activeTab === 'dashboard' ? (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              <div className="bg-[#0a0a0a] p-6 rounded-3xl border border-white/5">
-                <p className="text-gray-500 text-sm font-medium">Total Contenidos</p>
-                <p className="text-4xl font-bold mt-2 text-white">{items.length}</p>
-              </div>
-              <div className="bg-[#0a0a0a] p-6 rounded-3xl border border-white/5">
-                <p className="text-gray-500 text-sm font-medium">Oportunidades Activas</p>
-                <p className="text-4xl font-bold mt-2 text-green-500">{items.filter(i => i.tipo === 'oportunidad' && i.is_active).length}</p>
-              </div>
-              <div className="bg-[#0a0a0a] p-6 rounded-3xl border border-white/5">
-                <p className="text-gray-500 text-sm font-medium">Posts de Blog</p>
-                <p className="text-4xl font-bold mt-2 text-[#c9a84c]">{items.filter(i => i.tipo === 'blog').length}</p>
-              </div>
-            </div>
+        {activeTab === 'dashboard' && renderDashboard('oportunidad')}
+        {activeTab === 'blog' && renderDashboard('blog')}
 
-            <div className="bg-[#0a0a0a] rounded-3xl border border-white/5 overflow-hidden">
-              <div className="p-6 border-b border-white/5 flex justify-between items-center">
-                <h3 className="font-bold text-xl">Lista de Contenidos</h3>
-                <div className="flex gap-2">
-                   {/* Filtros rápidos podrían ir aquí */}
-                </div>
-              </div>
-              
-              <div className="overflow-x-auto">
-                <table className="w-full text-left">
-                  <thead className="bg-white/5 text-gray-400 text-xs uppercase tracking-wider">
-                    <tr>
-                      <th className="px-6 py-4 font-semibold">Título</th>
-                      <th className="px-6 py-4 font-semibold">Tipo</th>
-                      <th className="px-6 py-4 font-semibold">Categoría</th>
-                      <th className="px-6 py-4 font-semibold">Estado</th>
-                      <th className="px-6 py-4 font-semibold">Vencimiento</th>
-                      <th className="px-6 py-4 font-semibold text-right">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/5">
-                    {items.map((item) => (
-                      <tr key={item.id} className="hover:bg-white/[0.02] transition-colors group">
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            {item.imagen_url ? (
-                              <img src={item.imagen_url} className="w-10 h-10 rounded-lg object-cover border border-white/10" alt=""/>
-                            ) : (
-                              <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/10">
-                                <ImageIcon size={16} className="text-gray-500"/>
-                              </div>
-                            )}
-                            <div>
-                              <p className="font-medium text-white line-clamp-1">{item.titulo}</p>
-                              <p className="text-xs text-gray-500">/{item.slug}</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase ${item.tipo === 'blog' ? 'bg-blue-500/10 text-blue-400' : 'bg-purple-500/10 text-purple-400'}`}>
-                            {item.tipo}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-400">{item.categoria}</td>
-                        <td className="px-6 py-4">
-                          <button 
-                            onClick={() => toggleStatus(item)}
-                            className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${item.is_active ? 'bg-green-500/10 text-green-500 hover:bg-green-500/20' : 'bg-red-500/10 text-red-500 hover:bg-red-500/20'}`}
-                          >
-                            {item.is_active ? 'Activo' : 'Inactivo'}
-                          </button>
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-400">
-                          {new Date(item.fecha_vencimiento).toLocaleDateString()}
-                        </td>
-                        <td className="px-6 py-4 text-right">
-                          <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Button variant="ghost" size="sm" onClick={() => handleEdit(item)} className="hover:bg-white/10 text-gray-400 hover:text-white">
-                              Editar
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                {items.length === 0 && !loading && (
-                  <div className="p-20 text-center text-gray-500">
-                    No hay contenidos cargados aún.
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        ) : (
+        {activeTab === 'content' && (
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-4xl"
+            className="max-w-4xl bg-[#0a0a0a] border border-white/5 rounded-3xl p-8"
           >
             <form onSubmit={handleSubmit} className="space-y-8">
-              <div className="bg-[#0a0a0a] p-8 rounded-3xl border border-white/5 space-y-6 shadow-xl">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-400 flex items-center gap-2">
-                      <FileText size={14} className="text-[#c9a84c]"/> Título de la Publicación
-                    </label>
-                    <Input 
-                      name="titulo"
-                      value={formData.titulo}
-                      onChange={handleInputChange}
-                      placeholder="Ej: Desarrollador Frontend Senior"
-                      required
-                      className="bg-white/5 border-white/10 text-white h-12 rounded-xl focus:ring-[#c9a84c]"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-400 flex items-center gap-2">
-                      <Settings size={14} className="text-[#c9a84c]"/> URL Slug (automático)
-                    </label>
-                    <Input 
-                      name="slug"
-                      value={formData.slug}
-                      onChange={handleInputChange}
-                      placeholder="url-amigable-aqui"
-                      required
-                      className="bg-white/5 border-white/10 text-gray-400 h-12 rounded-xl"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-400 flex items-center gap-2">
-                      <Tag size={14} className="text-[#c9a84c]"/> Tipo
-                    </label>
-                    <select 
-                      name="tipo"
-                      value={formData.tipo}
-                      onChange={handleInputChange}
-                      className="w-full bg-white/5 border border-white/10 text-white h-12 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
-                    >
-                      <option value="oportunidad">Oportunidad Laboral</option>
-                      <option value="blog">Post de Blog</option>
-                    </select>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-400 flex items-center gap-2">
-                      <LayoutDashboard size={14} className="text-[#c9a84c]"/> Categoría
-                    </label>
-                    <select 
-                      name="categoria"
-                      value={formData.categoria}
-                      onChange={handleInputChange}
-                      className="w-full bg-white/5 border border-white/10 text-white h-12 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
-                    >
-                      {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-                    </select>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-400 flex items-center gap-2">
-                      <Calendar size={14} className="text-[#c9a84c]"/> Fecha Vencimiento
-                    </label>
-                    <Input 
-                      type="date"
-                      name="fecha_vencimiento"
-                      value={formData.fecha_vencimiento}
-                      onChange={handleInputChange}
-                      className="bg-white/5 border-white/10 text-white h-12 rounded-xl focus:ring-[#c9a84c]"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-400 flex items-center gap-2">
-                      <MapPin size={14} className="text-[#c9a84c]"/> Ubicación
-                    </label>
-                    <Input 
-                      name="ubicacion"
-                      value={formData.ubicacion}
-                      onChange={handleInputChange}
-                      placeholder="Asunción, Paraguay"
-                      className="bg-white/5 border-white/10 text-white h-12 rounded-xl focus:ring-[#c9a84c]"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-400 flex items-center gap-2">
-                      <ImageIcon size={14} className="text-[#c9a84c]"/> URL de Imagen
-                    </label>
-                    <Input 
-                      name="imagen_url"
-                      value={formData.imagen_url}
-                      onChange={handleInputChange}
-                      placeholder="https://images.unsplash.com/..."
-                      className="bg-white/5 border-white/10 text-white h-12 rounded-xl focus:ring-[#c9a84c]"
-                    />
-                  </div>
-                </div>
-
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-400 flex items-center gap-2">
-                    <Briefcase size={14} className="text-[#c9a84c]"/> Contenido (Markdown)
-                  </label>
-                  <Textarea 
-                    name="cuerpo"
-                    value={formData.cuerpo}
+                  <label className="text-sm font-bold text-gray-400">Título de la Publicación</label>
+                  <Input 
+                    name="titulo"
+                    value={formData.titulo}
                     onChange={handleInputChange}
-                    placeholder="Escribe el contenido aquí... (Soporta Markdown)"
-                    className="bg-white/5 border-white/10 text-white min-h-[300px] rounded-2xl p-6 focus:ring-[#c9a84c]"
+                    placeholder="Ej: Senior Frontend Developer"
+                    className="bg-black/50 border-white/10"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-gray-400">URL Slug (automático)</label>
+                  <Input 
+                    name="slug"
+                    value={formData.slug}
+                    onChange={handleInputChange}
+                    placeholder="senior-frontend-developer"
+                    className="bg-black/50 border-white/10"
                     required
                   />
                 </div>
               </div>
 
-              <div className="flex gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-gray-400">Tipo de Contenido</label>
+                  <select 
+                    name="tipo"
+                    value={formData.tipo}
+                    onChange={handleInputChange}
+                    className="w-full h-10 px-3 rounded-md bg-black/50 border border-white/10 text-sm"
+                  >
+                    <option value="oportunidad">Oportunidad / Vacante</option>
+                    <option value="blog">Post de Blog</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-gray-400">Categoría</label>
+                  <select 
+                    name="categoria"
+                    value={formData.categoria}
+                    onChange={handleInputChange}
+                    className="w-full h-10 px-3 rounded-md bg-black/50 border border-white/10 text-sm"
+                  >
+                    {CATEGORIES.map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-gray-400">Fecha de Vencimiento</label>
+                  <Input 
+                    type="date"
+                    name="fecha_vencimiento"
+                    value={formData.fecha_vencimiento}
+                    onChange={handleInputChange}
+                    className="bg-black/50 border-white/10"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-gray-400">Ubicación</label>
+                  <Input 
+                    name="ubicacion"
+                    value={formData.ubicacion}
+                    onChange={handleInputChange}
+                    placeholder="Ej: Asunción / Remoto"
+                    className="bg-black/50 border-white/10"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-gray-400">Imagen URL (Opcional)</label>
+                  <Input 
+                    name="imagen_url"
+                    value={formData.imagen_url}
+                    onChange={handleInputChange}
+                    placeholder="https://images.unsplash.com/..."
+                    className="bg-black/50 border-white/10"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-400">Cuerpo del Contenido (Markdown Soportado)</label>
+                <Textarea 
+                  name="cuerpo"
+                  value={formData.cuerpo}
+                  onChange={handleInputChange}
+                  placeholder="Describe la vacante o escribe el post aquí..."
+                  className="bg-black/50 border-white/10 min-h-[300px]"
+                  required
+                />
+              </div>
+
+              <div className="flex gap-4 pt-4">
                 <Button 
                   type="submit" 
                   disabled={loading}
-                  className="flex-1 bg-[#c9a84c] hover:bg-[#b39540] text-black font-bold h-14 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-2"
+                  className="bg-[#c9a84c] text-black font-bold px-8"
                 >
-                  <Save size={20}/>
-                  {loading ? 'Guardando...' : isEditing ? 'Guardar Cambios' : 'Publicar Contenido'}
+                  {loading ? 'Guardando...' : isEditing ? 'Actualizar Publicación' : 'Publicar Ahora'}
                 </Button>
                 <Button 
                   type="button" 
-                  onClick={() => { setActiveTab('dashboard'); resetForm(); }}
                   variant="outline"
-                  className="px-8 border-white/10 text-gray-400 hover:bg-white/5 h-14 rounded-2xl"
+                  onClick={() => { setActiveTab('dashboard'); resetForm(); }}
+                  className="border-white/10 text-gray-400"
                 >
                   Cancelar
                 </Button>

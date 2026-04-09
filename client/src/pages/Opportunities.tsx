@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Briefcase, DollarSign, ArrowRight, Loader2 } from 'lucide-react';
+import { MapPin, Briefcase, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
+import Newsletter from '@/components/Newsletter';
 
 interface Opportunity {
   id: string;
@@ -17,6 +18,7 @@ interface Opportunity {
   tipo: 'blog' | 'oportunidad';
   ubicacion: string;
   is_active: boolean;
+  rubro?: string;
 }
 
 export default function Opportunities() {
@@ -60,9 +62,9 @@ export default function Opportunities() {
   }, []);
 
   const filteredOpportunities = opportunities.filter((opp) => {
-    const matchesCategory = selectedCategory === 'all' || opp.category === selectedCategory;
-    const matchesLocation = selectedLocation === 'all' || opp.location === selectedLocation;
-    const matchesRubro = selectedRubro === 'all' || opp.rubro === selectedRubro;
+    const matchesCategory = selectedCategory === 'all' || opp.categoria === selectedCategory;
+    const matchesLocation = selectedLocation === 'all' || opp.ubicacion.toLowerCase().includes(selectedLocation.toLowerCase());
+    const matchesRubro = selectedRubro === 'all' || (opp.rubro && opp.rubro === selectedRubro);
     const matchesSearch = searchTerm === '' || 
       opp.titulo.toLowerCase().includes(searchTerm.toLowerCase());
     
@@ -82,6 +84,22 @@ export default function Opportunities() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] pt-24 pb-20">
+      {/* NAVBAR */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-[#c9a84c]/10">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+          <button onClick={() => setLocation('/')} className="flex items-center gap-2 hover:opacity-80 transition">
+            <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.4rem', letterSpacing: '-0.02em', color: '#c9a84c' }}>
+              <span style={{ fontWeight: 900 }}>CV</span>
+              <span style={{ fontStyle: 'italic', fontWeight: 400 }}>itae</span>
+            </span>
+          </button>
+          <div className="flex items-center gap-4">
+            <button onClick={() => setLocation('/opportunities')} className="text-sm text-[#c9a84c] font-semibold">Oportunidades</button>
+            <button onClick={() => setLocation('/recruiters/interface')} className="text-sm bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black px-4 py-2 rounded-lg font-semibold">Panel Reclutadores</button>
+          </div>
+        </div>
+      </nav>
+
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -257,9 +275,7 @@ export default function Opportunities() {
           <p className="text-gray-400 mb-4">
             ¿No encuentras lo que buscas?
           </p>
-          <Button className="bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black font-semibold">
-            Recibir Alertas de Empleos
-          </Button>
+          <Newsletter source="opportunities" title="Recibir Alertas de Empleos" />
         </motion.div>
       </div>
     </div>

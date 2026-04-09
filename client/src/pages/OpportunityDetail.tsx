@@ -62,7 +62,6 @@ export default function OpportunityDetail() {
 
   if (!opportunity) return <NotFound />;
 
-  // Limpiar descripción para meta-tags (primeros 150 caracteres)
   const metaDescription = opportunity.cuerpo 
     ? opportunity.cuerpo.replace(/[#*`]/g, '').substring(0, 150) + '...'
     : 'Oportunidad laboral en CVitae Paraguay';
@@ -149,7 +148,7 @@ export default function OpportunityDetail() {
           <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-white/10">
             <Button
               size="lg"
-              onClick={() => window.open('https://cvitae-py.netlify.app/cv-optimization', '_blank')}
+              onClick={() => window.open(`https://wa.me/595992954169?text=Hola! Quiero optimizar mi CV para ${opportunity?.titulo || 'esta vacante'}`, '_blank')}
               className="flex-1 bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black font-bold py-7 rounded-2xl hover:shadow-lg transition-all flex items-center justify-center gap-2 text-lg"
             >
               Optimizar mi CV para esta vacante
@@ -159,7 +158,7 @@ export default function OpportunityDetail() {
             <Button
               variant="outline"
               size="lg"
-              onClick={() => window.open(`https://wa.me/595992954169?text=Hola! Me interesa la vacante de ${opportunity.titulo || 'esta vacante'}. Quisiera optimizar mi CV para esta postulación.`, '_blank')}
+              onClick={() => window.open(`https://wa.me/595992954169?text=Hola! Me interesa la vacante de ${opportunity.titulo || 'esta vacante'}. Quisiera consultar más detalles.`, '_blank')}
               className="border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c]/10 py-7 rounded-2xl text-lg px-8"
             >
               Consultar por WhatsApp
