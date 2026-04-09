@@ -10,6 +10,8 @@ import { useLocation } from 'wouter';
 import Newsletter from '@/components/Newsletter.tsx';
 import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
+import { TestimonialsGrid } from '@/components/ui/testimonials-grid';
+import RecruitersPromo from '@/components/RecruitersPromo';
 
 const WA_NUMBER = '595992954169';
 const WA_BASE = `https://wa.me/${WA_NUMBER}`;
