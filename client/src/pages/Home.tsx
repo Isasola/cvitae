@@ -9,7 +9,7 @@ import Newsletter from '@/components/Newsletter.tsx';
 import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
 import { TestimonialsGrid } from '@/components/ui/testimonials-grid';
-import RecruitersPromo from '@/components/RecruitersPromo';
+import { RecruitersPromo } from '@/components/RecruitersPromo';
 import { CVAnalyzer } from '@/components/ui/cv-analyzer';
 
 const WA_NUMBER = '595992954169';
@@ -242,25 +242,58 @@ export default function Home() {
         </div>
       </section>
 
-      {/* RECRUITERS B2B PROMO */}
-      <section className="py-20 bg-black">
+      {/* TESTIMONIALS & FAQ SECTION */}
+      <section className="py-24 bg-black overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="bg-gradient-to-br from-[#0d0d0f] to-black border border-[#c9a84c]/20 rounded-3xl p-12 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#c9a84c]/5 blur-[80px] rounded-full" />
-            <div className="max-w-2xl relative z-10">
-              <span className="text-[#c9a84c] font-bold text-sm uppercase tracking-widest mb-4 block">CVitae Business</span>
-              <h2 className="text-4xl font-bold text-white mb-6">No leas 200 CVs, solo los 5 mejores.</h2>
-              <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-                Transformá tu proceso de selección. Subí todos los perfiles de una vacante y nuestra IA los rankeará por compatibilidad real (0-100%) en segundos.
-              </p>
-              <Button 
-                onClick={() => setLocation('/recruiters/interface')}
-                className="bg-white text-black font-bold px-8 py-6 rounded-xl hover:bg-gray-200 transition-all"
-              >
-                Acceso para Reclutadores
-              </Button>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">Lo que dicen los candidatos elite</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">Cientos de profesionales en Paraguay ya transformaron su búsqueda laboral con CVitae.</p>
+          </div>
+          
+          <TestimonialsGrid />
+
+          {/* FAQ SUB-SECTION */}
+          <div className="mt-32 max-w-3xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-white mb-4">Preguntas Frecuentes</h2>
+              <p className="text-gray-500">Todo lo que necesitas saber sobre el sistema CVitae.</p>
+            </div>
+            <div className="space-y-4">
+              {[
+                {
+                  q: "¿Cómo funciona el análisis de CV?",
+                  a: "Nuestra IA procesa tu archivo buscando patrones de lectura ATS y palabras clave que los reclutadores de Paraguay priorizan. Recibís un score de 0 a 100 y una lista de errores críticos en segundos."
+                },
+                {
+                  q: "¿Qué incluye el Plan Pro Plus?",
+                  a: "Incluye la corrección total de tu CV por expertos (formato ATS), una lista de Keywords estratégicas para tu rubro, y acceso prioritario a las vacantes que publicamos diariamente."
+                },
+                {
+                  q: "¿Es seguro subir mi CV?",
+                  a: "Totalmente. No almacenamos tus datos personales permanentemente. El procesamiento se hace de forma temporal y segura para generar tu diagnóstico."
+                },
+                {
+                  q: "¿Cómo recibo mi CV optimizado?",
+                  a: "Una vez realizado el pago, nuestro equipo se contacta con vos vía WhatsApp para entregarte el material final en menos de 24 horas."
+                }
+              ].map((item, i) => (
+                <div key={i} className="p-6 rounded-2xl border border-white/5 bg-[#0a0a0a] hover:border-[#c9a84c]/20 transition-all">
+                  <h3 className="font-bold text-[#c9a84c] mb-2">{item.q}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">{item.a}</p>
+                </div>
+              ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* RECRUITERS B2B PROMO */}
+      <RecruitersPromo />
+
+      {/* NEWSLETTER SECTION */}
+      <section className="py-20 bg-[#0a0a0a] border-t border-[#c9a84c]/10">
+        <div className="max-w-7xl mx-auto px-4">
+          <Newsletter />
         </div>
       </section>
 
@@ -358,45 +391,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="py-20 border-t border-white/5 bg-black">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            <div className="col-span-1 md:col-span-2">
-              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.8rem', letterSpacing: '-0.02em', color: '#c9a84c' }}>
-                <span style={{ fontWeight: 900 }}>CV</span>
-                <span style={{ fontStyle: 'italic', fontWeight: 400 }}>itae</span>
-              </span>
-              <p className="text-gray-500 mt-6 max-w-sm leading-relaxed">
-                Empoderando el talento paraguayo con tecnología de punta. No solo buscamos empleo, construimos carreras de elite.
-              </p>
-            </div>
-            <div>
-              <h4 className="text-white font-bold mb-6">Plataforma</h4>
-              <ul className="space-y-4 text-gray-500 text-sm">
-                <li><button onClick={() => setLocation('/opportunities')} className="hover:text-[#c9a84c] transition-colors">Ver Oportunidades</button></li>
-                <li><button onClick={() => setLocation('/blog')} className="hover:text-[#c9a84c] transition-colors">Blog & Consejos</button></li>
-                <li><button onClick={() => setLocation('/recruiters/interface')} className="hover:text-[#c9a84c] transition-colors">CVitae Business</button></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-white font-bold mb-6">Contacto</h4>
-              <ul className="space-y-4 text-gray-500 text-sm">
-                <li><a href={WA_BASE} target="_blank" rel="noreferrer" className="hover:text-[#c9a84c] transition-colors">Soporte WhatsApp</a></li>
-                <li><a href="mailto:hola@cvitae.py" className="hover:text-[#c9a84c] transition-colors">hola@cvitae.py</a></li>
-                <li>Asunción, Paraguay</li>
-              </ul>
-            </div>
-          </div>
-          <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/5 text-xs text-gray-600">
-            <p>© 2026 CVitae Paraguay. Todos los derechos reservados.</p>
-            <div className="flex gap-6 mt-4 md:mt-0">
-              <button onClick={() => setLocation('/privacidad')} className="hover:text-gray-400">Privacidad</button>
-              <button onClick={() => setLocation('/terminos')} className="hover:text-gray-400">Términos</button>
-            </div>
-          </div>
-        </div>
-      </footer>
+
 
     </div>
   );

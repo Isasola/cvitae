@@ -217,13 +217,13 @@ export const CVAnalyzer: React.FC = () => {
                       </p>
                       
                       <div className="flex flex-col sm:flex-row items-center gap-6 mb-8">
-                        <div className="text-left">
-                          <span className="text-gray-500 line-through text-sm">₲150.000</span>
-                          <div className="text-4xl font-black text-[#c9a84c]">₲50.000</div>
-                          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Precio Promo por 24hs</span>
+                        <div className="text-left bg-white/5 p-4 rounded-2xl border border-white/10 flex-shrink-0">
+                          <span className="text-gray-500 line-through text-xs block mb-1">Normal: ₲150.000</span>
+                          <div className="text-4xl font-black text-[#c9a84c] leading-none mb-1">₲50.000</div>
+                          <span className="text-[10px] font-black text-[#c9a84c] uppercase tracking-tighter animate-pulse">¡OFERTA ACTIVA!</span>
                         </div>
-                        <Button className="flex-1 w-full bg-[#c9a84c] text-black font-black py-8 text-xl rounded-2xl hover:scale-[1.02] transition-all">
-                          CORREGIR MI CV AHORA <ArrowRight className="ml-2" />
+                        <Button className="flex-1 w-full bg-[#c9a84c] text-black font-black py-10 text-2xl rounded-2xl hover:scale-[1.05] transition-all shadow-[0_0_40px_rgba(201,168,76,0.4)] border-b-4 border-[#b39540] active:border-b-0 active:translate-y-1">
+                          CORREGIR MI CV AHORA <ArrowRight className="ml-3 w-6 h-6" />
                         </Button>
                       </div>
 
