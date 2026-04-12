@@ -1,20 +1,28 @@
 name: Daily Job Update
 on:
   schedule:
-    - cron: '0 0 * * *' # Se ejecuta cada 24 horas
-  workflow_dispatch: # Permite ejecutarlo manualmente
+    - cron: '0 0 * * *' 
+  workflow_dispatch: 
 
 jobs:
   update-jobs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4 # Actualizado a v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4 # Actualizado a v4
         with:
-          node-version: '18'
+          node-version: '22' # Versión moderna y estable
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2 # ESTO CORRIGE EL ERROR 127
+        with:
+          version: 8
+          
       - name: Install Dependencies
         run: pnpm install --no-frozen-lockfile
+        
       - name: Run Update Script
         run: pnpm netlify functions:invoke update-opportunities
         env:
