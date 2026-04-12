@@ -154,6 +154,7 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
       body: JSON.stringify({
         message: "Oportunidades actualizadas con éxito",
         count: allOpportunities.length,
+        data: allOpportunities,
         timestamp: new Date().toISOString()
       }),
     };

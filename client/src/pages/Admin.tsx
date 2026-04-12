@@ -22,7 +22,10 @@ import {
   Edit,
   Trash2,
   Eye,
-  EyeOff
+  EyeOff,
+  Ticket,
+  Copy,
+  RefreshCw
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -42,6 +45,15 @@ interface ContentItem {
   is_active: boolean;
 }
 
+interface RecruiterToken {
+  id: string;
+  email: string;
+  token_balance: number;
+  access_token: string;
+  plan_type: string;
+  created_at: string;
+}
+
 const CATEGORIES = [
   'Tecnología',
   'Administración',
@@ -56,13 +68,19 @@ const CATEGORIES = [
 export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'blog' | 'content'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'blog' | 'content' | 'tokens'>('dashboard');
   const [items, setItems] = useState<ContentItem[]>([]);
+  const [tokens, setTokens] = useState<RecruiterToken[]>([]);
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [notification, setNotification] = useState<{type: 'success' | 'error', message: string} | null>(null);
   
-  // Estado del formulario
+  // Estado del formulario de tokens
+  const [tokenEmail, setTokenEmail] = useState('');
+  const [tokenBalance, setTokenBalance] = useState(10);
+  const [tokenPlan, setTokenPlan] = useState('starter');
+
+  // Estado del formulario de contenido
   const [formData, setFormData] = useState<ContentItem>({
     titulo: '',
     slug: '',
@@ -104,6 +122,7 @@ export default function Admin() {
   useEffect(() => {
     if (isAuthenticated) {
       fetchItems();
+      fetchTokens();
     }
   }, [isAuthenticated]);
 
@@ -116,6 +135,44 @@ export default function Admin() {
     
     if (!error && data) setItems(data);
     setLoading(false);
+  };
+
+  const fetchTokens = async () => {
+    const { data, error } = await supabase
+      .from('recruiter_tokens')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (!error && data) setTokens(data);
+  };
+
+  const generateRecruiterToken = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    const newToken = `REC-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${new Date().getFullYear()}`;
+    
+    try {
+      const { error } = await supabase
+        .from('recruiter_tokens')
+        .insert([{
+          email: tokenEmail,
+          token_balance: tokenBalance,
+          access_token: newToken,
+          plan_type: tokenPlan,
+          is_active: true
+        }]);
+
+      if (error) throw error;
+
+      setNotification({ type: 'success', message: 'Token generado con éxito' });
+      setTokenEmail('');
+      fetchTokens();
+    } catch (err: any) {
+      setNotification({ type: 'error', message: err.message });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const generateSlug = (text: string) => {
@@ -262,9 +319,10 @@ export default function Admin() {
             />
             <Button 
               type="submit"
+              disabled={loading}
               className="w-full bg-[#c9a84c] hover:bg-[#b39540] text-black font-bold h-12 rounded-xl transition-all"
             >
-              Acceder al Panel
+              {loading ? 'Accediendo...' : 'Acceder al Panel'}
             </Button>
           </form>
 
@@ -287,6 +345,86 @@ export default function Admin() {
       </div>
     );
   }
+
+  const renderTokens = () => (
+    <div className="space-y-8">
+      <div className="bg-[#0a0a0a] border border-[#c9a84c]/20 rounded-3xl p-8">
+        <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+          <Ticket className="text-[#c9a84c]" /> Generar Token de Reclutador
+        </h3>
+        <form onSubmit={generateRecruiterToken} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-gray-500 uppercase">Email Reclutador</label>
+            <Input 
+              type="email" 
+              required 
+              value={tokenEmail} 
+              onChange={e => setTokenEmail(e.target.value)}
+              className="bg-white/5 border-white/10 text-white" 
+              placeholder="empresa@ejemplo.com"
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-gray-500 uppercase">Balance de Tokens</label>
+            <Input 
+              type="number" 
+              required 
+              value={tokenBalance} 
+              onChange={e => setTokenBalance(parseInt(e.target.value))}
+              className="bg-white/5 border-white/10 text-white" 
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-gray-500 uppercase">Plan</label>
+            <select 
+              value={tokenPlan}
+              onChange={e => setTokenPlan(e.target.value)}
+              className="w-full bg-white/5 border border-white/10 text-white h-10 rounded-md px-3 text-sm"
+            >
+              <option value="starter">Starter (10)</option>
+              <option value="pro">Pro (100)</option>
+              <option value="enterprise">Enterprise (Inf)</option>
+            </select>
+          </div>
+          <Button type="submit" disabled={loading} className="bg-[#c9a84c] text-black font-bold h-10">
+            Generar Token
+          </Button>
+        </form>
+      </div>
+
+      <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-white/5 bg-white/5 flex justify-between items-center">
+          <h4 className="font-bold">Tokens Activos</h4>
+          <Button variant="ghost" size="sm" onClick={fetchTokens}><RefreshCw size={14} /></Button>
+        </div>
+        <table className="w-full text-left">
+          <thead>
+            <tr className="border-b border-white/5 text-xs font-bold uppercase text-gray-400">
+              <th className="px-6 py-4">Email</th>
+              <th className="px-6 py-4">Token</th>
+              <th className="px-6 py-4">Balance</th>
+              <th className="px-6 py-4">Plan</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-white/5">
+            {tokens.map((token) => (
+              <tr key={token.id} className="text-sm">
+                <td className="px-6 py-4 text-white">{token.email}</td>
+                <td className="px-6 py-4 font-mono text-[#c9a84c] flex items-center gap-2">
+                  {token.access_token}
+                  <button onClick={() => navigator.clipboard.writeText(token.access_token)} className="hover:text-white transition-colors">
+                    <Copy size={12} />
+                  </button>
+                </td>
+                <td className="px-6 py-4 text-gray-400">{token.token_balance}</td>
+                <td className="px-6 py-4 uppercase text-xs font-bold text-gray-500">{token.plan_type}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 
   const renderDashboard = (filterType?: 'blog' | 'oportunidad') => (
     <div className="space-y-6">
@@ -331,25 +469,29 @@ export default function Admin() {
                 <td className="px-6 py-4">
                   <button 
                     onClick={() => toggleStatus(item)}
-                    className={`flex items-center gap-2 text-xs font-bold ${item.is_active ? 'text-green-500' : 'text-red-500'}`}
+                    className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                      item.is_active 
+                        ? 'bg-green-500/10 text-green-500 border border-green-500/20' 
+                        : 'bg-red-500/10 text-red-500 border border-red-500/20'
+                    }`}
                   >
-                    {item.is_active ? <Eye size={14} /> : <EyeOff size={14} />}
-                    {item.is_active ? 'ACTIVO' : 'OCULTO'}
+                    {item.is_active ? <Eye size={12} /> : <EyeOff size={12} />}
+                    {item.is_active ? 'Activo' : 'Inactivo'}
                   </button>
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center justify-end gap-2">
                     <button 
                       onClick={() => handleEdit(item)}
-                      className="p-2 hover:bg-[#c9a84c]/10 text-[#c9a84c] rounded-lg transition-all"
+                      className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-all"
                     >
-                      <Edit size={18} />
+                      <Edit size={16} />
                     </button>
                     <button 
-                      onClick={() => item.id && deleteItem(item.id)}
-                      className="p-2 hover:bg-red-500/10 text-red-500 rounded-lg transition-all"
+                      onClick={() => deleteItem(item.id!)}
+                      className="p-2 hover:bg-red-500/10 rounded-lg text-gray-400 hover:text-red-500 transition-all"
                     >
-                      <Trash2 size={18} />
+                      <Trash2 size={16} />
                     </button>
                   </div>
                 </td>
@@ -364,181 +506,189 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-black text-white flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-[#0a0a0a] border-r border-white/5 p-6 hidden md:flex flex-col">
-        <div className="mb-10 px-2">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-[#c9a84c] to-[#f1d584] bg-clip-text text-transparent">CVitae Admin</h1>
+      <div className="w-64 border-r border-white/5 bg-[#0a0a0a] flex flex-col p-6 fixed h-full">
+        <div className="mb-12">
+          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.4rem', color: '#c9a84c' }}>
+            <span style={{ fontWeight: 900 }}>CV</span>
+            <span style={{ fontStyle: 'italic', fontWeight: 400 }}>itae</span>
+          </span>
+          <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Admin Panel V3</p>
         </div>
-        
-        <nav className="space-y-2 flex-1">
+
+        <nav className="flex-grow space-y-2">
           <button 
             onClick={() => setActiveTab('dashboard')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'dashboard' ? 'bg-[#c9a84c] text-black font-bold shadow-lg' : 'text-gray-400 hover:bg-white/5'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'dashboard' ? 'bg-[#c9a84c] text-black font-bold' : 'text-gray-400 hover:bg-white/5'}`}
           >
-            <LayoutDashboard size={20} /> Dashboard
+            <LayoutDashboard size={18} /> Dashboard
           </button>
           <button 
             onClick={() => setActiveTab('blog')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'blog' ? 'bg-[#c9a84c] text-black font-bold shadow-lg' : 'text-gray-400 hover:bg-white/5'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'blog' ? 'bg-[#c9a84c] text-black font-bold' : 'text-gray-400 hover:bg-white/5'}`}
           >
-            <FileText size={20} /> Posts de Blog
+            <FileText size={18} /> Blog Hub
           </button>
           <button 
-            onClick={() => { setActiveTab('content'); resetForm(); }}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'content' ? 'bg-[#c9a84c] text-black font-bold shadow-lg' : 'text-gray-400 hover:bg-white/5'}`}
+            onClick={() => setActiveTab('tokens')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'tokens' ? 'bg-[#c9a84c] text-black font-bold' : 'text-gray-400 hover:bg-white/5'}`}
           >
-            <Plus size={20} /> Nuevo Contenido
+            <Ticket size={18} /> Tokens B2B
           </button>
         </nav>
 
-        <button 
-          onClick={() => setIsAuthenticated(false)}
-          className="flex items-center gap-3 px-4 py-3 text-gray-500 hover:text-red-400 transition-all mt-auto"
-        >
-          <LogOut size={20} /> Cerrar Sesión
-        </button>
-      </aside>
+        <div className="pt-6 border-t border-white/5">
+          <button 
+            onClick={() => setIsAuthenticated(false)}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-500/10 transition-all"
+          >
+            <LogOut size={18} /> Cerrar Sesión
+          </button>
+        </div>
+      </div>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 md:p-10 overflow-y-auto max-h-screen">
-        <header className="flex items-center justify-between mb-10">
-          <div>
-            <h2 className="text-3xl font-bold">
-              {activeTab === 'dashboard' ? 'Panel General' : activeTab === 'blog' ? 'Gestión de Blog' : isEditing ? 'Editar Contenido' : 'Crear Contenido'}
-            </h2>
-            <p className="text-gray-500 mt-1">Gestiona las vacantes y el blog de CVitae</p>
-          </div>
-        </header>
-
-        {activeTab === 'dashboard' && renderDashboard('oportunidad')}
-        {activeTab === 'blog' && renderDashboard('blog')}
-
-        {activeTab === 'content' && (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+      <div className="flex-grow ml-64 p-12 min-h-screen">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-4xl bg-[#0a0a0a] border border-white/5 rounded-3xl p-8"
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
           >
-            <form onSubmit={handleSubmit} className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-400">Título de la Publicación</label>
-                  <Input 
-                    name="titulo"
-                    value={formData.titulo}
-                    onChange={handleInputChange}
-                    placeholder="Ej: Senior Frontend Developer"
-                    className="bg-black/50 border-white/10"
-                    required
-                  />
+            {activeTab === 'dashboard' && renderDashboard('oportunidad')}
+            {activeTab === 'blog' && renderDashboard('blog')}
+            {activeTab === 'tokens' && renderTokens()}
+            {activeTab === 'content' && (
+              <div className="max-w-4xl">
+                <div className="flex items-center justify-between mb-8">
+                  <h3 className="text-2xl font-bold">{isEditing ? 'Editar Contenido' : 'Nuevo Contenido'}</h3>
+                  <Button variant="ghost" onClick={() => setActiveTab('dashboard')}><X className="mr-2" /> Cancelar</Button>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-400">URL Slug (automático)</label>
-                  <Input 
-                    name="slug"
-                    value={formData.slug}
-                    onChange={handleInputChange}
-                    placeholder="senior-frontend-developer"
-                    className="bg-black/50 border-white/10"
-                    required
-                  />
-                </div>
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-400">Tipo de Contenido</label>
-                  <select 
-                    name="tipo"
-                    value={formData.tipo}
-                    onChange={handleInputChange}
-                    className="w-full h-10 px-3 rounded-md bg-black/50 border border-white/10 text-sm"
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase">Título</label>
+                      <Input 
+                        name="titulo" 
+                        value={formData.titulo} 
+                        onChange={handleInputChange} 
+                        required 
+                        className="bg-white/5 border-white/10 text-white" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase">Slug (URL)</label>
+                      <Input 
+                        name="slug" 
+                        value={formData.slug} 
+                        onChange={handleInputChange} 
+                        required 
+                        className="bg-white/5 border-white/10 text-white" 
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase">Tipo</label>
+                      <select 
+                        name="tipo" 
+                        value={formData.tipo} 
+                        onChange={handleInputChange}
+                        className="w-full bg-white/5 border border-white/10 text-white h-10 rounded-md px-3 text-sm"
+                      >
+                        <option value="oportunidad">Oportunidad</option>
+                        <option value="blog">Blog</option>
+                      </select>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase">Categoría</label>
+                      <select 
+                        name="categoria" 
+                        value={formData.categoria} 
+                        onChange={handleInputChange}
+                        className="w-full bg-white/5 border border-white/10 text-white h-10 rounded-md px-3 text-sm"
+                      >
+                        {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                      </select>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase">Ubicación</label>
+                      <Input 
+                        name="ubicacion" 
+                        value={formData.ubicacion} 
+                        onChange={handleInputChange} 
+                        className="bg-white/5 border-white/10 text-white" 
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-gray-500 uppercase">Cuerpo (Markdown)</label>
+                    <Textarea 
+                      name="cuerpo" 
+                      value={formData.cuerpo} 
+                      onChange={handleInputChange} 
+                      required 
+                      className="bg-white/5 border-white/10 text-white min-h-[300px]" 
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase">Imagen URL</label>
+                      <Input 
+                        name="imagen_url" 
+                        value={formData.imagen_url} 
+                        onChange={handleInputChange} 
+                        className="bg-white/5 border-white/10 text-white" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase">Fecha Vencimiento</label>
+                      <Input 
+                        type="date" 
+                        name="fecha_vencimiento" 
+                        value={formData.fecha_vencimiento} 
+                        onChange={handleInputChange} 
+                        className="bg-white/5 border-white/10 text-white" 
+                      />
+                    </div>
+                  </div>
+
+                  <Button 
+                    type="submit" 
+                    disabled={loading}
+                    className="w-full bg-[#c9a84c] text-black font-bold py-6 rounded-xl"
                   >
-                    <option value="oportunidad">Oportunidad / Vacante</option>
-                    <option value="blog">Post de Blog</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-400">Categoría</label>
-                  <select 
-                    name="categoria"
-                    value={formData.categoria}
-                    onChange={handleInputChange}
-                    className="w-full h-10 px-3 rounded-md bg-black/50 border border-white/10 text-sm"
-                  >
-                    {CATEGORIES.map(cat => (
-                      <option key={cat} value={cat}>{cat}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-400">Fecha de Vencimiento</label>
-                  <Input 
-                    type="date"
-                    name="fecha_vencimiento"
-                    value={formData.fecha_vencimiento}
-                    onChange={handleInputChange}
-                    className="bg-black/50 border-white/10"
-                    required
-                  />
-                </div>
+                    <Save className="mr-2" /> {isEditing ? 'Guardar Cambios' : 'Publicar Ahora'}
+                  </Button>
+                </form>
               </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-400">Ubicación</label>
-                  <Input 
-                    name="ubicacion"
-                    value={formData.ubicacion}
-                    onChange={handleInputChange}
-                    placeholder="Ej: Asunción / Remoto"
-                    className="bg-black/50 border-white/10"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-400">Imagen URL (Opcional)</label>
-                  <Input 
-                    name="imagen_url"
-                    value={formData.imagen_url}
-                    onChange={handleInputChange}
-                    placeholder="https://images.unsplash.com/..."
-                    className="bg-black/50 border-white/10"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-400">Cuerpo del Contenido (Markdown Soportado)</label>
-                <Textarea 
-                  name="cuerpo"
-                  value={formData.cuerpo}
-                  onChange={handleInputChange}
-                  placeholder="Describe la vacante o escribe el post aquí..."
-                  className="bg-black/50 border-white/10 min-h-[300px]"
-                  required
-                />
-              </div>
-
-              <div className="flex gap-4 pt-4">
-                <Button 
-                  type="submit" 
-                  disabled={loading}
-                  className="bg-[#c9a84c] text-black font-bold px-8"
-                >
-                  {loading ? 'Guardando...' : isEditing ? 'Actualizar Publicación' : 'Publicar Ahora'}
-                </Button>
-                <Button 
-                  type="button" 
-                  variant="outline"
-                  onClick={() => { setActiveTab('dashboard'); resetForm(); }}
-                  className="border-white/10 text-gray-400"
-                >
-                  Cancelar
-                </Button>
-              </div>
-            </form>
+      {/* Notifications */}
+      <AnimatePresence>
+        {notification && (
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            className={`fixed bottom-8 right-8 p-4 rounded-xl flex items-center gap-3 text-sm shadow-2xl z-50 ${
+              notification.type === 'success' ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'
+            }`}
+          >
+            {notification.type === 'success' ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
+            {notification.message}
+            <button onClick={() => setNotification(null)} className="ml-4 opacity-50 hover:opacity-100"><X size={14} /></button>
           </motion.div>
         )}
-      </main>
+      </AnimatePresence>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Upload, CheckCircle, AlertCircle, Zap, Loader2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Upload, CheckCircle, AlertCircle, Zap, Loader2, AlertTriangle, ArrowRight, Lock } from 'lucide-react';
 import { Button } from './button';
 import { ShineBorder } from './shine-border';
 import { TetrisLoaderModern } from './tetris-loader-modern';
@@ -38,7 +38,7 @@ export const CVAnalyzer: React.FC = () => {
       ];
       
       if (selectedFile.size > MAX_FILE_SIZE) {
-        alert(`El archivo es demasiado grande (${(selectedFile.size / 1024 / 1024).toFixed(2)} MB).\n\nMáximo permitido: 15 MB.\n\nSi tu archivo es más pesado, por favor optimizalo.`);
+        alert(`El archivo es demasiado grande (${(selectedFile.size / 1024 / 1024).toFixed(2)} MB).\n\nMáximo permitido: 15 MB.`);
         return;
       }
       
@@ -52,16 +52,7 @@ export const CVAnalyzer: React.FC = () => {
   };
 
   const handleAnalyze = async () => {
-    if (!file) {
-      alert('Por favor, selecciona un archivo');
-      return;
-    }
-
-    const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15 MB
-    if (file.size > MAX_FILE_SIZE) {
-      alert(`El archivo excede el límite de 15 MB.\n\nTamaño actual: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
-      return;
-    }
+    if (!file) return;
 
     setIsAnalyzing(true);
     try {
@@ -70,92 +61,39 @@ export const CVAnalyzer: React.FC = () => {
         try {
           const base64 = (event.target?.result as string)?.split(',')[1];
 
-          // Step 1: Extract PDF text
           setExtractionStep('extracting');
           const extractResponse = await fetch('/.netlify/functions/extract-pdf-text', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              pdfBase64: base64,
-              fileName: file.name,
-            }),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pdfBase64: base64, fileName: file.name }),
           });
 
           const extractData = await extractResponse.json();
+          if (!extractResponse.ok || !extractData.success) throw new Error(extractData.error || "Error extrayendo texto");
 
-          if (!extractResponse.ok) {
-            setResults({
-              success: false,
-              error: `Error en servidor: ${extractResponse.status}. Por favor, intenta más tarde.`,
-            });
-            setHasAnalyzed(true);
-            setIsAnalyzing(false);
-            setExtractionStep('idle');
-            return;
-          }
-
-          if (!extractData.success || !extractData.text) {
-            setResults({
-              success: false,
-              error: extractData.error || 'No se pudo extraer texto del PDF. Verifica que sea un PDF válido (máximo 15 MB).',
-            });
-            setHasAnalyzed(true);
-            setIsAnalyzing(false);
-            setExtractionStep('idle');
-            return;
-          }
-
-          // Step 2: Analyze extracted text with Claude
           setExtractionStep('analyzing');
           const response = await fetch('/.netlify/functions/analyze-cv-candidate', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              cvText: extractData.text,
-              fileName: file.name,
-            }),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cvText: extractData.text, fileName: file.name }),
           });
 
           const data = await response.json();
+          if (!response.ok) throw new Error(data.error || "Error analizando CV");
 
-          if (!response.ok) {
-            setResults({
-              success: false,
-              error: `Error en análisis: ${response.status}. Por favor, intenta más tarde.`,
-            });
-            setHasAnalyzed(true);
-            setIsAnalyzing(false);
-            setExtractionStep('idle');
-            return;
-          }
-
-          if (data.atsScore !== undefined) {
-            setResults({
-              success: true,
-              atsScore: data.atsScore,
-              compatibilityPercentage: data.compatibilityPercentage,
-              strengths: data.strengths,
-              criticalImprovements: data.criticalImprovements,
-              actionPlan: data.actionPlan,
-              estimatedInterviewChance: data.estimatedInterviewChance,
-              cvOptimizationMessage: data.cvOptimizationMessage,
-            });
-          } else {
-            setResults({
-              success: false,
-              error: data.error || 'Error al analizar el CV',
-            });
-          }
-          setHasAnalyzed(true);
-        } catch (error) {
           setResults({
-            success: false,
-            error: 'Error al procesar el archivo. Intenta de nuevo.',
+            success: true,
+            atsScore: data.atsScore,
+            compatibilityPercentage: data.compatibilityPercentage,
+            strengths: data.strengths,
+            criticalImprovements: data.criticalImprovements,
+            actionPlan: data.actionPlan,
+            estimatedInterviewChance: data.estimatedInterviewChance,
+            cvOptimizationMessage: data.cvOptimizationMessage,
           });
+          setHasAnalyzed(true);
+        } catch (error: any) {
+          setResults({ success: false, error: error.message });
           setHasAnalyzed(true);
         } finally {
           setIsAnalyzing(false);
@@ -164,10 +102,6 @@ export const CVAnalyzer: React.FC = () => {
       };
       reader.readAsDataURL(file);
     } catch (error) {
-      setResults({
-        success: false,
-        error: 'Error al leer el archivo',
-      });
       setIsAnalyzing(false);
       setHasAnalyzed(true);
     }
@@ -176,227 +110,155 @@ export const CVAnalyzer: React.FC = () => {
   const getScoreColor = (score: number) => {
     if (score >= 70) return 'text-green-400';
     if (score >= 50) return 'text-yellow-400';
-    return 'text-red-400';
-  };
-
-  const getScoreBg = (score: number) => {
-    if (score >= 70) return 'bg-green-400/10 border-green-400/30';
-    if (score >= 50) return 'bg-yellow-400/10 border-yellow-400/30';
-    return 'bg-red-400/10 border-red-400/30';
+    return 'text-red-500';
   };
 
   return (
-    <section className="py-20 border-t border-[#c9a84c]/10">
-      <div className="max-w-4xl mx-auto px-4">
-        <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="text-3xl font-bold text-white text-center mb-4"
-        >
-          Diagnóstico de CV Gratis
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-center text-gray-400 mb-12 max-w-2xl mx-auto"
-        >
-          Descubre exactamente por qué tu perfil no está siendo visible para los
-          reclutadores. Análisis en tiempo real con IA, sin compromisos.
-        </motion.p>
-
-        <ShineBorder className="max-w-2xl mx-auto">
-          <div className="space-y-8">
-            {!hasAnalyzed ? (
-              <>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="border-2 border-dashed border-[#c9a84c]/30 rounded-lg p-12 text-center hover:border-[#c9a84c]/50 transition-colors cursor-pointer group"
-                >
-                  <Upload className="w-12 h-12 text-[#c9a84c] mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                  <h3 className="text-xl font-semibold text-white mb-2">
-                    {fileName || 'Carga tu CV'}
-                  </h3>
-                  <p className="text-gray-400 mb-4">
-                    PDF o Word
-                  </p>
-                  <input
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    onChange={handleFileChange}
-                    className="hidden"
-                    id="cv-upload"
-                  />
-                  <Button
-                    onClick={() => document.getElementById('cv-upload')?.click()}
-                    className="bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-slate-900 font-semibold"
-                  >
+    <div className="w-full">
+      <AnimatePresence mode="wait">
+        {!hasAnalyzed ? (
+          <motion.div
+            key="upload"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+          >
+            <ShineBorder className="max-w-2xl mx-auto bg-[#0a0a0a] border border-[#c9a84c]/20 rounded-3xl p-8">
+              <div 
+                onClick={() => !isAnalyzing && document.getElementById('cv-upload')?.click()}
+                className={`border-2 border-dashed border-[#c9a84c]/20 rounded-2xl p-12 text-center transition-all cursor-pointer group ${isAnalyzing ? 'opacity-50 pointer-events-none' : 'hover:border-[#c9a84c]/50 hover:bg-[#c9a84c]/5'}`}
+              >
+                <Upload className="w-12 h-12 text-[#c9a84c] mx-auto mb-4 group-hover:scale-110 transition-transform" />
+                <h3 className="text-xl font-bold text-white mb-2">
+                  {fileName || 'Carga tu CV para analizar'}
+                </h3>
+                <p className="text-gray-500 text-sm mb-6">PDF o Word (Máx 15MB)</p>
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={handleFileChange}
+                  className="hidden"
+                  id="cv-upload"
+                />
+                {!fileName && (
+                  <Button className="bg-white/5 border border-white/10 text-white hover:bg-white/10">
                     Seleccionar Archivo
                   </Button>
-                </motion.div>
+                )}
+              </div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  className="flex gap-4"
-                >
-                  {isAnalyzing ? (
-                    <div className="flex flex-col items-center gap-4 w-full">
-                      <TetrisLoaderModern size="md" speed="fast" text={extractionStep === 'extracting' ? 'Extrayendo texto del PDF...' : 'Analizando con IA...'} />
+              {fileName && !isAnalyzing && (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
+                  <Button
+                    onClick={handleAnalyze}
+                    className="w-full bg-[#c9a84c] text-black font-black py-8 text-xl rounded-2xl shadow-[0_0_30px_rgba(201,168,76,0.3)] hover:scale-[1.02] transition-all"
+                  >
+                    <Zap className="mr-2 fill-current" /> ANALIZAR MI CV AHORA
+                  </Button>
+                </motion.div>
+              )}
+
+              {isAnalyzing && (
+                <div className="mt-8 flex flex-col items-center gap-6">
+                  <TetrisLoaderModern size="md" speed="fast" text={extractionStep === 'extracting' ? 'Buscando errores críticos...' : 'Analizando compatibilidad con empresas de Paraguay...'} />
+                </div>
+              )}
+            </ShineBorder>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="results"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="max-w-4xl mx-auto"
+          >
+            {results?.success ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Left: Tension Score */}
+                <div className="md:col-span-1 space-y-6">
+                  <div className={`p-8 rounded-3xl border ${results.atsScore! < 50 ? 'border-red-500/30 bg-red-500/5' : 'border-[#c9a84c]/30 bg-[#c9a84c]/5'} text-center`}>
+                    <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-2">Tu Score ATS</span>
+                    <div className={`text-6xl font-black mb-2 ${getScoreColor(results.atsScore!)}`}>
+                      {results.atsScore}/100
                     </div>
-                  ) : (
-                    <Button
-                      onClick={handleAnalyze}
-                      disabled={!file}
-                      className="flex-1 bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-slate-900 font-semibold hover:shadow-lg hover:shadow-[#c9a84c]/30 disabled:opacity-50"
-                    >
-                      <Zap className="w-4 h-4 mr-2" />
-                      Análisis Gratis
-                    </Button>
-                  )}
-                </motion.div>
+                    <p className="text-sm text-gray-400">
+                      {results.atsScore! < 50 
+                        ? "Tu perfil es invisible para el 75% de las empresas en Paraguay." 
+                        : "Buen perfil, pero todavía hay margen de mejora crítica."}
+                    </p>
+                  </div>
+                  
+                  <div className="p-6 bg-[#0a0a0a] border border-white/5 rounded-2xl">
+                    <h4 className="text-xs font-bold text-gray-500 uppercase mb-4 flex items-center gap-2">
+                      <AlertTriangle size={14} className="text-yellow-500" /> Errores Críticos
+                    </h4>
+                    <ul className="space-y-3">
+                      {results.criticalImprovements?.slice(0, 3).map((err, i) => (
+                        <li key={i} className="text-sm text-gray-300 flex items-start gap-2">
+                          <span className="text-red-500 font-bold">•</span> {err}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
 
-                <p className="text-center text-sm text-gray-500">
-                  ✓ Análisis instantáneo · ✓ Sin datos guardados · ✓ Confidencial
-                </p>
-              </>
-            ) : (
-              <>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                  className="space-y-6"
-                >
-                  {results?.success ? (
-                    <>
-                      <h3 className="text-2xl font-bold text-white text-center">
-                        Resultados del Análisis
+                {/* Right: Conversion CTA */}
+                <div className="md:col-span-2 space-y-6">
+                  <div className="bg-gradient-to-br from-[#c9a84c] to-[#d4b85f] p-1 rounded-3xl shadow-[0_0_50px_rgba(201,168,76,0.2)]">
+                    <div className="bg-black rounded-[22px] p-8">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#c9a84c]/10 border border-[#c9a84c]/20 text-[#c9a84c] text-[10px] font-black uppercase mb-6">
+                        <Zap size={12} className="fill-current" /> Oferta Irresistible
+                      </div>
+                      <h3 className="text-3xl font-black text-white mb-4 leading-tight">
+                        Desbloqueá tu CV Optimizado y la lista de Palabras Clave.
                       </h3>
-
-                      <div className="grid grid-cols-2 gap-4">
-                        {[
-                          {
-                            label: 'ATS Score',
-                            score: results?.atsScore || 0,
-                            icon: CheckCircle,
-                          },
-                          {
-                            label: 'Compatibilidad',
-                            score: results?.compatibilityPercentage || 0,
-                            icon: CheckCircle,
-                          },
-                        ].map((item, index) => (
-                          <motion.div
-                            key={index}
-                            initial={{ scale: 0.9, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ delay: index * 0.1 }}
-                            className={`p-4 rounded-xl border ${getScoreBg(item.score)} text-center`}
-                          >
-                            <p className="text-xs text-gray-400 uppercase font-bold mb-1">{item.label}</p>
-                            <p className={`text-3xl font-bold ${getScoreColor(item.score)}`}>
-                              {item.score}%
-                            </p>
-                          </motion.div>
-                        ))}
-                      </div>
-
-                      <div className="space-y-4">
-                        <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                          <h4 className="text-[#c9a84c] font-bold text-sm uppercase mb-3 flex items-center gap-2">
-                            <Zap className="w-4 h-4" /> Probabilidad de Entrevista
-                          </h4>
-                          <p className="text-white font-medium">{results?.estimatedInterviewChance}</p>
+                      <p className="text-gray-400 text-lg mb-8">
+                        No dejes que un algoritmo te deje fuera. Obtené el formato exacto que los reclutadores de Paraguay quieren ver.
+                      </p>
+                      
+                      <div className="flex flex-col sm:flex-row items-center gap-6 mb-8">
+                        <div className="text-left">
+                          <span className="text-gray-500 line-through text-sm">₲150.000</span>
+                          <div className="text-4xl font-black text-[#c9a84c]">₲50.000</div>
+                          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Precio Promo por 24hs</span>
                         </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                            <h4 className="text-green-400 font-bold text-sm uppercase mb-3">Fortalezas</h4>
-                            <ul className="space-y-2">
-                              {results?.strengths?.map((s, i) => (
-                                <li key={i} className="text-xs text-gray-300 flex items-start gap-2">
-                                  <span className="text-green-400">•</span> {s}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                            <h4 className="text-red-400 font-bold text-sm uppercase mb-3">Mejoras Críticas</h4>
-                            <ul className="space-y-2">
-                              {results?.criticalImprovements?.map((m, i) => (
-                                <li key={i} className="text-xs text-gray-300 flex items-start gap-2">
-                                  <span className="text-red-400">•</span> {m}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-
-                        <div className="bg-[#c9a84c]/10 border border-[#c9a84c]/20 rounded-xl p-6">
-                          <h4 className="text-[#c9a84c] font-bold text-sm uppercase mb-4">Plan de Acción Sugerido</h4>
-                          <ul className="space-y-3">
-                            {results?.actionPlan?.map((step, i) => (
-                              <li key={i} className="text-sm text-gray-200 flex items-start gap-3">
-                                <span className="w-5 h-5 rounded-full bg-[#c9a84c] text-black text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
-                                  {i + 1}
-                                </span>
-                                {step}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div className="pt-4 space-y-4">
-                        <Button
-                          onClick={() => window.open(`https://wa.me/595992954169?text=Hola! Mi puntaje ATS fue de ${results?.atsScore}%. Quisiera optimizar mi CV para mejorar mis oportunidades.`, '_blank')}
-                          className="w-full bg-[#c9a84c] text-black font-bold py-6 rounded-xl hover:shadow-lg hover:shadow-[#c9a84c]/20 transition-all"
-                        >
-                          Optimizar mi CV con un Experto
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          onClick={() => {
-                            setHasAnalyzed(false);
-                            setFile(null);
-                            setFileName('');
-                            setResults(null);
-                          }}
-                          className="w-full text-gray-500 hover:text-white"
-                        >
-                          Analizar otro archivo
+                        <Button className="flex-1 w-full bg-[#c9a84c] text-black font-black py-8 text-xl rounded-2xl hover:scale-[1.02] transition-all">
+                          CORREGIR MI CV AHORA <ArrowRight className="ml-2" />
                         </Button>
                       </div>
-                    </>
-                  ) : (
-                    <div className="text-center py-8">
-                      <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
-                      <h3 className="text-xl font-bold text-white mb-2">Error en el análisis</h3>
-                      <p className="text-gray-400 mb-6">{results?.error}</p>
-                      <Button
-                        onClick={() => {
-                          setHasAnalyzed(false);
-                          setFile(null);
-                          setFileName('');
-                          setResults(null);
-                        }}
-                        className="bg-white/10 text-white hover:bg-white/20"
-                      >
-                        Reintentar
-                      </Button>
+
+                      <div className="grid grid-cols-2 gap-4 pt-6 border-t border-white/5">
+                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                          <CheckCircle size={14} className="text-green-500" /> Formato Aprobado ATS
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                          <CheckCircle size={14} className="text-green-500" /> Keywords Estratégicas
+                        </div>
+                      </div>
                     </div>
-                  )}
-                </motion.div>
-              </>
+                  </div>
+
+                  <button 
+                    onClick={() => { setHasAnalyzed(false); setResults(null); setFile(null); setFileName(''); }}
+                    className="w-full py-4 text-gray-500 text-xs font-bold uppercase tracking-widest hover:text-white transition-colors"
+                  >
+                    ← Analizar otro archivo
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="max-w-md mx-auto text-center p-12 bg-[#0a0a0a] border border-red-500/20 rounded-3xl">
+                <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-6" />
+                <h3 className="text-xl font-bold text-white mb-4">Error en el análisis</h3>
+                <p className="text-gray-500 mb-8">{results?.error || "Ocurrió un error inesperado."}</p>
+                <Button onClick={() => setHasAnalyzed(false)} className="bg-white/5 border border-white/10 text-white">
+                  Reintentar
+                </Button>
+              </div>
             )}
-          </div>
-        </ShineBorder>
-      </div>
-    </section>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 };
