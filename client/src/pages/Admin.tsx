@@ -76,14 +76,28 @@ export default function Admin() {
   });
 
   // Login Gate
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const adminPass = import.meta.env.VITE_ADMIN_PASSWORD;
-    if (password === adminPass) {
-      setIsAuthenticated(true);
-      setNotification({ type: 'success', message: 'Bienvenido al panel de administración' });
-    } else {
-      setNotification({ type: 'error', message: 'Contraseña incorrecta' });
+    setLoading(true);
+    try {
+      const response = await fetch('/.netlify/functions/admin-auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok && data.authenticated) {
+        setIsAuthenticated(true);
+        setNotification({ type: 'success', message: 'Bienvenido al panel de administración' });
+      } else {
+        setNotification({ type: 'error', message: data.error || 'Contraseña incorrecta' });
+      }
+    } catch (error) {
+      setNotification({ type: 'error', message: 'Error de conexión con el servidor' });
+    } finally {
+      setLoading(false);
     }
   };
 

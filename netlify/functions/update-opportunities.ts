@@ -1,106 +1,167 @@
-import { Handler, HandlerEvent, HandlerContext, schedule } from "@netlify/functions";
+import { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
+import { createClient } from "@supabase/supabase-js";
+import axios from "axios";
 
-// ─── CONFIGURACIÓN DE FUENTES (APIs Y SCRAPPERS) ──────────────────────────────
-// En una versión real, aquí conectaríamos con APIs de:
-// BECAS Y FONDOS:
-// - Y Combinator (https://www.ycombinator.com/companies/industry/search)
-// - Scholarships.com (API o Scrapper)
-// - Portales gubernamentales (MEXT, Chevening, etc.)
-// EMPLEOS POR RUBRO:
-// - LinkedIn API (vacantes por categoría)
-// - GitHub Jobs API (Tech)
-// - Indeed API (General)
-// - Agregadores Latam (Bumeran, Computrabajo, OLX Jobs)
-// ─────────────────────────────────────────────────────────────────────────────
+// Standardized Opportunity interface for CVitae
+interface Opportunity {
+  id: string;
+  title: string;
+  organization: string;
+  location: string;
+  continent: string;
+  type: string;
+  value: string;
+  deadline: string;
+  compatibility: number;
+  tags: string[];
+  description: string;
+  application_url: string;
+  source: string;
+  rubro?: string;
+}
 
-const myHandler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
-  console.log("Iniciando actualización de oportunidades globales...");
+export const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
+  console.log("Iniciando actualización de oportunidades reales...");
+
+  // Initialize Supabase inside the handler for correct env reading in production
+  const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "";
+  const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+  const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+  // API Keys from Environment Variables
+  const ADZUNA_APP_ID = process.env.ADZUNA_APP_ID;
+  const ADZUNA_APP_KEY = process.env.ADZUNA_APP_KEY;
+  const FINDWORK_API_KEY = process.env.FINDWORK_API_KEY;
+  const SERPAPI_KEY = process.env.SERPAPI_KEY;
+
+  let allOpportunities: Opportunity[] = [];
 
   try {
-    // 1. SIMULACIÓN DE SCRAPPING (Para mantener costo $0 y evitar bloqueos de IP)
-    // En producción, aquí usaríamos 'fetch' para traer datos reales de las APIs.
-    
-    // BECAS Y FONDOS
-    const scholarships = [
-      {
-        id: `auto-${Date.now()}-1`,
-        title: "MEXT Scholarship 2026 - Japan",
-        organization: "MEXT (Ministerio de Educación Japón)",
-        location: "Japón",
-        continent: "Asia",
-        type: "beca_internacional",
-        value: "¥144.000/mes + Matrícula",
-        deadline: "20 Abril 2026",
-        compatibility: 85,
-        tags: ["Japón", "Postgrado", "Investigación"],
-        description: "Beca de élite del gobierno japonés. Cobertura total de estudios y manutención.",
-      },
-      {
-        id: `auto-${Date.now()}-2`,
-        title: "Y Combinator Summer 2026 Batch",
-        organization: "Y Combinator",
-        location: "San Francisco, USA",
-        continent: "Global",
-        type: "capital_semilla",
-        value: "$500K USD",
-        deadline: "31 Marzo 2026",
-        compatibility: 90,
-        tags: ["Silicon Valley", "Startup", "Inversión"],
-        description: "La aceleradora más prestigiosa del mundo. Inversión + mentoría de élite.",
-      },
-      {
-        id: `auto-${Date.now()}-3`,
-        title: "Chevening Scholarships - UK",
-        organization: "Gobierno del Reino Unido",
-        location: "Reino Unido",
-        continent: "Europa",
-        type: "beca_internacional",
-        value: "100% Cobertura",
-        deadline: "1 Noviembre 2026",
-        compatibility: 88,
-        tags: ["UK", "Liderazgo", "Postgrado"],
-        description: "Becas para líderes emergentes de todo el mundo para estudiar en el Reino Unido.",
-      }
-    ];
+    // 1. Fetch from Adzuna (Global/Tech)
+    if (ADZUNA_APP_ID && ADZUNA_APP_KEY) {
+      try {
+        const adzunaRes = await axios.get(
+          `https://api.adzuna.com/v1/api/jobs/gb/search/1?app_id=${ADZUNA_APP_ID}&app_key=${ADZUNA_APP_KEY}&results_per_page=10&what=software%20developer&content-type=application/json`
+        );
+        const adzunaJobs = adzunaRes.data.results.map((job: any) => ({
+          id: `adzuna-${job.id}`,
+          title: job.title,
+          organization: job.company.display_name,
+          location: job.location.display_name,
+          continent: "Global",
+          type: "empleo",
+          value: job.salary_min ? `£${job.salary_min} - £${job.salary_max}` : "Competitivo",
+          deadline: "Abierto",
+          compatibility: 75,
+          tags: job.category.tag.split("-"),
+          description: job.description,
+          application_url: job.redirect_url,
+          source: "Adzuna",
+          rubro: "Tecnología"
+        }));
+        allOpportunities = [...allOpportunities, ...adzunaJobs];
+      } catch (e) { console.error("Error Adzuna:", e); }
+    }
 
-    // EMPLEOS POR RUBRO (Scrapping simulado - En producción, conectar con APIs reales)
-    const jobs = [
-      // TECNOLOGÍA
-      { id: `job-${Date.now()}-1`, title: "Senior Full Stack Developer", organization: "Mercado Libre", location: "Remoto (Latam)", type: "empleo", salary: "$3,000 - $5,000 USD", rubro: "Tecnología", tags: ["React", "Node.js", "Senior"], deadline: "Abierto" },
-      { id: `job-${Date.now()}-2`, title: "Data Scientist", organization: "Stripe", location: "Remoto (Global)", type: "empleo", salary: "$5,000 - $8,000 USD", rubro: "Tecnología", tags: ["Python", "ML", "Data"], deadline: "Abierto" },
-      { id: `job-${Date.now()}-3`, title: "DevOps Engineer", organization: "Google Cloud", location: "Remoto", type: "empleo", salary: "$4,000 - $6,500 USD", rubro: "Tecnología", tags: ["Kubernetes", "AWS", "Cloud"], deadline: "Abierto" },
-      // FINANZAS
-      { id: `job-${Date.now()}-4`, title: "Analista Contable Senior", organization: "KPMG Paraguay", location: "Asunción", type: "empleo", salary: "₲8M - ₲12M", rubro: "Finanzas", tags: ["Contabilidad", "NIIF", "Auditoría"], deadline: "Abierto" },
-      { id: `job-${Date.now()}-5`, title: "Asesor Financiero", organization: "Banco Itaú", location: "Asunción", type: "empleo", salary: "₲5M - ₲8M", rubro: "Finanzas", tags: ["Inversión", "Asesoría", "Clientes"], deadline: "Abierto" },
-      // MARKETING
-      { id: `job-${Date.now()}-6`, title: "Growth Marketing Manager", organization: "Rappi", location: "Remoto (Latam)", type: "empleo", salary: "$2,500 - $4,000 USD", rubro: "Marketing", tags: ["Growth", "Analytics", "Digital"], deadline: "Abierto" },
-      // RECURSOS HUMANOS
-      { id: `job-${Date.now()}-7`, title: "Especialista en RRHH", organization: "Accenture", location: "Remoto", type: "empleo", salary: "$2,000 - $3,500 USD", rubro: "RRHH", tags: ["Selección", "Nómina", "Cultura"], deadline: "Abierto" },
-    ];
+    // 2. Fetch from FindWork (Remote/Global)
+    if (FINDWORK_API_KEY) {
+      try {
+        const findworkRes = await axios.get("https://findwork.dev/api/jobs/", {
+          headers: { Authorization: `Token ${FINDWORK_API_KEY}` }
+        });
+        const findworkJobs = findworkRes.data.results.slice(0, 10).map((job: any) => ({
+          id: `findwork-${job.id}`,
+          title: job.role,
+          organization: job.company_name,
+          location: job.remote ? "Remoto" : job.location,
+          continent: "Global",
+          type: "empleo",
+          value: "Competitivo",
+          deadline: "Abierto",
+          compatibility: 80,
+          tags: job.keywords || [],
+          description: job.text.substring(0, 200) + "...",
+          application_url: job.url,
+          source: "FindWork",
+          rubro: "Tecnología"
+        }));
+        allOpportunities = [...allOpportunities, ...findworkJobs];
+      } catch (e) { console.error("Error FindWork:", e); }
+    }
 
-    const newOpportunities = [...scholarships, ...jobs];
+    // 3. Fetch from SerpApi (Google Jobs - Local Paraguay)
+    if (SERPAPI_KEY) {
+      try {
+        const serpRes = await axios.get("https://serpapi.com/search.json", {
+          params: {
+            engine: "google_jobs",
+            q: "empleos en paraguay",
+            hl: "es",
+            gl: "py",
+            api_key: SERPAPI_KEY
+          }
+        });
+        const serpJobs = serpRes.data.jobs_results.slice(0, 10).map((job: any) => ({
+          id: `serp-${job.job_id}`,
+          title: job.title,
+          organization: job.company_name,
+          location: job.location,
+          continent: "Sudamérica",
+          type: "empleo",
+          value: job.extensions?.find((e: string) => e.includes("₲") || e.includes("$")) || "Competitivo",
+          deadline: "Abierto",
+          compatibility: 85,
+          tags: ["Paraguay", "Local", job.detected_extensions?.schedule_type || "Full-time"],
+          description: job.description.substring(0, 200) + "...",
+          application_url: job.related_links?.[0]?.link || "",
+          source: "Google Jobs",
+          rubro: "General"
+        }));
+        allOpportunities = [...allOpportunities, ...serpJobs];
+      } catch (e) { console.error("Error SerpApi:", e); }
+    }
 
-    // 2. PERSISTENCIA (Aquí conectaríamos con Supabase o una DB para guardar)
-    // Por ahora, devolvemos los datos para que el frontend los consuma.
-    console.log(`Se detectaron ${scholarships.length} becas y ${jobs.length} empleos nuevos.`);
+    // 4. Update Supabase content_hub if we have new opportunities
+    if (allOpportunities.length > 0) {
+      const upsertData = allOpportunities.map(opp => ({
+        titulo: opp.title,
+        slug: `opp-${opp.id}`,
+        cuerpo: opp.description,
+        categoria: opp.type,
+        tipo: 'oportunidad',
+        is_active: true,
+        metadata: {
+          organization: opp.organization,
+          location: opp.location,
+          value: opp.value,
+          tags: opp.tags,
+          application_url: opp.application_url,
+          source: opp.source,
+          rubro: opp.rubro
+        },
+        fecha_vencimiento: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 days default
+      }));
+
+      const { error: upsertError } = await supabase
+        .from('content_hub')
+        .upsert(upsertData, { onConflict: 'slug' });
+      
+      if (upsertError) console.error("Error updating Supabase:", upsertError);
+    }
 
     return {
       statusCode: 200,
       body: JSON.stringify({
         message: "Oportunidades actualizadas con éxito",
-        count: newOpportunities.length,
-        data: newOpportunities,
+        count: allOpportunities.length,
         timestamp: new Date().toISOString()
       }),
     };
   } catch (error) {
-    console.error("Error en el motor de scrapping:", error);
+    console.error("Error general en el motor de actualización:", error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: "Fallo al actualizar oportunidades" }),
     };
   }
 };
-
-// Configurar para que se ejecute cada 24 horas (Cron Job gratuito de Netlify)
-export const handler = schedule("0 0 * * *", myHandler);

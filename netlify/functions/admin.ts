@@ -1,14 +1,5 @@
 import { Handler } from "@netlify/functions";
 
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_KEY;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "cvitae2026admin";
-const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
-const EMAILJS_SERVICE_ID = process.env.EMAILJS_SERVICE_ID;
-const EMAILJS_TEMPLATE_ID = process.env.EMAILJS_TEMPLATE_ID;
-const EMAILJS_PUBLIC_KEY = process.env.EMAILJS_PUBLIC_KEY;
-const SITE_URL = process.env.SITE_URL || "https://cvitae-py.netlify.app";
-
 function cors() {
   return {
     "Content-Type": "application/json",
@@ -18,13 +9,13 @@ function cors() {
   };
 }
 
-async function getOrders() {
+async function getOrders(url: string, key: string) {
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/pedidos?select=*&order=fecha_creacion.desc`,
+    `${url}/rest/v1/pedidos?select=*&order=fecha_creacion.desc`,
     {
       headers: {
-        apikey: SUPABASE_KEY || "",
-        Authorization: `Bearer ${SUPABASE_KEY}`,
+        apikey: key || "",
+        Authorization: `Bearer ${key}`,
       },
     }
   );
@@ -32,15 +23,15 @@ async function getOrders() {
   return await res.json();
 }
 
-async function updateOrder(id: string, fields: any) {
+async function updateOrder(url: string, key: string, id: string, fields: any) {
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/pedidos?id=eq.${encodeURIComponent(id)}`,
+    `${url}/rest/v1/pedidos?id=eq.${encodeURIComponent(id)}`,
     {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        apikey: SUPABASE_KEY || "",
-        Authorization: `Bearer ${SUPABASE_KEY}`,
+        apikey: key || "",
+        Authorization: `Bearer ${key}`,
         Prefer: "return=minimal",
       },
       body: JSON.stringify(fields),
@@ -49,21 +40,21 @@ async function updateOrder(id: string, fields: any) {
   if (!res.ok) throw new Error("Error actualizando en Supabase");
 }
 
-async function deleteOrder(id: string) {
+async function deleteOrder(url: string, key: string, id: string) {
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/pedidos?id=eq.${encodeURIComponent(id)}`,
+    `${url}/rest/v1/pedidos?id=eq.${encodeURIComponent(id)}`,
     {
       method: "DELETE",
       headers: {
-        apikey: SUPABASE_KEY || "",
-        Authorization: `Bearer ${SUPABASE_KEY}`,
+        apikey: key || "",
+        Authorization: `Bearer ${key}`,
       },
     }
   );
   if (!res.ok) throw new Error("Error eliminando de Supabase");
 }
 
-async function generateExtras(order: any) {
+async function generateExtras(order: any, apiKey: string) {
   const nombre = order.nombre || order.name || "profesional";
   const profesion = order.profession || order.plan || "profesional";
   const puesto = order.aviso_trabajo || order.job || "un puesto relevante";
@@ -85,7 +76,7 @@ Respondé SOLO con un JSON válido con esta estructura exacta, sin texto extra a
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-api-key": ANTHROPIC_API_KEY || "",
+      "x-api-key": apiKey || "",
       "anthropic-version": "2023-06-01",
     },
     body: JSON.stringify({
@@ -105,15 +96,16 @@ Respondé SOLO con un JSON válido con esta estructura exacta, sin texto extra a
 async function sendEmail(
   toName: string,
   toEmail: string,
-  templateParams: any
+  templateParams: any,
+  config: { serviceId: string, templateId: string, publicKey: string }
 ) {
   const res = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      service_id: EMAILJS_SERVICE_ID,
-      template_id: EMAILJS_TEMPLATE_ID,
-      user_id: EMAILJS_PUBLIC_KEY,
+      service_id: config.serviceId,
+      template_id: config.templateId,
+      user_id: config.publicKey,
       template_params: templateParams,
     }),
   });
@@ -125,6 +117,16 @@ async function sendEmail(
 }
 
 const handler: Handler = async (event) => {
+  // Env variables inside handler
+  const SUPABASE_URL = process.env.SUPABASE_URL;
+  const SUPABASE_KEY = process.env.SUPABASE_KEY;
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "cvitae2026admin";
+  const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+  const EMAILJS_SERVICE_ID = process.env.EMAILJS_SERVICE_ID;
+  const EMAILJS_TEMPLATE_ID = process.env.EMAILJS_TEMPLATE_ID;
+  const EMAILJS_PUBLIC_KEY = process.env.EMAILJS_PUBLIC_KEY;
+  const SITE_URL = process.env.SITE_URL || "https://cvitae-py.netlify.app";
+
   if (event.httpMethod === "OPTIONS")
     return { statusCode: 200, headers: cors(), body: "" };
   if (event.httpMethod !== "POST")
@@ -153,10 +155,14 @@ const handler: Handler = async (event) => {
       body: JSON.stringify({ error: "Contraseña incorrecta" }),
     };
 
+  if (!SUPABASE_URL || !SUPABASE_KEY) {
+    return { statusCode: 500, headers: cors(), body: JSON.stringify({ error: "Configuración de Supabase faltante" }) };
+  }
+
   // ── LIST ──
   if (action === "list") {
     try {
-      const orders = await getOrders();
+      const orders = await getOrders(SUPABASE_URL, SUPABASE_KEY);
       const sorted = orders.map((o: any) => ({
         id: o.id,
         name: o.nombre || o.name,
@@ -189,7 +195,7 @@ const handler: Handler = async (event) => {
         body: JSON.stringify({ error: "orderId requerido" }),
       };
     try {
-      const orders = await getOrders();
+      const orders = await getOrders(SUPABASE_URL, SUPABASE_KEY);
       const order = orders.find((o: any) => o.id === orderId);
       if (!order)
         return {
@@ -204,24 +210,31 @@ const handler: Handler = async (event) => {
           body: JSON.stringify({ error: "Ya fue enviado" }),
         };
 
-      const extras = await generateExtras(order);
+      if (!ANTHROPIC_API_KEY) throw new Error("ANTHROPIC_API_KEY faltante");
+      const extras = await generateExtras(order, ANTHROPIC_API_KEY);
       const cvLink = `${SITE_URL}/cv.html?id=${order.id}`;
       const planLabel = order.plan === "pro" ? "Portafolio Web" : "CV Digital";
       const nombreCliente = order.nombre || order.name;
       const emailCliente = order.email;
 
-      await sendEmail(nombreCliente, emailCliente, {
-        to_name: nombreCliente,
-        to_email: emailCliente,
-        name: nombreCliente,
-        email: emailCliente,
-        wa: order.whatsapp || order.wa,
-        job: order.aviso_trabajo || order.job,
-        plan: planLabel,
-        cv_html: cvLink,
-      });
+      if (EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY) {
+        await sendEmail(nombreCliente, emailCliente, {
+          to_name: nombreCliente,
+          to_email: emailCliente,
+          name: nombreCliente,
+          email: emailCliente,
+          wa: order.whatsapp || order.wa,
+          job: order.aviso_trabajo || order.job,
+          plan: planLabel,
+          cv_html: cvLink,
+        }, {
+          serviceId: EMAILJS_SERVICE_ID,
+          templateId: EMAILJS_TEMPLATE_ID,
+          publicKey: EMAILJS_PUBLIC_KEY
+        });
+      }
 
-      await updateOrder(orderId, {
+      await updateOrder(SUPABASE_URL, SUPABASE_KEY, orderId, {
         carta_html: extras.carta,
         entrevista_html: extras.entrevista,
         linkedin_text: extras.linkedin,
@@ -254,7 +267,7 @@ const handler: Handler = async (event) => {
         body: JSON.stringify({ error: "orderId requerido" }),
       };
     try {
-      const orders = await getOrders();
+      const orders = await getOrders(SUPABASE_URL, SUPABASE_KEY);
       const order = orders.find((o: any) => o.id === orderId);
       if (!order)
         return {
@@ -269,18 +282,24 @@ const handler: Handler = async (event) => {
       const emailEmpresa = order.email;
 
       // Enviar email con token
-      await sendEmail(nombreEmpresa, emailEmpresa, {
-        to_name: nombreEmpresa,
-        to_email: emailEmpresa,
-        name: nombreEmpresa,
-        email: emailEmpresa,
-        token: token,
-        access_link: `${SITE_URL}/recruiters/lots?token=${token}`,
-        plan: order.plan || "Pro",
-      });
+      if (EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY) {
+        await sendEmail(nombreEmpresa, emailEmpresa, {
+          to_name: nombreEmpresa,
+          to_email: emailEmpresa,
+          name: nombreEmpresa,
+          email: emailEmpresa,
+          token: token,
+          access_link: `${SITE_URL}/recruiters/lots?token=${token}`,
+          plan: order.plan || "Pro",
+        }, {
+          serviceId: EMAILJS_SERVICE_ID,
+          templateId: EMAILJS_TEMPLATE_ID,
+          publicKey: EMAILJS_PUBLIC_KEY
+        });
+      }
 
       // Guardar token en Supabase
-      await updateOrder(orderId, {
+      await updateOrder(SUPABASE_URL, SUPABASE_KEY, orderId, {
         token: token,
         status: "approved",
         estado: "habilitado",
@@ -310,7 +329,7 @@ const handler: Handler = async (event) => {
         body: JSON.stringify({ error: "orderId requerido" }),
       };
     try {
-      await deleteOrder(orderId);
+      await deleteOrder(SUPABASE_URL, SUPABASE_KEY, orderId);
       return {
         statusCode: 200,
         headers: cors(),
