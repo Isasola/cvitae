@@ -1,0 +1,151 @@
+import axios from 'axios';
+import { createClient } from '@supabase/supabase-js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const OUTPUT_PATH = path.join(__dirname, '../client/src/data/opportunities.json');
+
+const ADZUNA_APP_ID = process.env.ADZUNA_APP_ID;
+const ADZUNA_APP_KEY = process.env.ADZUNA_APP_KEY;
+const FINDWORK_API_KEY = process.env.FINDWORK_API_KEY;
+const SERPAPI_KEY = process.env.SERPAPI_KEY;
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+let allOpportunities = [];
+
+// 1. Adzuna
+if (ADZUNA_APP_ID && ADZUNA_APP_KEY) {
+  try {
+    const res = await axios.get(
+      `https://api.adzuna.com/v1/api/jobs/gb/search/1?app_id=${ADZUNA_APP_ID}&app_key=${ADZUNA_APP_KEY}&results_per_page=20&what=developer&content-type=application/json`
+    );
+    const jobs = res.data.results.map(job => ({
+      id: `adzuna-${job.id}`,
+      title: job.title,
+      organization: job.company.display_name,
+      location: job.location.display_name,
+      continent: 'Global',
+      type: 'empleo',
+      rubro: 'Tecnología',
+      value: job.salary_min ? `£${Math.round(job.salary_min)} - £${Math.round(job.salary_max)}` : 'Competitivo',
+      deadline: 'Abierto',
+      compatibility: 75,
+      tags: ['Adzuna', 'Tecnología'],
+      description: job.description?.substring(0, 200) + '...',
+      application_url: job.redirect_url,
+      source: 'Adzuna',
+    }));
+    allOpportunities = [...allOpportunities, ...jobs];
+    console.log(`✅ Adzuna: ${jobs.length} empleos`);
+  } catch (e) {
+    console.error('❌ Error Adzuna:', e.message);
+  }
+}
+
+// 2. FindWork
+if (FINDWORK_API_KEY) {
+  try {
+    const res = await axios.get('https://findwork.dev/api/jobs/', {
+      headers: { Authorization: `Token ${FINDWORK_API_KEY}` }
+    });
+    const jobs = res.data.results.slice(0, 20).map(job => ({
+      id: `findwork-${job.id}`,
+      title: job.role,
+      organization: job.company_name,
+      location: job.remote ? 'Remoto' : (job.location || 'Global'),
+      continent: 'Global',
+      type: 'empleo',
+      rubro: 'Tecnología',
+      value: 'Competitivo',
+      deadline: 'Abierto',
+      compatibility: 80,
+      tags: job.keywords?.slice(0, 3) || ['Remoto'],
+      description: job.text?.substring(0, 200) + '...',
+      application_url: job.url,
+      source: 'FindWork',
+    }));
+    allOpportunities = [...allOpportunities, ...jobs];
+    console.log(`✅ FindWork: ${jobs.length} empleos`);
+  } catch (e) {
+    console.error('❌ Error FindWork:', e.message);
+  }
+}
+
+// 3. SerpAPI
+if (SERPAPI_KEY) {
+  try {
+    const res = await axios.get('https://serpapi.com/search.json', {
+      params: {
+        engine: 'google_jobs',
+        q: 'empleos en paraguay',
+        hl: 'es',
+        gl: 'py',
+        api_key: SERPAPI_KEY
+      }
+    });
+    const jobs = res.data.jobs_results?.slice(0, 10).map(job => ({
+      id: `serp-${job.job_id}`,
+      title: job.title,
+      organization: job.company_name,
+      location: job.location,
+      continent: 'Sudamérica',
+      type: 'empleo',
+      rubro: 'General',
+      value: 'Competitivo',
+      deadline: 'Abierto',
+      compatibility: 85,
+      tags: ['Paraguay', 'Local'],
+      description: job.description?.substring(0, 200) + '...',
+      application_url: job.related_links?.[0]?.link || '',
+      source: 'Google Jobs',
+    })) || [];
+    allOpportunities = [...allOpportunities, ...jobs];
+    console.log(`✅ SerpAPI: ${jobs.length} empleos`);
+  } catch (e) {
+    console.error('❌ Error SerpAPI:', e.message);
+  }
+}
+
+// 4. Guardar JSON
+const output = {
+  total: allOpportunities.length,
+  timestamp: new Date().toISOString(),
+  opportunities: allOpportunities,
+};
+fs.writeFileSync(OUTPUT_PATH, JSON.stringify(output, null, 2));
+console.log(`✅ JSON actualizado: ${allOpportunities.length} oportunidades`);
+
+// 5. Persistir en Supabase
+if (SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
+  try {
+    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+    const upsertData = allOpportunities.map(opp => ({
+      titulo: opp.title,
+      slug: `opp-${opp.id}`,
+      cuerpo: opp.description,
+      categoria: opp.rubro || 'General',
+      tipo: 'oportunidad',
+      is_active: true,
+      ubicacion: opp.location,
+      metadata: {
+        organization: opp.organization,
+        location: opp.location,
+        value: opp.value,
+        tags: opp.tags,
+        application_url: opp.application_url,
+        source: opp.source,
+      },
+      fecha_vencimiento: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+    }));
+    const { error } = await supabase
+      .from('content_hub')
+      .upsert(upsertData, { onConflict: 'slug' });
+    if (error) console.error('❌ Error Supabase:', error.message);
+    else console.log('✅ Supabase actualizado');
+  } catch (e) {
+    console.error('❌ Error Supabase:', e.message);
+  }
+}
