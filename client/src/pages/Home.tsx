@@ -81,7 +81,8 @@ export default function Home() {
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <button onClick={() => setLocation('/opportunities')} className="text-sm text-[#c9a84c] font-semibold">Oportunidades</button>
+            <button onClick={() => setLocation('/blog')} className="text-sm text-gray-400 hover:text-[#c9a84c] transition-colors font-semibold">Blog</button>
+  <button onClick={() => setLocation('/opportunities')} className="text-sm text-[#c9a84c] font-semibold">Oportunidades</button>
             <button onClick={() => setLocation('/recruiters/interface')} className="text-sm bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black px-4 py-2 rounded-lg font-semibold">Panel Reclutadores</button>
           </div>
         </div>

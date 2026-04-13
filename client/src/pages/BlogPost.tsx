@@ -87,9 +87,11 @@ export default function BlogPost() {
             <span className="text-xs font-bold uppercase tracking-wider text-[#c9a84c] px-2 py-1 bg-[#c9a84c]/10 rounded">
               {post.categoria}
             </span>
-            <span className="text-sm text-gray-500">
-              Vence: {new Date(post.fecha_vencimiento).toLocaleDateString()}
-            </span>
+            {post.tipo !== 'blog' && (
+              <span className="text-sm text-gray-500">
+                Vence: {new Date(post.fecha_vencimiento).toLocaleDateString()}
+              </span>
+            )}
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
             {post.titulo}

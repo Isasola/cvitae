@@ -24,7 +24,7 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
   console.log("Iniciando actualización de oportunidades reales...");
 
   // Initialize Supabase inside the handler for correct env reading in production
-  const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "";
+  const SUPABASE_URL = process.env.SUPABASE_URL || "";
   const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
