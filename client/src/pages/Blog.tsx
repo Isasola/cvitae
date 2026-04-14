@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'wouter';
 import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
+import { ArrowLeft } from 'lucide-react'; // <-- Importamos el icono
 
 interface ContentItem {
   id: string;
@@ -61,6 +62,15 @@ export default function Blog() {
       </Helmet>
 
       <div className="max-w-6xl mx-auto">
+        {/* Botón de regreso al Home */}
+        <button
+          onClick={() => setLocation('/')}
+          className="text-[#c9a84c] mb-8 flex items-center gap-2 hover:underline text-sm"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Volver al inicio
+        </button>
+
         <header className="mb-16 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Blog CVitae</h1>
           <p className="text-gray-400 max-w-2xl mx-auto">
