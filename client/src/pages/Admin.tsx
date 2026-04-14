@@ -212,11 +212,15 @@ export default function Admin() {
         }
       }
 
-      const normalizedDate = `${formData.fecha_vencimiento}T23:59:59Z`;
+      // Forzar fecha lejana solo para blogs
+      let fechaFinal = formData.fecha_vencimiento;
+      if (formData.tipo === 'blog') {
+        fechaFinal = '2099-12-31';
+      }
 
       const dataToSave = {
         ...formData,
-        fecha_vencimiento: normalizedDate
+        fecha_vencimiento: `${fechaFinal}T23:59:59Z`
       };
 
       let error;
@@ -252,7 +256,7 @@ export default function Admin() {
 
   const resetForm = () => {
     setFormData({
-      titulo: '',
+      titolo: '',
       slug: '',
       cuerpo: '',
       categoria: 'Tecnología',
