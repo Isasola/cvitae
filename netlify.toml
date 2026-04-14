@@ -15,11 +15,6 @@
   to = "/index.html"
   status = 200
 
-# Configuración del Cron Job para el motor de scrapping
-# Se ejecuta cada 24 horas (00:00 UTC)
-[functions."update-opportunities"]
-  schedule = "0 0 * * *"
-
 [[headers]]
   for = "/*"
   [headers.values]
