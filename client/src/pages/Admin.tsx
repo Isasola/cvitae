@@ -256,7 +256,7 @@ export default function Admin() {
 
   const resetForm = () => {
     setFormData({
-      titolo: '',
+      titulo: '',
       slug: '',
       cuerpo: '',
       categoria: 'Tecnología',
