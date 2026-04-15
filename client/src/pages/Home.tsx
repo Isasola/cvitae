@@ -82,7 +82,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-4">
             <button onClick={() => setLocation('/blog')} className="text-sm text-gray-400 hover:text-[#c9a84c] transition-colors font-semibold">Blog</button>
-  <button onClick={() => setLocation('/opportunities')} className="text-sm text-[#c9a84c] font-semibold">Oportunidades</button>
+            <button onClick={() => setLocation('/opportunities')} className="text-sm text-[#c9a84c] font-semibold">Oportunidades</button>
             <button onClick={() => setLocation('/recruiters/interface')} className="text-sm bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black px-4 py-2 rounded-lg font-semibold">Panel Reclutadores</button>
           </div>
         </div>
@@ -103,7 +103,7 @@ export default function Home() {
                 <span className="text-[#c9a84c]">Tu CV es invisible.</span>
               </h1>
               <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Los filtros automáticos (ATS) descartan tu perfil antes de que un humano lo vea. <span className="text-white font-bold">Corregilo en 60 segundos.</span>
+                Analiza tu CV y descubre oportunidades globales que aumentan tus posibilidades de empleo.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
@@ -128,6 +128,75 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ==================== CV ANALYZER SECTION (SUBIDA) ==================== */}
+      <section id="cv-analyzer" className="py-24 relative">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-[#c9a84c]/5 blur-[120px] rounded-full -z-10" />
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">Analizador de Impacto IA</h2>
+            <p className="text-gray-400">Descubre qué está frenando tu perfil profesional y cómo superarlo.</p>
+          </div>
+          <CVAnalyzer />
+        </div>
+      </section>
+
+      {/* LATEST OPPORTUNITIES PREVIEW */}
+      <section className="py-20 bg-[#0a0a0a] border-y border-[#c9a84c]/10">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="text-3xl font-bold text-white">Oportunidades activas del mercado</h2>
+            <button 
+              onClick={() => setLocation('/opportunities')}
+              className="text-[#c9a84c] font-semibold flex items-center gap-2 hover:underline"
+            >
+              Ver todas <ArrowRight size={16} />
+            </button>
+          </div>
+
+          {loadingOpps ? (
+            <div className="flex justify-center py-10">
+              <div className="w-8 h-8 border-2 border-[#c9a84c] border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {latestOpportunities.map((opp, i) => (
+                <motion.div
+                  key={opp.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  onClick={() => setLocation(`/opportunities/${opp.slug}`)}
+                  className="p-6 rounded-2xl border border-white/5 bg-black hover:border-[#c9a84c]/30 transition-all cursor-pointer group"
+                >
+                  <span className="text-xs font-bold text-[#c9a84c] uppercase tracking-widest mb-2 block">{opp.categoria}</span>
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#c9a84c] transition-colors">{opp.titulo}</h3>
+                  <div className="flex items-center gap-2 text-gray-500 text-sm mb-4">
+                    <MapPin size={14} /> {opp.ubicacion}
+                  </div>
+                  <div className="text-gray-400 text-sm line-clamp-2 mb-6">
+                    <ReactMarkdown>{opp.cuerpo}</ReactMarkdown>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-600">Vence: {new Date(opp.fecha_vencimiento).toLocaleDateString()}</span>
+                    <ArrowRight size={18} className="text-[#c9a84c] opacity-0 group-hover:opacity-100 transition-all" />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* NEWSLETTER SECTION (SUBIDA CON CORREO VISIBLE) */}
+      <section className="py-20 bg-[#0a0a0a] border-t border-[#c9a84c]/10">
+        <div className="max-w-7xl mx-auto px-4">
+          <Newsletter />
+          <p className="text-center text-gray-400 text-sm mt-4">
+            También podés escribirnos a <a href="mailto:cpdparaguay@gmail.com" className="text-[#c9a84c] hover:underline">cpdparaguay@gmail.com</a>
+          </p>
+        </div>
+      </section>
+
       {/* ATS ALERT SECTION */}
       <section className="py-16 bg-[#0a0a0a] border-y border-[#c9a84c]/10">
         <div className="max-w-5xl mx-auto px-4">
@@ -140,6 +209,7 @@ export default function Home() {
               <p className="text-gray-400 text-lg">
                 Las empresas grandes usan sistemas ATS para filtrar candidatos. Si tu CV no tiene el formato y las palabras clave correctas, <span className="text-white font-bold">nunca llegará al escritorio de un reclutador.</span>
               </p>
+              <p className="text-gray-300 text-base italic">Por eso muchos pierden oportunidades sin saberlo.</p>
               <div className="flex items-center gap-4 text-sm text-gray-500">
                 <ShieldCheck className="text-green-500" /> Formato Optimizado para Paraguay
               </div>
@@ -181,65 +251,6 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ==================== CV ANALYZER SECTION ==================== */}
-      <section id="cv-analyzer" className="py-24 relative">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-[#c9a84c]/5 blur-[120px] rounded-full -z-10" />
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">Analizador de Impacto IA</h2>
-            <p className="text-gray-400">Nuestro motor busca errores críticos y analiza compatibilidad con empresas líderes.</p>
-          </div>
-          <CVAnalyzer />
-        </div>
-      </section>
-
-      {/* LATEST OPPORTUNITIES PREVIEW */}
-      <section className="py-20 bg-[#0a0a0a] border-y border-[#c9a84c]/10">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between mb-12">
-            <h2 className="text-3xl font-bold text-white">Últimas Vacantes Verificadas</h2>
-            <button 
-              onClick={() => setLocation('/opportunities')}
-              className="text-[#c9a84c] font-semibold flex items-center gap-2 hover:underline"
-            >
-              Ver todas <ArrowRight size={16} />
-            </button>
-          </div>
-
-          {loadingOpps ? (
-            <div className="flex justify-center py-10">
-              <div className="w-8 h-8 border-2 border-[#c9a84c] border-t-transparent rounded-full animate-spin"></div>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {latestOpportunities.map((opp, i) => (
-                <motion.div
-                  key={opp.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  onClick={() => setLocation(`/opportunities/${opp.slug}`)}
-                  className="p-6 rounded-2xl border border-white/5 bg-black hover:border-[#c9a84c]/30 transition-all cursor-pointer group"
-                >
-                  <span className="text-xs font-bold text-[#c9a84c] uppercase tracking-widest mb-2 block">{opp.categoria}</span>
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#c9a84c] transition-colors">{opp.titulo}</h3>
-                  <div className="flex items-center gap-2 text-gray-500 text-sm mb-4">
-                    <MapPin size={14} /> {opp.ubicacion}
-                  </div>
-                  <div className="text-gray-400 text-sm line-clamp-2 mb-6">
-                    <ReactMarkdown>{opp.cuerpo}</ReactMarkdown>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-600">Vence: {new Date(opp.fecha_vencimiento).toLocaleDateString()}</span>
-                    <ArrowRight size={18} className="text-[#c9a84c] opacity-0 group-hover:opacity-100 transition-all" />
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          )}
         </div>
       </section>
 
@@ -291,13 +302,6 @@ export default function Home() {
       {/* RECRUITERS B2B PROMO */}
       <RecruitersPromo />
 
-      {/* NEWSLETTER SECTION */}
-      <section className="py-20 bg-[#0a0a0a] border-t border-[#c9a84c]/10">
-        <div className="max-w-7xl mx-auto px-4">
-          <Newsletter />
-        </div>
-      </section>
-
       {/* ==================== PRICING SECTION ==================== */}
       <section id="pricing" className="py-24 border-t border-[#c9a84c]/10 bg-[#0a0a0a]">
         <div className="max-w-7xl mx-auto px-4">
@@ -318,7 +322,8 @@ export default function Home() {
                   'Reporte en 60 segundos',
                 ],
                 highlighted: false,
-                cta: 'Empezar Gratis'
+                cta: 'Empezar Gratis',
+                action: () => document.getElementById('cv-analyzer')?.scrollIntoView({ behavior: 'smooth' })
               },
               {
                 name: 'Plan Pro Plus',
@@ -332,7 +337,8 @@ export default function Home() {
                 ],
                 highlighted: true,
                 cta: 'Desbloquear Ahora',
-                tag: 'PRECIO PROMO 24HS'
+                tag: 'PRECIO PROMO 24HS',
+                action: () => window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hola! Quiero el Plan Pro Plus de CVitae por 50.000 Gs.')}`, '_blank')
               },
               {
                 name: 'Elite Business',
@@ -345,7 +351,8 @@ export default function Home() {
                   'Soporte Enterprise',
                 ],
                 highlighted: false,
-                cta: 'Comprar Pack'
+                cta: 'Comprar Pack',
+                action: () => window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hola! Quiero el Pack Elite Business de CVitae por 100.000 Gs.')}`, '_blank')
               },
             ].map((plan, i) => (
               <motion.div
@@ -378,6 +385,7 @@ export default function Home() {
                   ))}
                 </div>
                 <Button 
+                  onClick={plan.action}
                   className={`w-full py-6 rounded-xl font-bold transition-all ${
                     plan.highlighted 
                       ? 'bg-[#c9a84c] text-black hover:bg-[#b39540]' 
@@ -391,9 +399,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-
-
     </div>
   );
 }
