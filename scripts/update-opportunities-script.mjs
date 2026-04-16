@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createClient } from '@supabase/supabase-js';
+import { ApifyClient } from 'apify-client';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -13,6 +14,8 @@ const FINDWORK_API_KEY = process.env.FINDWORK_API_KEY;
 const SERPAPI_KEY = process.env.SERPAPI_KEY;
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const APIFY_API_KEY = process.env.APIFY_API_KEY;
+const JOOBLE_API_KEY = process.env.JOOBLE_API_KEY;
 
 let allOpportunities = [];
 
@@ -109,7 +112,77 @@ if (SERPAPI_KEY) {
   }
 }
 
-// 4. Guardar JSON
+// 4. Apify (Computrabajo Paraguay)
+if (APIFY_API_KEY) {
+  try {
+    const apifyClient = new ApifyClient({ token: APIFY_API_KEY });
+    
+    const run = await apifyClient.actor('drobnikj/compu-trabajo-scraper').call({
+      searchTerms: ['empleos'],
+      location: 'Paraguay',
+      maxItems: 20
+    });
+
+    const { items } = await apifyClient.dataset(run.defaultDatasetId).listItems();
+    
+    const apifyJobs = items.slice(0, 20).map(job => ({
+      id: `apify-${job.id || Math.random().toString(36).substr(2, 9)}`,
+      title: job.title,
+      organization: job.company || 'Empresa',
+      location: job.location || 'Paraguay',
+      continent: 'Sudamérica',
+      type: 'empleo',
+      rubro: job.category || 'General',
+      value: job.salary || 'Competitivo',
+      deadline: job.deadline || 'Abierto',
+      compatibility: 80,
+      tags: ['Paraguay', 'Computrabajo'],
+      description: job.description?.substring(0, 200) + '...',
+      application_url: job.url,
+      source: 'Computrabajo',
+    }));
+    
+    allOpportunities = [...allOpportunities, ...apifyJobs];
+    console.log(`✅ Apify (Computrabajo): ${apifyJobs.length} empleos`);
+  } catch (e) {
+    console.error('❌ Error Apify:', e.message);
+  }
+}
+
+// 5. Jooble
+if (JOOBLE_API_KEY) {
+  try {
+    const res = await axios.post('https://jooble.org/api/', {
+      keywords: 'empleo',
+      location: 'Paraguay',
+      apiKey: JOOBLE_API_KEY
+    });
+
+    const jobs = res.data.jobs?.slice(0, 20).map(job => ({
+      id: `jooble-${job.id || Math.random().toString(36).substr(2, 9)}`,
+      title: job.title,
+      organization: job.company,
+      location: job.location || 'Paraguay',
+      continent: 'Sudamérica',
+      type: 'empleo',
+      rubro: 'General',
+      value: job.salary || 'Competitivo',
+      deadline: job.updated || 'Abierto',
+      compatibility: 80,
+      tags: ['Paraguay', 'Jooble'],
+      description: job.snippet?.substring(0, 200) + '...',
+      application_url: job.link,
+      source: 'Jooble',
+    })) || [];
+
+    allOpportunities = [...allOpportunities, ...jobs];
+    console.log(`✅ Jooble: ${jobs.length} empleos`);
+  } catch (e) {
+    console.error('❌ Error Jooble:', e.message);
+  }
+}
+
+// 6. Guardar JSON (opcional, para mantener compatibilidad)
 const output = {
   total: allOpportunities.length,
   timestamp: new Date().toISOString(),
@@ -118,7 +191,7 @@ const output = {
 fs.writeFileSync(OUTPUT_PATH, JSON.stringify(output, null, 2));
 console.log(`✅ JSON actualizado: ${allOpportunities.length} oportunidades`);
 
-// 5. Persistir en Supabase
+// 7. Persistir en Supabase
 if (SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
   try {
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
