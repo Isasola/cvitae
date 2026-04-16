@@ -16,8 +16,67 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const APIFY_API_KEY = process.env.APIFY_API_KEY;
 const JOOBLE_API_KEY = process.env.JOOBLE_API_KEY;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 let allOpportunities = [];
+
+/**
+ * Genera una descripción enriquecida con Gemini.
+ * @param {string} title - Título del puesto.
+ * @param {string} company - Nombre de la empresa.
+ * @param {string} location - Ubicación del puesto.
+ * @param {string} originalUrl - URL de la oferta original.
+ * @returns {Promise<string>} - Descripción generada por Gemini.
+ */
+async function enrichWithGemini(title, company, location, originalUrl) {
+  if (!GEMINI_API_KEY) {
+    console.warn('⚠️ GEMINI_API_KEY no configurada. Se usará descripción corta.');
+    return null;
+  }
+
+  const prompt = `Eres un redactor profesional de ofertas de empleo. Genera una descripción atractiva y completa en español para la siguiente vacante:
+
+Título: ${title}
+Empresa: ${company || 'Empresa líder'}
+Ubicación: ${location || 'Paraguay / Remoto'}
+
+La descripción debe incluir:
+- Una breve presentación de la empresa.
+- Responsabilidades principales del puesto (3-4 puntos).
+- Requisitos deseables (2-3 puntos).
+- Beneficios ofrecidos (1-2 puntos).
+- Extensión aproximada: 300-400 palabras.
+- Al final del texto, incluye EXACTAMENTE esta línea (sin modificarla):
+  "Ver oportunidad original: ${originalUrl}"
+
+Responde ÚNICAMENTE con el texto en español, sin etiquetas adicionales.`;
+
+  try {
+    const response = await axios.post(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        contents: [{
+          parts: [{ text: prompt }]
+        }]
+      },
+      {
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
+
+    const generatedText = response.data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (generatedText) {
+      console.log(`✅ Gemini generó descripción para: ${title}`);
+      return generatedText.trim();
+    } else {
+      console.warn(`⚠️ Gemini no devolvió texto para: ${title}`);
+      return null;
+    }
+  } catch (error) {
+    console.error(`❌ Error llamando a Gemini para "${title}":`, error.message);
+    return null;
+  }
+}
 
 // 1. Adzuna
 if (ADZUNA_APP_ID && ADZUNA_APP_KEY) {
@@ -37,7 +96,7 @@ if (ADZUNA_APP_ID && ADZUNA_APP_KEY) {
       deadline: 'Abierto',
       compatibility: 75,
       tags: ['Adzuna', 'Tecnología'],
-      description: job.description?.substring(0, 200) + '...',
+      description: job.description?.substring(0, 200) + '...', // Se reemplazará luego con Gemini
       application_url: job.redirect_url,
       source: 'Adzuna',
     }));
@@ -182,7 +241,24 @@ if (JOOBLE_API_KEY) {
   }
 }
 
-// 6. Guardar JSON (opcional, para mantener compatibilidad)
+// 6. Enriquecer descripciones con Gemini
+console.log('🤖 Iniciando enriquecimiento con Gemini...');
+for (const opp of allOpportunities) {
+  const enriched = await enrichWithGemini(
+    opp.title,
+    opp.organization,
+    opp.location,
+    opp.application_url
+  );
+  if (enriched) {
+    opp.description = enriched;
+  }
+  // Pequeña pausa para no saturar la API gratuita
+  await new Promise(resolve => setTimeout(resolve, 1000));
+}
+console.log('✅ Enriquecimiento con Gemini completado.');
+
+// 7. Guardar JSON (opcional, para mantener compatibilidad)
 const output = {
   total: allOpportunities.length,
   timestamp: new Date().toISOString(),
@@ -191,7 +267,7 @@ const output = {
 fs.writeFileSync(OUTPUT_PATH, JSON.stringify(output, null, 2));
 console.log(`✅ JSON actualizado: ${allOpportunities.length} oportunidades`);
 
-// 7. Persistir en Supabase
+// 8. Persistir en Supabase
 if (SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
   try {
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
