@@ -44,12 +44,22 @@ export default function OpportunityDetail() {
   useEffect(() => {
     const fetchOpportunity = async () => {
       try {
-        const { data, error } = await supabase
-          .from('content_hub')
-          .select('*')
-          .eq('slug', slug)
-          .eq('is_active', true)
-          .single();
+       const { data, error } = await supabase
+  .from('content_hub')
+  .select('slug, titulo, cuerpo, categoria, imagen_url, fecha_vencimiento, tipo, ubicacion, is_active, metadata')
+  .eq('slug', slug)
+  .eq('is_active', true)
+  .single();
+
+// Asegurar que metadata sea un objeto (a veces Supabase lo devuelve como string)
+if (data && typeof data.metadata === 'string') {
+  try {
+    data.metadata = JSON.parse(data.metadata);
+  } catch (e) {
+    console.warn('Error parseando metadata:', e);
+    data.metadata = {};
+  }
+}
 
         if (error) throw error;
         setOpportunity(data);
