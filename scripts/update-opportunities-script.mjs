@@ -22,11 +22,6 @@ let allOpportunities = [];
 
 /**
  * Genera una descripción enriquecida con Gemini.
- * @param {string} title - Título del puesto.
- * @param {string} company - Nombre de la empresa.
- * @param {string} location - Ubicación del puesto.
- * @param {string} originalUrl - URL de la oferta original.
- * @returns {Promise<string>} - Descripción generada por Gemini.
  */
 async function enrichWithGemini(title, company, location, originalUrl) {
   if (!GEMINI_API_KEY) {
@@ -54,24 +49,16 @@ Responde ÚNICAMENTE con el texto en español, sin etiquetas adicionales.`;
   try {
     const response = await axios.post(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        contents: [{
-          parts: [{ text: prompt }]
-        }]
-      },
-      {
-        headers: { 'Content-Type': 'application/json' }
-      }
+      { contents: [{ parts: [{ text: prompt }] }] },
+      { headers: { 'Content-Type': 'application/json' } }
     );
 
     const generatedText = response.data.candidates?.[0]?.content?.parts?.[0]?.text;
     if (generatedText) {
       console.log(`✅ Gemini generó descripción para: ${title}`);
       return generatedText.trim();
-    } else {
-      console.warn(`⚠️ Gemini no devolvió texto para: ${title}`);
-      return null;
     }
+    return null;
   } catch (error) {
     console.error(`❌ Error llamando a Gemini para "${title}":`, error.message);
     return null;
@@ -96,7 +83,7 @@ if (ADZUNA_APP_ID && ADZUNA_APP_KEY) {
       deadline: 'Abierto',
       compatibility: 75,
       tags: ['Adzuna', 'Tecnología'],
-      description: job.description?.substring(0, 200) + '...', // Se reemplazará luego con Gemini
+      description: `Oportunidad laboral: ${job.title} en ${job.company.display_name}. Para más detalles y postular, visita el enlace de la oferta original.`,
       application_url: job.redirect_url,
       source: 'Adzuna',
     }));
@@ -125,7 +112,7 @@ if (FINDWORK_API_KEY) {
       deadline: 'Abierto',
       compatibility: 80,
       tags: job.keywords?.slice(0, 3) || ['Remoto'],
-      description: job.text?.substring(0, 200) + '...',
+      description: `Oportunidad laboral: ${job.role} en ${job.company_name}. Para más detalles y postular, visita el enlace de la oferta original.`,
       application_url: job.url,
       source: 'FindWork',
     }));
@@ -160,7 +147,7 @@ if (SERPAPI_KEY) {
       deadline: 'Abierto',
       compatibility: 85,
       tags: ['Paraguay', 'Local'],
-      description: job.description?.substring(0, 200) + '...',
+      description: `Oportunidad laboral: ${job.title} en ${job.company_name}. Para más detalles y postular, visita el enlace de la oferta original.`,
       application_url: job.related_links?.[0]?.link || '',
       source: 'Google Jobs',
     })) || [];
@@ -175,15 +162,12 @@ if (SERPAPI_KEY) {
 if (APIFY_API_KEY) {
   try {
     const apifyClient = new ApifyClient({ token: APIFY_API_KEY });
-    
     const run = await apifyClient.actor('drobnikj/compu-trabajo-scraper').call({
       searchTerms: ['empleos'],
       location: 'Paraguay',
       maxItems: 20
     });
-
     const { items } = await apifyClient.dataset(run.defaultDatasetId).listItems();
-    
     const apifyJobs = items.slice(0, 20).map(job => ({
       id: `apify-${job.id || Math.random().toString(36).substr(2, 9)}`,
       title: job.title,
@@ -196,11 +180,10 @@ if (APIFY_API_KEY) {
       deadline: job.deadline || 'Abierto',
       compatibility: 80,
       tags: ['Paraguay', 'Computrabajo'],
-      description: job.description?.substring(0, 200) + '...',
+      description: `Oportunidad laboral: ${job.title} en ${job.company || 'Empresa'}. Para más detalles y postular, visita el enlace de la oferta original.`,
       application_url: job.url,
       source: 'Computrabajo',
     }));
-    
     allOpportunities = [...allOpportunities, ...apifyJobs];
     console.log(`✅ Apify (Computrabajo): ${apifyJobs.length} empleos`);
   } catch (e) {
@@ -216,7 +199,6 @@ if (JOOBLE_API_KEY) {
       location: 'Paraguay',
       apiKey: JOOBLE_API_KEY
     });
-
     const jobs = res.data.jobs?.slice(0, 20).map(job => ({
       id: `jooble-${job.id || Math.random().toString(36).substr(2, 9)}`,
       title: job.title,
@@ -229,11 +211,10 @@ if (JOOBLE_API_KEY) {
       deadline: job.updated || 'Abierto',
       compatibility: 80,
       tags: ['Paraguay', 'Jooble'],
-      description: job.snippet?.substring(0, 200) + '...',
+      description: `Oportunidad laboral: ${job.title} en ${job.company}. Para más detalles y postular, visita el enlace de la oferta original.`,
       application_url: job.link,
       source: 'Jooble',
     })) || [];
-
     allOpportunities = [...allOpportunities, ...jobs];
     console.log(`✅ Jooble: ${jobs.length} empleos`);
   } catch (e) {
@@ -241,24 +222,35 @@ if (JOOBLE_API_KEY) {
   }
 }
 
-// 6. Enriquecer descripciones con Gemini
+// 6. Enriquecer descripciones con Gemini (limitado a 5 para no exceder cuota gratuita)
 console.log('🤖 Iniciando enriquecimiento con Gemini...');
+const MAX_GEMINI_CALLS = 5;
+let geminiProcessed = 0;
+
 for (const opp of allOpportunities) {
+  if (geminiProcessed >= MAX_GEMINI_CALLS) {
+    console.log(`⚠️ Límite de ${MAX_GEMINI_CALLS} llamadas a Gemini alcanzado. El resto usarán descripción corta.`);
+    break;
+  }
+
   const enriched = await enrichWithGemini(
     opp.title,
     opp.organization,
     opp.location,
     opp.application_url
   );
+  
   if (enriched) {
     opp.description = enriched;
+    geminiProcessed++;
   }
-  // Pequeña pausa para no saturar la API gratuita
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  // Esperar 3 segundos entre llamadas para evitar error 429
+  await new Promise(resolve => setTimeout(resolve, 3000));
 }
-console.log('✅ Enriquecimiento con Gemini completado.');
+console.log(`✅ Enriquecimiento con Gemini completado. ${geminiProcessed} descripciones generadas.`);
 
-// 7. Guardar JSON (opcional, para mantener compatibilidad)
+// 7. Guardar JSON (opcional)
 const output = {
   total: allOpportunities.length,
   timestamp: new Date().toISOString(),
