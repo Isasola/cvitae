@@ -83,7 +83,7 @@ if (ADZUNA_APP_ID && ADZUNA_APP_KEY) {
       deadline: 'Abierto',
       compatibility: 75,
       tags: ['Adzuna', 'Tecnología'],
-      description: `Oportunidad laboral: ${job.title} en ${job.company.display_name}. Para más detalles y postular, visita el enlace de la oferta original.`,
+      description: `Oportunidad laboral: ${job.title} en ${job.company.display_name}.\n\n[👉 Ver oportunidad original y postular aquí](${job.redirect_url})`,
       application_url: job.redirect_url,
       source: 'Adzuna',
     }));
@@ -112,7 +112,7 @@ if (FINDWORK_API_KEY) {
       deadline: 'Abierto',
       compatibility: 80,
       tags: job.keywords?.slice(0, 3) || ['Remoto'],
-      description: `Oportunidad laboral: ${job.role} en ${job.company_name}. Para más detalles y postular, visita el enlace de la oferta original.`,
+      description: `Oportunidad laboral: ${job.role} en ${job.company_name}.\n\n[👉 Ver oportunidad original y postular aquí](${job.url})`,
       application_url: job.url,
       source: 'FindWork',
     }));
@@ -147,7 +147,7 @@ if (SERPAPI_KEY) {
       deadline: 'Abierto',
       compatibility: 85,
       tags: ['Paraguay', 'Local'],
-      description: `Oportunidad laboral: ${job.title} en ${job.company_name}. Para más detalles y postular, visita el enlace de la oferta original.`,
+      description: `Oportunidad laboral: ${job.title} en ${job.company_name}.\n\n[👉 Ver oportunidad original y postular aquí](${job.related_links?.[0]?.link || ''})`,
       application_url: job.related_links?.[0]?.link || '',
       source: 'Google Jobs',
     })) || [];
@@ -180,7 +180,7 @@ if (APIFY_API_KEY) {
       deadline: job.deadline || 'Abierto',
       compatibility: 80,
       tags: ['Paraguay', 'Computrabajo'],
-      description: `Oportunidad laboral: ${job.title} en ${job.company || 'Empresa'}. Para más detalles y postular, visita el enlace de la oferta original.`,
+      description: `Oportunidad laboral: ${job.title} en ${job.company || 'Empresa'}.\n\n[👉 Ver oportunidad original y postular aquí](${job.url})`,
       application_url: job.url,
       source: 'Computrabajo',
     }));
@@ -211,7 +211,7 @@ if (JOOBLE_API_KEY) {
       deadline: job.updated || 'Abierto',
       compatibility: 80,
       tags: ['Paraguay', 'Jooble'],
-      description: `Oportunidad laboral: ${job.title} en ${job.company}. Para más detalles y postular, visita el enlace de la oferta original.`,
+      description: `Oportunidad laboral: ${job.title} en ${job.company}.\n\n[👉 Ver oportunidad original y postular aquí](${job.link})`,
       application_url: job.link,
       source: 'Jooble',
     })) || [];
