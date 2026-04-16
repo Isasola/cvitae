@@ -10,6 +10,7 @@ import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
 import NotFound from '@/pages/NotFound';
+import { TetrisLoader } from '@/components/ui/tetris-loader';
 
 interface Opportunity {
   id: string;
@@ -22,7 +23,17 @@ interface Opportunity {
   tipo: 'blog' | 'oportunidad';
   ubicacion: string;
   is_active: boolean;
+  metadata?: {
+    application_url?: string;
+    organization?: string;
+    location?: string;
+    value?: string;
+    tags?: string[];
+    source?: string;
+  };
 }
+
+const WA_NUMBER = '595992954169';
 
 export default function OpportunityDetail() {
   const { id: slug } = useParams<{ id: string }>();
@@ -55,29 +66,32 @@ export default function OpportunityDetail() {
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-[#c9a84c] border-t-transparent rounded-full animate-spin"></div>
+        <TetrisLoader size="lg" text="Cargando oportunidad..." />
       </div>
     );
   }
 
   if (!opportunity) return <NotFound />;
 
-  const metaDescription = opportunity.cuerpo 
+  const metaDescription = opportunity.cuerpo
     ? opportunity.cuerpo.replace(/[#*`]/g, '').substring(0, 150) + '...'
     : 'Oportunidad laboral en CVitae Paraguay';
+
+  const applicationUrl = opportunity.metadata?.application_url;
+  const hasValidLink = applicationUrl && applicationUrl.trim() !== '';
 
   return (
     <div className="w-full bg-black min-h-screen pt-32 pb-20 px-4">
       <Helmet>
         <title>{`${opportunity.titulo || 'Vacante'} | CVitae Paraguay`}</title>
-        <meta name="description" content={metaDescription || 'Oportunidad laboral en CVitae Paraguay'} />
+        <meta name="description" content={metaDescription} />
         <meta property="og:title" content={opportunity.titulo || 'Vacante'} />
-        <meta property="og:description" content={metaDescription || 'Oportunidad laboral en CVitae Paraguay'} />
+        <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="article" />
         <meta property="og:image" content={opportunity.imagen_url} />
       </Helmet>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="max-w-4xl mx-auto"
@@ -101,7 +115,7 @@ export default function OpportunityDetail() {
                 Vence: {new Date(opportunity.fecha_vencimiento).toLocaleDateString()}
               </span>
             </div>
-            
+
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
               {opportunity.titulo || 'Sin título'}
             </h1>
@@ -141,30 +155,39 @@ export default function OpportunityDetail() {
               Descripción y Detalles
             </div>
             <div className="text-gray-300 leading-relaxed bg-white/5 p-6 rounded-2xl border border-white/5">
-              <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{opportunity.cuerpo || 'Descripción no disponible'}</ReactMarkdown>
+              <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
+                {opportunity.cuerpo || 'Descripción no disponible'}
+              </ReactMarkdown>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-white/10">
-            <Button
-              size="lg"
-              onClick={() => window.open(`https://wa.me/595992954169?text=Hola! Quiero optimizar mi CV para ${opportunity?.titulo || 'esta vacante'}`, '_blank')}
-              className="flex-1 bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black font-bold py-7 rounded-2xl hover:shadow-lg transition-all flex items-center justify-center gap-2 text-lg"
-            >
-              Optimizar mi CV para esta vacante
-              <ExternalLink className="w-5 h-5" />
-            </Button>
-            
+            {/* Botón principal: Postularse */}
+            {hasValidLink && (
+              <Button
+                size="lg"
+                onClick={() => window.open(applicationUrl, '_blank', 'noopener,noreferrer')}
+                className="flex-1 bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black font-bold py-7 rounded-2xl hover:shadow-lg transition-all flex items-center justify-center gap-2 text-lg"
+              >
+                Postularse a esta vacante
+                <ExternalLink className="w-5 h-5" />
+              </Button>
+            )}
+
+            {/* Botón secundario: Mejorar CV */}
             <Button
               variant="outline"
               size="lg"
-              onClick={() => window.open(`https://wa.me/595992954169?text=Hola! Me interesa la vacante de ${opportunity.titulo || 'esta vacante'}. Quisiera consultar más detalles.`, '_blank')}
-              className="border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c]/10 py-7 rounded-2xl text-lg px-8"
+              onClick={() => window.open(
+                `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(`Hola! Quiero mejorar mi CV para la oportunidad: ${opportunity.titulo}`)}`,
+                '_blank'
+              )}
+              className={`border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c]/10 py-7 rounded-2xl text-lg px-8 ${!hasValidLink ? 'flex-1' : ''}`}
             >
-              Consultar por WhatsApp
+              Mejorar mi CV para esta oportunidad
             </Button>
           </div>
-          
+
           <p className="text-center text-gray-500 text-xs mt-8 italic">
             Esta oportunidad es gestionada a través de CVitae Paraguay.
           </p>
