@@ -1,83 +1,82 @@
-'use client';
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
+const frases = [
+  'Encajando oportunidades...',
+  'Tu próximo movimiento laboral...',
+  'Apilando éxito...',
+  'Rotando tu futuro...',
+  '¡Casi listo!',
+];
+
+const colores = ['#c9a84c', '#d4b85f', '#b39540', '#e5c76b', '#a0842e'];
+
 interface TetrisLoaderProps {
-  speed?: 'slow' | 'normal' | 'fast';
-  message?: string;
+  size?: 'sm' | 'md' | 'lg';
+  text?: string;
 }
 
-const speedMap = {
-  slow: 0.8,
-  normal: 0.6,
-  fast: 0.3,
-};
+export const TetrisLoader: React.FC<TetrisLoaderProps> = ({ size = 'md', text }) => {
+  const [fraseIndex, setFraseIndex] = useState(0);
 
-export const TetrisLoader: React.FC<TetrisLoaderProps> = ({
-  speed = 'normal',
-  message = 'Procesando...',
-}) => {
-  const duration = speedMap[speed];
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFraseIndex((prev) => (prev + 1) % frases.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
 
-  // Tetris blocks configuration - Golden theme
-  const blocks = [
-    { id: 1, color: '#c9a84c', delay: 0 },
-    { id: 2, color: '#d4b85f', delay: 0.1 },
-    { id: 3, color: '#b8963f', delay: 0.2 },
-    { id: 4, color: '#c9a84c', delay: 0.3 },
-  ];
+  const bloqueSize = size === 'sm' ? 20 : size === 'md' ? 28 : 36;
+  const gridSize = bloqueSize * 4;
 
   return (
-    <div className="flex flex-col items-center justify-center gap-6">
-      {/* Tetris Blocks */}
-      <div className="flex gap-2">
-        {blocks.map((block) => (
+    <div className="flex flex-col items-center justify-center py-12">
+      <div className="relative mb-8" style={{ width: gridSize, height: gridSize }}>
+        {/* Bloques cayendo animados */}
+        {[...Array(6)].map((_, i) => (
           <motion.div
-            key={block.id}
-            className="w-4 h-4 rounded-sm"
-            style={{ backgroundColor: block.color }}
+            key={i}
+            className="absolute rounded-sm"
+            style={{
+              width: bloqueSize,
+              height: bloqueSize,
+              backgroundColor: colores[i % colores.length],
+              left: `${(i * 1.5) % 4 * bloqueSize}px`,
+              boxShadow: '0 0 10px currentColor',
+            }}
+            initial={{ y: -bloqueSize * 2, opacity: 0 }}
             animate={{
-              y: [0, -20, 0],
-              opacity: [1, 0.5, 1],
+              y: [ -bloqueSize * 2, gridSize + bloqueSize ],
+              opacity: [0, 1, 1, 0],
+              rotate: [0, 90, 180, 270],
             }}
             transition={{
-              duration,
-              delay: block.delay,
+              duration: 3,
               repeat: Infinity,
+              delay: i * 0.3,
               ease: 'easeInOut',
             }}
           />
         ))}
-      </div>
-
-      {/* Message */}
-      {message && (
-        <motion.p
-          className="text-gray-400 text-sm font-medium"
-          animate={{ opacity: [1, 0.6, 1] }}
-          transition={{
-            duration: duration * 2,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
+        {/* Grid de fondo */}
+        <div
+          className="absolute inset-0 grid grid-cols-4 gap-px opacity-10"
+          style={{ border: '1px solid #c9a84c' }}
         >
-          {message}
-        </motion.p>
-      )}
-
-      {/* Rotating Ring */}
-      <motion.div
-        className="w-8 h-8 border-2 border-transparent border-t-[#c9a84c] border-r-[#c9a84c] rounded-full"
-        animate={{ rotate: 360 }}
-        transition={{
-          duration: duration * 2,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
-      />
+          {[...Array(16)].map((_, i) => (
+            <div key={i} className="border border-[#c9a84c]" />
+          ))}
+        </div>
+      </div>
+      <motion.p
+        key={fraseIndex}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0 }}
+        className="text-[#c9a84c] font-bold text-lg"
+      >
+        {text || frases[fraseIndex]}
+      </motion.p>
     </div>
   );
 };
-
-export default TetrisLoader;
