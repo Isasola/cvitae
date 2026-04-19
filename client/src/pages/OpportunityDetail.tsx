@@ -44,22 +44,21 @@ export default function OpportunityDetail() {
   useEffect(() => {
     const fetchOpportunity = async () => {
       try {
-       const { data, error } = await supabase
-  .from('content_hub')
-  .select('slug, titulo, cuerpo, categoria, imagen_url, fecha_vencimiento, tipo, ubicacion, is_active, metadata')
-  .eq('slug', slug)
-  .eq('is_active', true)
-  .single();
+        const { data, error } = await supabase
+          .from('content_hub')
+          .select('slug, titulo, cuerpo, categoria, imagen_url, fecha_vencimiento, tipo, ubicacion, is_active, metadata')
+          .eq('slug', slug)
+          .eq('is_active', true)
+          .single();
 
-// Asegurar que metadata sea un objeto (a veces Supabase lo devuelve como string)
-if (data && typeof data.metadata === 'string') {
-  try {
-    data.metadata = JSON.parse(data.metadata);
-  } catch (e) {
-    console.warn('Error parseando metadata:', e);
-    data.metadata = {};
-  }
-}
+        if (data && typeof data.metadata === 'string') {
+          try {
+            data.metadata = JSON.parse(data.metadata);
+          } catch (e) {
+            console.warn('Error parseando metadata:', e);
+            data.metadata = {};
+          }
+        }
 
         if (error) throw error;
         setOpportunity(data);
@@ -165,6 +164,9 @@ if (data && typeof data.metadata === 'string') {
               Descripción y Detalles
             </div>
             <div className="text-gray-300 leading-relaxed bg-white/5 p-6 rounded-2xl border border-white/5">
+              <p className="text-[#c9a84c] text-sm mb-4 italic">
+                CVitae te ayuda a postularte a esta vacante con un CV optimizado para filtros ATS.
+              </p>
               <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
                 {opportunity.cuerpo || 'Descripción no disponible'}
               </ReactMarkdown>
@@ -172,7 +174,6 @@ if (data && typeof data.metadata === 'string') {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-white/10">
-            {/* Botón principal: Postularse */}
             {hasValidLink && (
               <Button
                 size="lg"
@@ -184,7 +185,6 @@ if (data && typeof data.metadata === 'string') {
               </Button>
             )}
 
-            {/* Botón secundario: Mejorar CV */}
             <Button
               variant="outline"
               size="lg"
