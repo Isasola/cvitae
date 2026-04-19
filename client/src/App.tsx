@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Opportunities from "./pages/Opportunities";
 import Admin from "./pages/Admin";
 import Privacy from "./pages/Privacy";
+import About from "./pages/About";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import OpportunityDetail from "./pages/OpportunityDetail";
@@ -22,12 +23,12 @@ function Router() {
       <Route path={"/opportunities/:id"} component={OpportunityDetail} />
       <Route path={"/admin"} component={Admin} />
       <Route path={"/privacy"} component={Privacy} />
+      <Route path={"/about"} component={About} />
       <Route path={"/blog"} component={Blog} />
       <Route path={"/blog/:slug"} component={BlogPost} />
       <Route path={"/recruiters/interface"} component={RecruitersInterface} />
       <Route path={"/recruiters/tokens"} component={RecruitersTokens} />
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );
