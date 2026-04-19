@@ -10,6 +10,11 @@ interface CandidateAnalysis {
   actionPlan: string[];
   estimatedInterviewChance: string;
   cvOptimizationMessage: string;
+  premiumData?: {
+    missingKeywords: string[];
+    coverLetterSnippet: string;
+    interviewQuestions: Array<{ question: string; suggestion: string }>;
+  };
 }
 
 const handler: Handler = async (event) => {
@@ -20,7 +25,6 @@ const handler: Handler = async (event) => {
     };
   }
 
-  // Initialize Supabase inside the handler
   const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "";
   const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
@@ -28,7 +32,7 @@ const handler: Handler = async (event) => {
   try {
     const { cvText, targetJob, recruiterToken } = JSON.parse(event.body || "{}");
 
-    // 1. Recruiter Token Logic (Optional but enforced if provided)
+    // 1. Validación de token de reclutador
     if (recruiterToken) {
       const { data: tokenData, error: tokenError } = await supabase
         .from('recruiter_tokens')
@@ -51,7 +55,6 @@ const handler: Handler = async (event) => {
         };
       }
 
-      // Deduct 1 token
       await supabase
         .from('recruiter_tokens')
         .update({ token_balance: tokenData.token_balance - 1 })
@@ -79,6 +82,7 @@ const handler: Handler = async (event) => {
     - No endulces la verdad. Si el CV es débil y será rechazado por un ATS, dilo claramente.
     - El score debe ser realista (la mayoría de los CVs en Paraguay sacan menos de 50/100).
     - Vende la SOLUCIÓN de CVitae (Plan Pro Plus de 50.000 Gs) como la única forma de arreglar los errores críticos.
+    - Además del análisis básico, genera contenido PREMIUM que NO se mostrará en el resultado gratuito, pero que se usará para convencer al usuario de comprar el informe completo.
     
     Responde en JSON exactamente así:
     {
@@ -88,12 +92,23 @@ const handler: Handler = async (event) => {
       "criticalImprovements": [<máximo 5 mejoras urgentes y específicas>],
       "actionPlan": [<máximo 4 pasos concretos>],
       "estimatedInterviewChance": "<Muy Baja|Baja|Media|Alta|Muy Alta>",
-      "cvOptimizationMessage": "Tu perfil tiene errores que lo hacen invisible para los filtros ATS de Paraguay. Desbloqueá tu CV optimizado y la lista de palabras clave por solo 50.000 Gs hoy mismo."
+      "cvOptimizationMessage": "Tu perfil tiene errores que lo hacen invisible para los filtros ATS de Paraguay. Desbloqueá tu CV optimizado y la lista de palabras clave por solo 50.000 Gs hoy mismo.",
+      "premiumData": {
+        "missingKeywords": [<5-7 palabras clave ATS que el CV omite pero son críticas para el puesto en Paraguay>],
+        "coverLetterSnippet": "<Un párrafo de 3-4 líneas listo para copiar y pegar como introducción de carta de presentación o mensaje de LinkedIn>",
+        "interviewQuestions": [
+          {"question": "<Pregunta 1>", "suggestion": "<Sugerencia de respuesta breve>"},
+          {"question": "<Pregunta 2>", "suggestion": "<Sugerencia de respuesta breve>"},
+          {"question": "<Pregunta 3>", "suggestion": "<Sugerencia de respuesta breve>"},
+          {"question": "<Pregunta 4>", "suggestion": "<Sugerencia de respuesta breve>"},
+          {"question": "<Pregunta 5>", "suggestion": "<Sugerencia de respuesta breve>"}
+        ]
+      }
     }`;
 
     const message = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 1500,
+      max_tokens: 2000,
       messages: [{ role: "user", content: prompt }],
     });
 
