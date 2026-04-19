@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Briefcase, ArrowRight, Search, X } from 'lucide-react';
+import { MapPin, Briefcase, ArrowRight, Loader2, Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
 import Newsletter from '@/components/Newsletter';
 import { TetrisLoader } from '@/components/ui/tetris-loader';
+import { Footer } from '@/components/Footer';
 
 interface Opportunity {
   id: string;
@@ -34,24 +35,19 @@ export default function Opportunities() {
   const [debouncedSearch, setDebouncedSearch] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Categorías y ubicaciones dinámicas
+  // Categorías dinámicas
   const categories = useMemo(() => {
     const cats = allOpportunities.map(o => o.categoria).filter(Boolean) as string[];
     return ['all', ...Array.from(new Set(cats)).sort()];
   }, [allOpportunities]);
 
-  const locations = useMemo(() => {
-    const locs = allOpportunities.map(o => o.ubicacion).filter(Boolean) as string[];
-    return ['all', ...Array.from(new Set(locs)).sort()];
-  }, [allOpportunities]);
-
-  // Debounce search
+  // Debounce para búsqueda
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedSearch(searchTerm), 300);
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
-  // Cargar todas las oportunidades (solo una vez)
+  // Carga inicial
   useEffect(() => {
     document.title = 'CVitae | Oportunidades Laborales en Paraguay';
     const loadOpportunities = async () => {
@@ -75,14 +71,30 @@ export default function Opportunities() {
     loadOpportunities();
   }, []);
 
-  // Filtrar oportunidades
+  // Filtrado inteligente (en tiempo real)
   const filteredOpportunities = useMemo(() => {
     return allOpportunities.filter(opp => {
+      // Categoría
       const matchesCategory = selectedCategory === 'all' || opp.categoria === selectedCategory;
-      const matchesLocation = selectedLocation === 'all' || opp.ubicacion === selectedLocation;
+
+      // Ubicación mejorada
+      let matchesLocation = true;
+      if (selectedLocation !== 'all') {
+        const locLower = opp.ubicacion?.toLowerCase() || '';
+        if (selectedLocation === 'Paraguay') {
+          matchesLocation = locLower.includes('paraguay') || locLower.includes('asunción') || locLower.includes('central');
+        } else if (selectedLocation === 'Remoto') {
+          matchesLocation = locLower.includes('remoto') || locLower.includes('remote');
+        } else {
+          matchesLocation = locLower.includes(selectedLocation.toLowerCase());
+        }
+      }
+
+      // Búsqueda por texto
       const matchesSearch = debouncedSearch === '' ||
         opp.titulo.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
         (opp.cuerpo && opp.cuerpo.toLowerCase().includes(debouncedSearch.toLowerCase()));
+
       return matchesCategory && matchesLocation && matchesSearch;
     });
   }, [allOpportunities, selectedCategory, selectedLocation, debouncedSearch]);
@@ -94,10 +106,7 @@ export default function Opportunities() {
     return filteredOpportunities.slice(start, start + PAGE_SIZE);
   }, [filteredOpportunities, currentPage]);
 
-  // Resetear página al cambiar filtros
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedCategory, selectedLocation, debouncedSearch]);
+  useEffect(() => { setCurrentPage(1); }, [selectedCategory, selectedLocation, debouncedSearch]);
 
   if (loading) {
     return (
@@ -108,8 +117,7 @@ export default function Opportunities() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] pt-24 pb-20">
-      {/* NAVBAR */}
+    <div className="min-h-screen bg-[#0a0a0a] pt-24 pb-20 flex flex-col">
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-[#c9a84c]/10">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <button onClick={() => setLocation('/')} className="flex items-center gap-2 hover:opacity-80 transition">
@@ -119,35 +127,21 @@ export default function Opportunities() {
             </span>
           </button>
           <div className="flex items-center gap-4">
-            <button onClick={() => setLocation('/blog')} className="text-sm text-gray-400 hover:text-[#c9a84c] transition-colors font-semibold">Blog</button>
+            <button onClick={() => setLocation('/blog')} className="text-sm text-gray-400 hover:text-[#c9a84c]">Blog</button>
             <button onClick={() => setLocation('/opportunities')} className="text-sm text-[#c9a84c] font-semibold">Oportunidades</button>
             <button onClick={() => setLocation('/recruiters/interface')} className="text-sm bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black px-4 py-2 rounded-lg font-semibold">Panel Reclutadores</button>
           </div>
         </div>
       </nav>
 
-      <div className="max-w-6xl mx-auto px-4">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Oportunidades Activas del Mercado
-          </h1>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Explora las mejores oportunidades laborales en Paraguay y Latinoamérica
-          </p>
+      <div className="max-w-6xl mx-auto px-4 w-full flex-grow">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Oportunidades Activas del Mercado</h1>
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto">Explora las mejores oportunidades en Paraguay y Latinoamérica</p>
         </motion.div>
 
-        {/* Search Bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="mb-8"
-        >
+        {/* Barra de búsqueda */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-8">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
             <input
@@ -155,38 +149,26 @@ export default function Opportunities() {
               placeholder="Buscar por título o descripción..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-10 py-3 rounded-lg bg-[#0d0d0f] border border-[#c9a84c]/20 text-white placeholder-gray-500 focus:outline-none focus:border-[#c9a84c]/50 transition-colors"
+              className="w-full pl-12 pr-10 py-3 rounded-lg bg-[#0d0d0f] border border-[#c9a84c]/20 text-white placeholder-gray-500 focus:outline-none focus:border-[#c9a84c]/50"
             />
             {searchTerm && (
-              <button
-                onClick={() => setSearchTerm('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white"
-              >
+              <button onClick={() => setSearchTerm('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white">
                 <X size={18} />
               </button>
             )}
           </div>
         </motion.div>
 
-        {/* Filtros Dinámicos */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
-          className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4"
-        >
+        {/* Filtros instantáneos */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-semibold text-[#c9a84c] mb-2">Categoría</label>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-[#0d0d0f] border border-[#c9a84c]/20 text-white focus:outline-none focus:border-[#c9a84c]/50 transition-colors"
+              className="w-full px-4 py-2 rounded-lg bg-[#0d0d0f] border border-[#c9a84c]/20 text-white"
             >
-              {categories.map(cat => (
-                <option key={cat} value={cat}>
-                  {cat === 'all' ? 'Todas las categorías' : cat}
-                </option>
-              ))}
+              {categories.map(cat => <option key={cat} value={cat}>{cat === 'all' ? 'Todas' : cat}</option>)}
             </select>
           </div>
           <div>
@@ -194,128 +176,64 @@ export default function Opportunities() {
             <select
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-[#0d0d0f] border border-[#c9a84c]/20 text-white focus:outline-none focus:border-[#c9a84c]/50 transition-colors"
+              className="w-full px-4 py-2 rounded-lg bg-[#0d0d0f] border border-[#c9a84c]/20 text-white"
             >
-              {locations.map(loc => (
-                <option key={loc} value={loc}>
-                  {loc === 'all' ? 'Todas las ubicaciones' : loc}
-                </option>
-              ))}
+              <option value="all">Todas</option>
+              <option value="Paraguay">Paraguay</option>
+              <option value="Remoto">Remoto</option>
+              <option value="Internacional">Internacional</option>
             </select>
           </div>
         </motion.div>
 
-        {/* Contador y Resultados */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="mb-6 text-sm text-gray-400"
-        >
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-6 text-sm text-gray-400">
           Mostrando {paginatedOpportunities.length} de {filteredOpportunities.length} oportunidades
-          {filteredOpportunities.length !== allOpportunities.length && (
-            <span className="ml-2 text-gray-500">(filtradas de {allOpportunities.length} totales)</span>
-          )}
         </motion.div>
 
-        {/* Grid de Oportunidades */}
         {paginatedOpportunities.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {paginatedOpportunities.map((opp, index) => (
-                <motion.div
-                  key={opp.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.03 }}
-                  className="group p-6 rounded-lg border border-[#c9a84c]/20 bg-[#0d0d0f] hover:border-[#c9a84c]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[#c9a84c]/10"
-                >
+                <motion.div key={opp.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.03 }} className="group p-6 rounded-lg border border-[#c9a84c]/20 bg-[#0d0d0f] hover:border-[#c9a84c]/50 transition-all">
                   <div className="mb-4">
-                    <h3 className="text-xl font-bold text-white group-hover:text-[#c9a84c] transition-colors line-clamp-2">
-                      {opp.titulo}
-                    </h3>
-                    <p className="text-[#c9a84c] font-semibold text-sm mt-1">
-                      {opp.categoria}
-                    </p>
+                    <h3 className="text-xl font-bold text-white group-hover:text-[#c9a84c] line-clamp-2">{opp.titulo}</h3>
+                    <p className="text-[#c9a84c] font-semibold text-sm mt-1">{opp.categoria}</p>
                   </div>
                   <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-2 text-gray-400 text-sm">
-                      <MapPin className="w-4 h-4 text-[#c9a84c]" />
-                      {opp.ubicacion}
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-400 text-sm">
-                      <Briefcase className="w-4 h-4 text-[#c9a84c]" />
-                      {opp.tipo}
-                    </div>
+                    <div className="flex items-center gap-2 text-gray-400 text-sm"><MapPin className="w-4 h-4 text-[#c9a84c]" />{opp.ubicacion}</div>
+                    <div className="flex items-center gap-2 text-gray-400 text-sm"><Briefcase className="w-4 h-4 text-[#c9a84c]" />{opp.tipo}</div>
                   </div>
                   <div className="text-gray-300 text-sm mb-6 line-clamp-2">
                     <ReactMarkdown>{opp.cuerpo || 'Sin descripción'}</ReactMarkdown>
                   </div>
-                  <Button
-                    onClick={() => setLocation(`/opportunities/${opp.slug}`)}
-                    className="w-full bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black font-semibold hover:shadow-lg hover:shadow-[#c9a84c]/30 flex items-center justify-center gap-2 transition-all duration-300 group-hover:scale-[1.02]"
-                  >
-                    Ver Oportunidad
-                    <ArrowRight className="w-4 h-4" />
+                  <Button onClick={() => setLocation(`/opportunities/${opp.slug}`)} className="w-full bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black font-semibold gap-2">
+                    Ver Oportunidad <ArrowRight className="w-4 h-4" />
                   </Button>
                 </motion.div>
               ))}
             </div>
 
-            {/* Paginación */}
             {totalPages > 1 && (
               <div className="mt-12 flex justify-center items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                  className="border-[#c9a84c]/30 text-[#c9a84c] disabled:opacity-30"
-                >
-                  Anterior
-                </Button>
-                <span className="text-gray-400 text-sm px-4">
-                  Página {currentPage} de {totalPages}
-                </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                  className="border-[#c9a84c]/30 text-[#c9a84c] disabled:opacity-30"
-                >
-                  Siguiente
-                </Button>
+                <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="border-[#c9a84c]/30 text-[#c9a84c]">Anterior</Button>
+                <span className="text-gray-400 text-sm px-4">Página {currentPage} de {totalPages}</span>
+                <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="border-[#c9a84c]/30 text-[#c9a84c]">Siguiente</Button>
               </div>
             )}
           </>
         ) : (
           <div className="text-center py-12">
-            <p className="text-gray-400">No hay oportunidades que coincidan con los filtros.</p>
-            <Button
-              variant="link"
-              onClick={() => {
-                setSelectedCategory('all');
-                setSelectedLocation('all');
-                setSearchTerm('');
-              }}
-              className="text-[#c9a84c] mt-4"
-            >
-              Limpiar filtros
-            </Button>
+            <p className="text-gray-400">No hay oportunidades con esos filtros.</p>
+            <Button variant="link" onClick={() => { setSelectedCategory('all'); setSelectedLocation('all'); setSearchTerm(''); }} className="text-[#c9a84c] mt-4">Limpiar filtros</Button>
           </div>
         )}
 
-        {/* CTA Newsletter */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="mt-16 text-center"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="mt-16 text-center">
           <p className="text-gray-400 mb-4">¿No encuentras lo que buscas?</p>
           <Newsletter source="opportunities" title="Recibir Alertas de Empleos" />
         </motion.div>
       </div>
+      <Footer />
     </div>
   );
 }
