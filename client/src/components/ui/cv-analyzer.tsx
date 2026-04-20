@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, CheckCircle, AlertCircle, Zap, Loader2, AlertTriangle, ArrowRight, Lock } from 'lucide-react';
 import { Button } from './button';
@@ -26,14 +26,24 @@ interface AnalysisResult {
   error?: string;
 }
 
-export const CVAnalyzer: React.FC = () => {
+interface CVAnalyzerProps {
+  initialTargetJob?: string;
+}
+
+export const CVAnalyzer: React.FC<CVAnalyzerProps> = ({ initialTargetJob = '' }) => {
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [hasAnalyzed, setHasAnalyzed] = useState(false);
   const [results, setResults] = useState<AnalysisResult | null>(null);
   const [extractionStep, setExtractionStep] = useState<'idle' | 'extracting' | 'analyzing'>('idle');
-  const [targetJob, setTargetJob] = useState<string>('');
+  const [targetJob, setTargetJob] = useState<string>(initialTargetJob);
+
+  useEffect(() => {
+    if (initialTargetJob) {
+      setTargetJob(initialTargetJob);
+    }
+  }, [initialTargetJob]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -44,12 +54,12 @@ export const CVAnalyzer: React.FC = () => {
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'application/msword',
       ];
-      
+
       if (selectedFile.size > MAX_FILE_SIZE) {
         alert(`El archivo es demasiado grande (${(selectedFile.size / 1024 / 1024).toFixed(2)} MB).\n\nMáximo permitido: 15 MB.`);
         return;
       }
-      
+
       if (validTypes.includes(selectedFile.type)) {
         setFile(selectedFile);
         setFileName(selectedFile.name);
@@ -122,7 +132,6 @@ export const CVAnalyzer: React.FC = () => {
     return 'text-red-500';
   };
 
-  // Construir mensaje de WhatsApp "gancho"
   const buildWhatsAppMessage = () => {
     const baseMsg = `🚀 ¡Hola! Quiero el INFORME PREMIUM de CVitae por 50.000 Gs.`;
     const jobPart = targetJob.trim() ? `%0A%0APuesto:%20${encodeURIComponent(targetJob)}` : '';
@@ -141,7 +150,7 @@ export const CVAnalyzer: React.FC = () => {
             exit={{ opacity: 0, y: -20 }}
           >
             <ShineBorder className="max-w-2xl mx-auto bg-[#0a0a0a] border border-[#c9a84c]/20 rounded-3xl p-8">
-              <div 
+              <div
                 onClick={() => !isAnalyzing && document.getElementById('cv-upload')?.click()}
                 className={`border-2 border-dashed border-[#c9a84c]/20 rounded-2xl p-12 text-center transition-all cursor-pointer group ${isAnalyzing ? 'opacity-50 pointer-events-none' : 'hover:border-[#c9a84c]/50 hover:bg-[#c9a84c]/5'}`}
               >
@@ -198,7 +207,6 @@ export const CVAnalyzer: React.FC = () => {
           >
             {results?.success ? (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {/* Left: Tension Score */}
                 <div className="md:col-span-1 space-y-6">
                   <div className={`p-8 rounded-3xl border ${results.atsScore! < 50 ? 'border-red-500/30 bg-red-500/5' : 'border-[#c9a84c]/30 bg-[#c9a84c]/5'} text-center`}>
                     <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-2">Tu Score ATS</span>
@@ -206,12 +214,12 @@ export const CVAnalyzer: React.FC = () => {
                       {results.atsScore}/100
                     </div>
                     <p className="text-sm text-gray-400">
-                      {results.atsScore! < 50 
-                        ? "Tu perfil es invisible para el 75% de las empresas en Paraguay." 
+                      {results.atsScore! < 50
+                        ? "Tu perfil es invisible para el 75% de las empresas en Paraguay."
                         : "Buen perfil, pero todavía hay margen de mejora crítica."}
                     </p>
                   </div>
-                  
+
                   <div className="p-6 bg-[#0a0a0a] border border-white/5 rounded-2xl">
                     <h4 className="text-xs font-bold text-gray-500 uppercase mb-4 flex items-center gap-2">
                       <AlertTriangle size={14} className="text-yellow-500" /> Errores Críticos
@@ -226,7 +234,6 @@ export const CVAnalyzer: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Right: Conversion CTA Premium */}
                 <div className="md:col-span-2 space-y-6">
                   <div className="bg-gradient-to-br from-[#c9a84c] to-[#d4b85f] p-1 rounded-3xl shadow-[0_0_50px_rgba(201,168,76,0.2)]">
                     <div className="bg-black rounded-[22px] p-8">
@@ -236,8 +243,7 @@ export const CVAnalyzer: React.FC = () => {
                       <h3 className="text-3xl font-black text-white mb-4 leading-tight">
                         ¿Querés que tu CV pase los filtros y te llamen?
                       </h3>
-                      
-                      {/* Adelanto de palabras clave faltantes */}
+
                       {results.premiumData?.missingKeywords && results.premiumData.missingKeywords.length > 0 && (
                         <div className="mb-6 p-4 bg-[#c9a84c]/5 border border-[#c9a84c]/20 rounded-xl">
                           <p className="text-[#c9a84c] font-bold text-sm mb-2">🔑 Te faltan palabras clave ATS</p>
@@ -251,7 +257,6 @@ export const CVAnalyzer: React.FC = () => {
                         </div>
                       )}
 
-                      {/* Beneficios */}
                       <ul className="space-y-3 mb-6">
                         <li className="flex items-center gap-2 text-sm text-gray-300">
                           <CheckCircle size={16} className="text-green-500" /> Lista completa de palabras clave faltantes
@@ -263,14 +268,14 @@ export const CVAnalyzer: React.FC = () => {
                           <CheckCircle size={16} className="text-green-500" /> Guía con 5 preguntas de entrevista y respuestas sugeridas
                         </li>
                       </ul>
-                      
+
                       <div className="flex flex-col sm:flex-row items-center gap-6 mb-8">
                         <div className="text-left bg-white/5 p-4 rounded-2xl border border-white/10 flex-shrink-0">
                           <span className="text-gray-500 line-through text-xs block mb-1">Normal: ₲150.000</span>
                           <div className="text-4xl font-black text-[#c9a84c] leading-none mb-1">₲50.000</div>
                           <span className="text-[10px] font-black text-[#c9a84c] uppercase tracking-tighter animate-pulse">¡OFERTA ACTIVA!</span>
                         </div>
-                        <Button 
+                        <Button
                           onClick={() => window.open(buildWhatsAppMessage(), '_blank')}
                           className="flex-1 w-full bg-[#c9a84c] text-black font-black py-10 text-2xl rounded-2xl hover:scale-[1.05] transition-all shadow-[0_0_40px_rgba(201,168,76,0.4)] border-b-4 border-[#b39540] active:border-b-0 active:translate-y-1"
                         >
@@ -289,8 +294,8 @@ export const CVAnalyzer: React.FC = () => {
                     </div>
                   </div>
 
-                  <button 
-                    onClick={() => { setHasAnalyzed(false); setResults(null); setFile(null); setFileName(''); setTargetJob(''); }}
+                  <button
+                    onClick={() => { setHasAnalyzed(false); setResults(null); setFile(null); setFileName(''); setTargetJob(initialTargetJob); }}
                     className="w-full py-4 text-gray-500 text-xs font-bold uppercase tracking-widest hover:text-white transition-colors"
                   >
                     ← Analizar otro archivo
