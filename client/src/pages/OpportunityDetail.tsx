@@ -5,7 +5,7 @@ import { useParams, useLocation } from 'wouter';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ExternalLink, Building2, MapPin, Calendar, Briefcase } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Building2, MapPin, Calendar, Briefcase, Share2, Copy, Check, Sparkles, Tag, Lightbulb } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
@@ -41,6 +41,7 @@ export default function OpportunityDetail() {
   const [, setLocation] = useLocation();
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const fetchOpportunity = async () => {
@@ -73,6 +74,17 @@ export default function OpportunityDetail() {
     if (slug) fetchOpportunity();
   }, [slug]);
 
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleShareWhatsApp = () => {
+    const text = encodeURIComponent(`Oportunidad laboral: ${opportunity?.titulo} en ${opportunity?.metadata?.organization || 'empresa'}. Más info en CVitae: ${window.location.href}`);
+    window.open(`https://wa.me/?text=${text}`, '_blank');
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
@@ -89,6 +101,8 @@ export default function OpportunityDetail() {
 
   const applicationUrl = opportunity.metadata?.application_url;
   const hasValidLink = applicationUrl && applicationUrl.trim() !== '';
+  const tags = opportunity.metadata?.tags || [];
+  const organization = opportunity.metadata?.organization || 'Empresa líder';
 
   return (
     <div className="w-full bg-black min-h-screen pt-32 pb-20 px-4">
@@ -104,7 +118,7 @@ export default function OpportunityDetail() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-4xl mx-auto"
+        className="max-w-7xl mx-auto"
       >
         <button
           onClick={() => setLocation('/opportunities')}
@@ -114,97 +128,180 @@ export default function OpportunityDetail() {
           Volver a oportunidades
         </button>
 
-        <div className="bg-[#0a0a0a] border border-[#c9a84c]/20 rounded-3xl p-8 md:p-12 shadow-2xl">
-          <header className="mb-10">
-            <div className="flex flex-wrap items-center gap-3 mb-6">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#c9a84c] px-3 py-1 bg-[#c9a84c]/10 rounded-full border border-[#c9a84c]/20">
-                {opportunity.categoria || 'Vacante Verificada'}
-              </span>
-              <span className="text-xs text-gray-400 flex items-center gap-1">
-                <Calendar className="w-3 h-3" />
-                Vence: {new Date(opportunity.fecha_vencimiento).toLocaleDateString()}
-              </span>
-            </div>
-
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
-              {opportunity.titulo || 'Sin título'}
-            </h1>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex items-center gap-3 text-gray-300">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
-                  <Building2 className="w-5 h-5 text-[#c9a84c]" />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* COLUMNA PRINCIPAL (IZQUIERDA) */}
+          <div className="lg:col-span-2">
+            <div className="bg-[#0a0a0a] border border-[#c9a84c]/20 rounded-3xl p-8 md:p-10 shadow-2xl">
+              <header className="mb-10">
+                <div className="flex flex-wrap items-center gap-3 mb-6">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#c9a84c] px-3 py-1 bg-[#c9a84c]/10 rounded-full border border-[#c9a84c]/20">
+                    {opportunity.categoria || 'Vacante Verificada'}
+                  </span>
+                  <span className="text-xs text-gray-400 flex items-center gap-1">
+                    <Calendar className="w-3 h-3" />
+                    Vence: {new Date(opportunity.fecha_vencimiento).toLocaleDateString()}
+                  </span>
                 </div>
-                <div>
-                  <p className="text-xs text-gray-500 uppercase font-semibold">Categoría</p>
-                  <p className="font-medium">{opportunity.categoria || 'General'}</p>
+
+                <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                  {opportunity.titulo || 'Sin título'}
+                </h1>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="flex items-center gap-3 text-gray-300">
+                    <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
+                      <Building2 className="w-5 h-5 text-[#c9a84c]" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 uppercase font-semibold">Empresa</p>
+                      <p className="font-medium">{organization}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-300">
+                    <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
+                      <MapPin className="w-5 h-5 text-[#c9a84c]" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 uppercase font-semibold">Ubicación</p>
+                      <p className="font-medium">{opportunity.ubicacion || 'Paraguay (Remoto/Presencial)'}</p>
+                    </div>
+                  </div>
+                </div>
+              </header>
+
+              {opportunity.imagen_url && (
+                <div className="aspect-video overflow-hidden rounded-xl mb-10 border border-white/10">
+                  <img src={opportunity.imagen_url} alt={opportunity.titulo} className="w-full h-full object-cover" />
+                </div>
+              )}
+
+              <div className="prose prose-invert max-w-none mb-12">
+                <div className="flex items-center gap-2 text-white font-bold mb-4 text-xl">
+                  <Briefcase className="w-5 h-5 text-[#c9a84c]" />
+                  Descripción y Detalles
+                </div>
+                <div className="text-gray-300 leading-relaxed bg-white/5 p-6 rounded-2xl border border-white/5">
+                  <p className="text-[#c9a84c] text-sm mb-4 italic">
+                    CVitae te ayuda a postularte a esta vacante con un CV optimizado para filtros ATS.
+                  </p>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeSanitize]}
+                  >
+                    {opportunity.cuerpo || 'Descripción no disponible'}
+                  </ReactMarkdown>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 text-gray-300">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
-                  <MapPin className="w-5 h-5 text-[#c9a84c]" />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 uppercase font-semibold">Ubicación</p>
-                  <p className="font-medium">{opportunity.ubicacion || 'Paraguay (Remoto/Presencial)'}</p>
-                </div>
+              <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-white/10">
+                {hasValidLink && (
+                  <Button
+                    size="lg"
+                    onClick={() => window.open(applicationUrl, '_blank', 'noopener,noreferrer')}
+                    className="flex-1 bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black font-bold py-7 rounded-2xl hover:shadow-lg transition-all flex items-center justify-center gap-2 text-lg"
+                  >
+                    Postularse a esta vacante
+                    <ExternalLink className="w-5 h-5" />
+                  </Button>
+                )}
+
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={() => window.open(
+                    `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(`Hola! Quiero mejorar mi CV para la oportunidad: ${opportunity.titulo}`)}`,
+                    '_blank'
+                  )}
+                  className={`border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c]/10 py-7 rounded-2xl text-lg px-8 ${!hasValidLink ? 'flex-1' : ''}`}
+                >
+                  Mejorar mi CV para esta oportunidad
+                </Button>
               </div>
-            </div>
-          </header>
 
-          {opportunity.imagen_url && (
-            <div className="aspect-video overflow-hidden rounded-xl mb-10 border border-white/10">
-              <img src={opportunity.imagen_url} alt={opportunity.titulo} className="w-full h-full object-cover" />
-            </div>
-          )}
-
-          <div className="prose prose-invert max-w-none mb-12">
-            <div className="flex items-center gap-2 text-white font-bold mb-4 text-xl">
-              <Briefcase className="w-5 h-5 text-[#c9a84c]" />
-              Descripción y Detalles
-            </div>
-            <div className="text-gray-300 leading-relaxed bg-white/5 p-6 rounded-2xl border border-white/5">
-              <p className="text-[#c9a84c] text-sm mb-4 italic">
-                CVitae te ayuda a postularte a esta vacante con un CV optimizado para filtros ATS.
+              <p className="text-center text-gray-500 text-xs mt-8 italic">
+                Esta oportunidad es gestionada a través de CVitae Paraguay.
               </p>
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeSanitize]}
-              >
-                {opportunity.cuerpo || 'Descripción no disponible'}
-              </ReactMarkdown>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-white/10">
-            {hasValidLink && (
+          {/* COLUMNA DERECHA (WIDGETS 2030) */}
+          <div className="space-y-6">
+            {/* Widget 1: Analizar CV para este puesto */}
+            <div className="bg-gradient-to-br from-[#c9a84c]/20 to-transparent border border-[#c9a84c]/30 rounded-2xl p-6 backdrop-blur-sm">
+              <div className="flex items-center gap-2 mb-3">
+                <Sparkles className="w-5 h-5 text-[#c9a84c]" />
+                <h3 className="font-bold text-white text-lg">Optimiza tu CV</h3>
+              </div>
+              <p className="text-gray-300 text-sm mb-4">
+                Analiza tu CV específicamente para este puesto y obtén recomendaciones personalizadas.
+              </p>
               <Button
-                size="lg"
-                onClick={() => window.open(applicationUrl, '_blank', 'noopener,noreferrer')}
-                className="flex-1 bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black font-bold py-7 rounded-2xl hover:shadow-lg transition-all flex items-center justify-center gap-2 text-lg"
+                onClick={() => setLocation(`/?job=${encodeURIComponent(opportunity.titulo)}`)}
+                className="w-full bg-[#c9a84c] text-black font-bold hover:bg-[#d4b85f]"
               >
-                Postularse a esta vacante
-                <ExternalLink className="w-5 h-5" />
+                🎯 Analizar mi CV para este puesto
               </Button>
+            </div>
+
+            {/* Widget 2: Habilidades clave */}
+            {tags.length > 0 && (
+              <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Tag className="w-5 h-5 text-[#c9a84c]" />
+                  <h3 className="font-bold text-white">Habilidades clave</h3>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {tags.slice(0, 8).map((tag, i) => (
+                    <span key={i} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
             )}
 
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={() => window.open(
-                `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(`Hola! Quiero mejorar mi CV para la oportunidad: ${opportunity.titulo}`)}`,
-                '_blank'
-              )}
-              className={`border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c]/10 py-7 rounded-2xl text-lg px-8 ${!hasValidLink ? 'flex-1' : ''}`}
-            >
-              Mejorar mi CV para esta oportunidad
-            </Button>
-          </div>
+            {/* Widget 3: Consejos para postular */}
+            <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Lightbulb className="w-5 h-5 text-[#c9a84c]" />
+                <h3 className="font-bold text-white">Consejos para postular</h3>
+              </div>
+              <ul className="text-gray-300 text-sm space-y-2 list-disc pl-4">
+                <li>Adaptá tu CV con las palabras clave de la descripción.</li>
+                <li>Investigá la empresa antes de la entrevista.</li>
+                <li>Prepará ejemplos concretos de tus logros.</li>
+                <li>Revisá tu perfil de LinkedIn antes de postular.</li>
+              </ul>
+            </div>
 
-          <p className="text-center text-gray-500 text-xs mt-8 italic">
-            Esta oportunidad es gestionada a través de CVitae Paraguay.
-          </p>
+            {/* Widget 4: Compartir oportunidad */}
+            <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Share2 className="w-5 h-5 text-[#c9a84c]" />
+                <h3 className="font-bold text-white">Compartir</h3>
+              </div>
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCopyLink}
+                  className="flex-1 border-white/20 text-gray-300 hover:text-white"
+                >
+                  {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                  <span className="ml-2">{copied ? 'Copiado' : 'Copiar enlace'}</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleShareWhatsApp}
+                  className="flex-1 border-white/20 text-gray-300 hover:text-white"
+                >
+                  <Share2 className="w-4 h-4" />
+                  <span className="ml-2">WhatsApp</span>
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </motion.div>
     </div>
