@@ -7,7 +7,7 @@ import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
 import Newsletter from '@/components/Newsletter';
 import { TetrisLoader } from '@/components/ui/tetris-loader';
-import { Footer } from '@/components/Footer';
+import Footer from '@/components/Footer';
 
 interface Opportunity {
   id: string;
@@ -35,19 +35,16 @@ export default function Opportunities() {
   const [debouncedSearch, setDebouncedSearch] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Categorías dinámicas
   const categories = useMemo(() => {
     const cats = allOpportunities.map(o => o.categoria).filter(Boolean) as string[];
     return ['all', ...Array.from(new Set(cats)).sort()];
   }, [allOpportunities]);
 
-  // Debounce para búsqueda
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedSearch(searchTerm), 300);
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
-  // Carga inicial
   useEffect(() => {
     document.title = 'CVitae | Oportunidades Laborales en Paraguay';
     const loadOpportunities = async () => {
@@ -71,13 +68,10 @@ export default function Opportunities() {
     loadOpportunities();
   }, []);
 
-  // Filtrado inteligente (en tiempo real)
   const filteredOpportunities = useMemo(() => {
     return allOpportunities.filter(opp => {
-      // Categoría
       const matchesCategory = selectedCategory === 'all' || opp.categoria === selectedCategory;
 
-      // Ubicación mejorada
       let matchesLocation = true;
       if (selectedLocation !== 'all') {
         const locLower = opp.ubicacion?.toLowerCase() || '';
@@ -90,7 +84,6 @@ export default function Opportunities() {
         }
       }
 
-      // Búsqueda por texto
       const matchesSearch = debouncedSearch === '' ||
         opp.titulo.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
         (opp.cuerpo && opp.cuerpo.toLowerCase().includes(debouncedSearch.toLowerCase()));
@@ -99,7 +92,6 @@ export default function Opportunities() {
     });
   }, [allOpportunities, selectedCategory, selectedLocation, debouncedSearch]);
 
-  // Paginación
   const totalPages = Math.ceil(filteredOpportunities.length / PAGE_SIZE);
   const paginatedOpportunities = useMemo(() => {
     const start = (currentPage - 1) * PAGE_SIZE;
@@ -140,7 +132,6 @@ export default function Opportunities() {
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">Explora las mejores oportunidades en Paraguay y Latinoamérica</p>
         </motion.div>
 
-        {/* Barra de búsqueda */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-8">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
@@ -159,7 +150,6 @@ export default function Opportunities() {
           </div>
         </motion.div>
 
-        {/* Filtros instantáneos */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-semibold text-[#c9a84c] mb-2">Categoría</label>
