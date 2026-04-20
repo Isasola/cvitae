@@ -25,6 +25,15 @@ interface Opportunity {
 
 const PAGE_SIZE = 12;
 
+// Función para formatear categorías: "full-time" -> "Full Time", "tecnología" -> "Tecnología"
+const formatCategory = (cat: string): string => {
+  if (!cat) return cat;
+  return cat
+    .split(/[-_\s]+/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+};
+
 export default function Opportunities() {
   const [, setLocation] = useLocation();
   const [allOpportunities, setAllOpportunities] = useState<Opportunity[]>([]);
@@ -35,9 +44,11 @@ export default function Opportunities() {
   const [debouncedSearch, setDebouncedSearch] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(1);
 
+  // Categorías dinámicas formateadas
   const categories = useMemo(() => {
-    const cats = allOpportunities.map(o => o.categoria).filter(Boolean) as string[];
-    return ['all', ...Array.from(new Set(cats)).sort()];
+    const rawCats = allOpportunities.map(o => o.categoria).filter(Boolean) as string[];
+    const uniqueCats = Array.from(new Set(rawCats)).sort();
+    return ['all', ...uniqueCats];
   }, [allOpportunities]);
 
   useEffect(() => {
@@ -158,7 +169,11 @@ export default function Opportunities() {
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="w-full px-4 py-2 rounded-lg bg-[#0d0d0f] border border-[#c9a84c]/20 text-white"
             >
-              {categories.map(cat => <option key={cat} value={cat}>{cat === 'all' ? 'Todas' : cat}</option>)}
+              {categories.map(cat => (
+                <option key={cat} value={cat}>
+                  {cat === 'all' ? 'Todas' : formatCategory(cat)}
+                </option>
+              ))}
             </select>
           </div>
           <div>
@@ -187,7 +202,7 @@ export default function Opportunities() {
                 <motion.div key={opp.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.03 }} className="group p-6 rounded-lg border border-[#c9a84c]/20 bg-[#0d0d0f] hover:border-[#c9a84c]/50 transition-all">
                   <div className="mb-4">
                     <h3 className="text-xl font-bold text-white group-hover:text-[#c9a84c] line-clamp-2">{opp.titulo}</h3>
-                    <p className="text-[#c9a84c] font-semibold text-sm mt-1">{opp.categoria}</p>
+                    <p className="text-[#c9a84c] font-semibold text-sm mt-1">{formatCategory(opp.categoria)}</p>
                   </div>
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center gap-2 text-gray-400 text-sm"><MapPin className="w-4 h-4 text-[#c9a84c]" />{opp.ubicacion}</div>
