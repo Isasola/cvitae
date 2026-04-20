@@ -1,244 +1,108 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { MapPin, Briefcase, ArrowRight, Loader2, Search, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useLocation } from 'wouter';
-import { supabase } from '@/lib/supabase';
-import ReactMarkdown from 'react-markdown';
-import Newsletter from '@/components/Newsletter';
-import { TetrisLoader } from '@/components/ui/tetris-loader';
-import Footer from '@/components/Footer';
-
-interface Opportunity {
-  id: string;
-  titulo: string;
-  slug: string;
-  cuerpo: string;
-  categoria: string;
-  imagen_url: string;
-  fecha_vencimiento: string;
-  tipo: 'blog' | 'oportunidad';
-  ubicacion: string;
-  is_active: boolean;
-  metadata?: any;
-}
-
-const PAGE_SIZE = 12;
-
-// Función para formatear categorías: "full-time" -> "Full Time", "tecnología" -> "Tecnología"
-const formatCategory = (cat: string): string => {
-  if (!cat) return cat;
-  return cat
-    .split(/[-_\s]+/)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
-};
-
-export default function Opportunities() {
-  const [, setLocation] = useLocation();
-  const [allOpportunities, setAllOpportunities] = useState<Opportunity[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedLocation, setSelectedLocation] = useState<string>('all');
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const [debouncedSearch, setDebouncedSearch] = useState<string>('');
-  const [currentPage, setCurrentPage] = useState(1);
-
-  // Categorías dinámicas formateadas
-  const categories = useMemo(() => {
-    const rawCats = allOpportunities.map(o => o.categoria).filter(Boolean) as string[];
-    const uniqueCats = Array.from(new Set(rawCats)).sort();
-    return ['all', ...uniqueCats];
-  }, [allOpportunities]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setDebouncedSearch(searchTerm), 300);
-    return () => clearTimeout(timer);
-  }, [searchTerm]);
-
-  useEffect(() => {
-    document.title = 'CVitae | Oportunidades Laborales en Paraguay';
-    const loadOpportunities = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('content_hub')
-          .select('*')
-          .eq('is_active', true)
-          .eq('tipo', 'oportunidad')
-          .gte('fecha_vencimiento', new Date().toISOString())
-          .order('fecha_vencimiento', { ascending: true });
-
-        if (error) throw error;
-        setAllOpportunities(data || []);
-      } catch (error) {
-        console.error('Error loading opportunities:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadOpportunities();
-  }, []);
-
-  const filteredOpportunities = useMemo(() => {
-    return allOpportunities.filter(opp => {
-      const matchesCategory = selectedCategory === 'all' || opp.categoria === selectedCategory;
-
-      let matchesLocation = true;
-      if (selectedLocation !== 'all') {
-        const locLower = opp.ubicacion?.toLowerCase() || '';
-        if (selectedLocation === 'Paraguay') {
-          matchesLocation = locLower.includes('paraguay') || locLower.includes('asunción') || locLower.includes('central');
-        } else if (selectedLocation === 'Remoto') {
-          matchesLocation = locLower.includes('remoto') || locLower.includes('remote');
-        } else {
-          matchesLocation = locLower.includes(selectedLocation.toLowerCase());
-        }
-      }
-
-      const matchesSearch = debouncedSearch === '' ||
-        opp.titulo.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-        (opp.cuerpo && opp.cuerpo.toLowerCase().includes(debouncedSearch.toLowerCase()));
-
-      return matchesCategory && matchesLocation && matchesSearch;
-    });
-  }, [allOpportunities, selectedCategory, selectedLocation, debouncedSearch]);
-
-  const totalPages = Math.ceil(filteredOpportunities.length / PAGE_SIZE);
-  const paginatedOpportunities = useMemo(() => {
-    const start = (currentPage - 1) * PAGE_SIZE;
-    return filteredOpportunities.slice(start, start + PAGE_SIZE);
-  }, [filteredOpportunities, currentPage]);
-
-  useEffect(() => { setCurrentPage(1); }, [selectedCategory, selectedLocation, debouncedSearch]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#0a0a0a] pt-24 pb-20 flex items-center justify-center">
-        <TetrisLoader size="lg" text="Cargando oportunidades frescas..." />
-      </div>
-    );
+{
+  "name": "cvitae",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build && node scripts/generate-sitemap.mjs && node scripts/generate-robots.mjs",
+    "start": "NODE_ENV=production node dist/index.js",
+    "preview": "vite preview --host",
+    "check": "tsc --noEmit",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
+    "@hookform/resolvers": "^5.2.2",
+    "@netlify/functions": "^2.8.2",
+    "@radix-ui/react-accordion": "^1.2.12",
+    "@radix-ui/react-alert-dialog": "^1.1.15",
+    "@radix-ui/react-aspect-ratio": "^1.1.7",
+    "@radix-ui/react-avatar": "^1.1.10",
+    "@radix-ui/react-checkbox": "^1.3.3",
+    "@radix-ui/react-collapsible": "^1.1.12",
+    "@radix-ui/react-context-menu": "^2.2.16",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    "@radix-ui/react-hover-card": "^1.1.15",
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-menubar": "^1.1.16",
+    "@radix-ui/react-navigation-menu": "^1.2.14",
+    "@radix-ui/react-popover": "^1.1.15",
+    "@radix-ui/react-progress": "^1.1.7",
+    "@radix-ui/react-radio-group": "^1.3.8",
+    "@radix-ui/react-scroll-area": "^1.2.10",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-separator": "^1.1.7",
+    "@radix-ui/react-slider": "^1.3.6",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-switch": "^1.2.6",
+    "@radix-ui/react-tabs": "^1.1.13",
+    "@radix-ui/react-toggle": "^1.1.10",
+    "@radix-ui/react-toggle-group": "^1.1.11",
+    "@radix-ui/react-tooltip": "^1.2.8",
+    "@supabase/supabase-js": "^2.100.1",
+    "apify-client": "^2.0.0",
+    "axios": "^1.12.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "embla-carousel-react": "^8.6.0",
+    "express": "^4.21.2",
+    "framer-motion": "^12.23.22",
+    "input-otp": "^1.4.2",
+    "lucide-react": "^0.453.0",
+    "mammoth": "^1.12.0",
+    "marked": "17.0.0",
+    "nanoid": "^5.1.5",
+    "next-themes": "^0.4.6",
+    "pdf-parse": "^1.1.4",
+    "react": "^19.2.1",
+    "react-day-picker": "^9.11.1",
+    "react-dom": "^19.2.1",
+    "react-helmet-async": "^3.0.0",
+    "react-hook-form": "^7.64.0",
+    "react-markdown": "^10.1.0",
+    "react-resizable-panels": "^3.0.6",
+    "recharts": "^2.15.2",
+    "rehype-sanitize": "^6.0.0",
+    "remark-gfm": "^4.0.0",
+    "sonner": "^2.0.7",
+    "streamdown": "^1.4.0",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss-animate": "^1.0.7",
+    "vaul": "^1.1.2",
+    "wouter": "^3.3.5",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@builder.io/vite-plugin-jsx-loc": "^0.1.1",
+    "@tailwindcss/typography": "^0.5.15",
+    "@tailwindcss/vite": "^4.1.3",
+    "@types/express": "4.17.21",
+    "@types/google.maps": "^3.58.1",
+    "@types/node": "^24.7.0",
+    "@types/react": "^19.2.1",
+    "@types/react-dom": "^19.2.1",
+    "@vitejs/plugin-react": "^5.0.4",
+    "add": "^2.0.6",
+    "autoprefixer": "^10.4.20",
+    "esbuild": "^0.25.0",
+    "pnpm": "^10.15.1",
+    "postcss": "^8.4.47",
+    "prettier": "^3.6.2",
+    "tailwindcss": "^4.1.14",
+    "tsx": "^4.19.1",
+    "tw-animate-css": "^1.4.0",
+    "typescript": "5.6.3",
+    "vite": "^7.1.7",
+    "vite-plugin-manus-runtime": "^0.0.57",
+    "vitest": "^2.1.4"
+  },
+  "packageManager": "pnpm@10.4.1+sha512.c753b6c3ad7afa13af388fa6d808035a008e30ea9993f58c6663e2bc5ff21679aa834db094987129aa4d488b86df57f7b634981b2f827cdcacc698cc0cfb88af",
+  "pnpm": {
+    "overrides": {
+      "tailwindcss>nanoid": "3.3.7"
+    }
   }
-
-  return (
-    <div className="min-h-screen bg-[#0a0a0a] pt-24 pb-20 flex flex-col">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-[#c9a84c]/10">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <button onClick={() => setLocation('/')} className="flex items-center gap-2 hover:opacity-80 transition">
-            <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.4rem', letterSpacing: '-0.02em', color: '#c9a84c' }}>
-              <span style={{ fontWeight: 900 }}>CV</span>
-              <span style={{ fontStyle: 'italic', fontWeight: 400 }}>itae</span>
-            </span>
-          </button>
-          <div className="flex items-center gap-4">
-            <button onClick={() => setLocation('/blog')} className="text-sm text-gray-400 hover:text-[#c9a84c]">Blog</button>
-            <button onClick={() => setLocation('/opportunities')} className="text-sm text-[#c9a84c] font-semibold">Oportunidades</button>
-            <button onClick={() => setLocation('/recruiters/interface')} className="text-sm bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black px-4 py-2 rounded-lg font-semibold">Panel Reclutadores</button>
-          </div>
-        </div>
-      </nav>
-
-      <div className="max-w-6xl mx-auto px-4 w-full flex-grow">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Oportunidades Activas del Mercado</h1>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">Explora las mejores oportunidades en Paraguay y Latinoamérica</p>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-8">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-            <input
-              type="text"
-              placeholder="Buscar por título o descripción..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-10 py-3 rounded-lg bg-[#0d0d0f] border border-[#c9a84c]/20 text-white placeholder-gray-500 focus:outline-none focus:border-[#c9a84c]/50"
-            />
-            {searchTerm && (
-              <button onClick={() => setSearchTerm('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white">
-                <X size={18} />
-              </button>
-            )}
-          </div>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-semibold text-[#c9a84c] mb-2">Categoría</label>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-[#0d0d0f] border border-[#c9a84c]/20 text-white"
-            >
-              {categories.map(cat => (
-                <option key={cat} value={cat}>
-                  {cat === 'all' ? 'Todas' : formatCategory(cat)}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-[#c9a84c] mb-2">Ubicación</label>
-            <select
-              value={selectedLocation}
-              onChange={(e) => setSelectedLocation(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-[#0d0d0f] border border-[#c9a84c]/20 text-white"
-            >
-              <option value="all">Todas</option>
-              <option value="Paraguay">Paraguay</option>
-              <option value="Remoto">Remoto</option>
-              <option value="Internacional">Internacional</option>
-            </select>
-          </div>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-6 text-sm text-gray-400">
-          Mostrando {paginatedOpportunities.length} de {filteredOpportunities.length} oportunidades
-        </motion.div>
-
-        {paginatedOpportunities.length > 0 ? (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {paginatedOpportunities.map((opp, index) => (
-                <motion.div key={opp.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.03 }} className="group p-6 rounded-lg border border-[#c9a84c]/20 bg-[#0d0d0f] hover:border-[#c9a84c]/50 transition-all">
-                  <div className="mb-4">
-                    <h3 className="text-xl font-bold text-white group-hover:text-[#c9a84c] line-clamp-2">{opp.titulo}</h3>
-                    <p className="text-[#c9a84c] font-semibold text-sm mt-1">{formatCategory(opp.categoria)}</p>
-                  </div>
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-2 text-gray-400 text-sm"><MapPin className="w-4 h-4 text-[#c9a84c]" />{opp.ubicacion}</div>
-                    <div className="flex items-center gap-2 text-gray-400 text-sm"><Briefcase className="w-4 h-4 text-[#c9a84c]" />{opp.tipo}</div>
-                  </div>
-                  <div className="text-gray-300 text-sm mb-6 line-clamp-2">
-                    <ReactMarkdown>{opp.cuerpo || 'Sin descripción'}</ReactMarkdown>
-                  </div>
-                  <Button onClick={() => setLocation(`/opportunities/${opp.slug}`)} className="w-full bg-gradient-to-r from-[#c9a84c] to-[#d4b85f] text-black font-semibold gap-2">
-                    Ver Oportunidad <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </motion.div>
-              ))}
-            </div>
-
-            {totalPages > 1 && (
-              <div className="mt-12 flex justify-center items-center gap-2">
-                <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="border-[#c9a84c]/30 text-[#c9a84c]">Anterior</Button>
-                <span className="text-gray-400 text-sm px-4">Página {currentPage} de {totalPages}</span>
-                <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="border-[#c9a84c]/30 text-[#c9a84c]">Siguiente</Button>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-400">No hay oportunidades con esos filtros.</p>
-            <Button variant="link" onClick={() => { setSelectedCategory('all'); setSelectedLocation('all'); setSearchTerm(''); }} className="text-[#c9a84c] mt-4">Limpiar filtros</Button>
-          </div>
-        )}
-
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="mt-16 text-center">
-          <p className="text-gray-400 mb-4">¿No encuentras lo que buscas?</p>
-          <Newsletter source="opportunities" title="Recibir Alertas de Empleos" />
-        </motion.div>
-      </div>
-      <Footer />
-    </div>
-  );
 }
