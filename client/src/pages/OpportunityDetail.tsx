@@ -9,6 +9,7 @@ import { ArrowLeft, ExternalLink, Building2, MapPin, Calendar, Briefcase } from 
 import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
+import remarkGfm from 'remark-gfm';
 import NotFound from '@/pages/NotFound';
 import { TetrisLoader } from '@/components/ui/tetris-loader';
 
@@ -167,7 +168,10 @@ export default function OpportunityDetail() {
               <p className="text-[#c9a84c] text-sm mb-4 italic">
                 CVitae te ayuda a postularte a esta vacante con un CV optimizado para filtros ATS.
               </p>
-              <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeSanitize]}
+              >
                 {opportunity.cuerpo || 'Descripción no disponible'}
               </ReactMarkdown>
             </div>
