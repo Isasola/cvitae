@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, ArrowRight, MapPin, AlertTriangle, ShieldCheck, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useLocation } from 'wouter';
+import { useLocation, useSearchParams } from 'wouter';
 import Newsletter from '@/components/Newsletter.tsx';
 import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
@@ -17,6 +17,9 @@ const WA_BASE = `https://wa.me/${WA_NUMBER}`;
 
 export default function Home() {
   const [, setLocation] = useLocation();
+  const [searchParams] = useSearchParams();
+  const jobFromUrl = searchParams.get('job') || '';
+
   const [opportunitiesCount, setOpportunitiesCount] = useState(539);
   const [latestOpportunities, setLatestOpportunities] = useState<any[]>([]);
   const [loadingOpps, setLoadingOpps] = useState(true);
@@ -29,7 +32,7 @@ export default function Home() {
           .select('*', { count: 'exact', head: true })
           .eq('is_active', true)
           .gte('fecha_vencimiento', new Date().toISOString());
-        
+
         if (!countError && count !== null) {
           setOpportunitiesCount(500 + count);
         }
@@ -58,10 +61,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-[#c9a84c]/30">
-      
+
       {/* STICKY SOCIAL PROOF */}
       <div className="fixed bottom-4 left-4 z-50 hidden md:block">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           className="bg-[#0a0a0a] border border-[#c9a84c]/20 px-4 py-2 rounded-full flex items-center gap-2 shadow-2xl backdrop-blur-md"
@@ -106,7 +109,7 @@ export default function Home() {
                 Analiza tu CV y descubre oportunidades globales que aumentan tus posibilidades de empleo.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
+                <Button
                   onClick={() => {
                     const el = document.getElementById('cv-analyzer');
                     el?.scrollIntoView({ behavior: 'smooth' });
@@ -115,9 +118,9 @@ export default function Home() {
                 >
                   Analizar mi CV Gratis Ahora
                 </Button>
-                <Button 
+                <Button
                   onClick={() => setLocation('/opportunities')}
-                  variant="outline" 
+                  variant="outline"
                   className="border-[#c9a84c] text-[#c9a84c] font-bold px-8 py-6 text-lg rounded-xl hover:bg-[#c9a84c]/10 transition-all"
                 >
                   Ver Vacantes Verificadas
@@ -136,7 +139,7 @@ export default function Home() {
             <h2 className="text-4xl font-bold text-white mb-4">Analizador de Impacto IA</h2>
             <p className="text-gray-400">Descubre qué está frenando tu perfil profesional y cómo superarlo.</p>
           </div>
-          <CVAnalyzer />
+          <CVAnalyzer initialTargetJob={jobFromUrl} />
         </div>
       </section>
 
@@ -145,7 +148,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between mb-12">
             <h2 className="text-3xl font-bold text-white">Oportunidades activas del mercado</h2>
-            <button 
+            <button
               onClick={() => setLocation('/opportunities')}
               className="text-[#c9a84c] font-semibold flex items-center gap-2 hover:underline"
             >
@@ -261,7 +264,7 @@ export default function Home() {
             <h2 className="text-4xl font-bold text-white mb-4">Lo que dicen los candidatos elite</h2>
             <p className="text-gray-400 max-w-2xl mx-auto">Cientos de profesionales en Paraguay ya transformaron su búsqueda laboral con CVitae.</p>
           </div>
-          
+
           <TestimonialsGrid />
 
           {/* FAQ SUB-SECTION */}
@@ -361,8 +364,8 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className={`p-8 rounded-3xl border ${
-                  plan.highlighted 
-                    ? 'border-[#c9a84c] bg-[#c9a84c]/5 shadow-[0_0_30px_rgba(201,168,76,0.15)]' 
+                  plan.highlighted
+                    ? 'border-[#c9a84c] bg-[#c9a84c]/5 shadow-[0_0_30px_rgba(201,168,76,0.15)]'
                     : 'border-white/5 bg-black'
                 } relative overflow-hidden group`}
               >
@@ -384,11 +387,11 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                <Button 
+                <Button
                   onClick={plan.action}
                   className={`w-full py-6 rounded-xl font-bold transition-all ${
-                    plan.highlighted 
-                      ? 'bg-[#c9a84c] text-black hover:bg-[#b39540]' 
+                    plan.highlighted
+                      ? 'bg-[#c9a84c] text-black hover:bg-[#b39540]'
                       : 'bg-white/5 text-white hover:bg-white/10'
                   }`}
                 >
