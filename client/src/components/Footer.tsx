@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'wouter';
 
-export const Footer: React.FC = () => {
+const Footer: React.FC = () => {
   return (
     <footer className="bg-[#0a0a0a] border-t border-[#c9a84c]/20 py-8 mt-auto">
       <div className="max-w-7xl mx-auto px-4">
@@ -25,3 +25,5 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+
+export default Footer;
