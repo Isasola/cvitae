@@ -36,5 +36,5 @@
 
 [[redirects]]
   from = "/ads.txt"
-  to = "/.netlify/build/public/ads.txt"
+  to = "/.netlify/build/ads.txt"
   status = 200
