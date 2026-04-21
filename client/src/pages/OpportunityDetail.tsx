@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'wouter';
-import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ExternalLink, Building2, MapPin, Calendar, Briefcase, Share2, Copy, Check, Sparkles, Tag, Lightbulb } from 'lucide-react';
@@ -43,47 +42,6 @@ const linkify = (text: string): string => {
   return text.replace(urlRegex, '[$1]($1)');
 };
 
-// Componente interno para el Schema.org JobPosting
-const JobPostingSchema: React.FC<{ opportunity: Opportunity }> = ({ opportunity }) => {
-  const applicationUrl = opportunity.metadata?.application_url;
-  const organization = opportunity.metadata?.organization || 'Empresa';
-  const locationParts = opportunity.ubicacion?.split(',').map(s => s.trim()) || ['Paraguay'];
-  const city = locationParts[0] || 'Paraguay';
-  const region = locationParts[1] || '';
-
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'JobPosting',
-    title: opportunity.titulo,
-    description: opportunity.cuerpo?.substring(0, 5000),
-    datePosted: opportunity.created_at?.split('T')[0] || new Date().toISOString().split('T')[0],
-    validThrough: opportunity.fecha_vencimiento?.split('T')[0],
-    employmentType: 'FULL_TIME',
-    hiringOrganization: {
-      '@type': 'Organization',
-      name: organization,
-    },
-    jobLocation: {
-      '@type': 'Place',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: city,
-        addressRegion: region,
-        addressCountry: 'PY',
-      },
-    },
-    directApply: !!applicationUrl,
-    url: typeof window !== 'undefined' ? window.location.href : `https://cvitae-py.netlify.app/opportunities/${opportunity.slug}`,
-  };
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
-  );
-};
-
 export default function OpportunityDetail() {
   const { id: slug } = useParams<{ id: string }>();
   const [, setLocation] = useLocation();
@@ -122,6 +80,88 @@ export default function OpportunityDetail() {
     if (slug) fetchOpportunity();
   }, [slug]);
 
+  // Actualizar metadatos del documento manualmente
+  useEffect(() => {
+    if (!opportunity) return;
+
+    const title = `${opportunity.titulo || 'Vacante'} | CVitae Paraguay`;
+    const metaDescription = opportunity.cuerpo
+      ? opportunity.cuerpo.replace(/[#*`]/g, '').substring(0, 150) + '...'
+      : 'Oportunidad laboral en CVitae Paraguay';
+
+    document.title = title;
+
+    // Actualizar meta description
+    let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement;
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.content = metaDescription;
+
+    // Open Graph
+    const ogTitle = document.querySelector('meta[property="og:title"]') as HTMLMetaElement;
+    if (ogTitle) ogTitle.content = opportunity.titulo || 'Vacante';
+    const ogDesc = document.querySelector('meta[property="og:description"]') as HTMLMetaElement;
+    if (ogDesc) ogDesc.content = metaDescription;
+    const ogImage = document.querySelector('meta[property="og:image"]') as HTMLMetaElement;
+    const ogImageUrl = `https://image.thum.io/get/width/1200/crop/800/og/https://cvitae-py.netlify.app/og-image?title=${encodeURIComponent(opportunity.titulo)}&company=${encodeURIComponent(opportunity.metadata?.organization || 'Empresa')}`;
+    if (ogImage) ogImage.content = ogImageUrl;
+
+    // Twitter Card
+    const twitterImage = document.querySelector('meta[property="twitter:image"]') as HTMLMetaElement;
+    if (twitterImage) twitterImage.content = ogImageUrl;
+
+    // Schema.org JobPosting
+    const applicationUrl = opportunity.metadata?.application_url;
+    const organization = opportunity.metadata?.organization || 'Empresa';
+    const locationParts = opportunity.ubicacion?.split(',').map(s => s.trim()) || ['Paraguay'];
+    const city = locationParts[0] || 'Paraguay';
+    const region = locationParts[1] || '';
+
+    const schema = {
+      '@context': 'https://schema.org',
+      '@type': 'JobPosting',
+      title: opportunity.titulo,
+      description: opportunity.cuerpo?.substring(0, 5000),
+      datePosted: opportunity.created_at?.split('T')[0] || new Date().toISOString().split('T')[0],
+      validThrough: opportunity.fecha_vencimiento?.split('T')[0],
+      employmentType: 'FULL_TIME',
+      hiringOrganization: {
+        '@type': 'Organization',
+        name: organization,
+      },
+      jobLocation: {
+        '@type': 'Place',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: city,
+          addressRegion: region,
+          addressCountry: 'PY',
+        },
+      },
+      directApply: !!applicationUrl,
+      url: window.location.href,
+    };
+
+    // Eliminar script anterior si existe
+    const existingScript = document.querySelector('script[data-schema="jobposting"]');
+    if (existingScript) existingScript.remove();
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.setAttribute('data-schema', 'jobposting');
+    script.textContent = JSON.stringify(schema);
+    document.head.appendChild(script);
+
+    // Limpiar al desmontar
+    return () => {
+      const scriptToRemove = document.querySelector('script[data-schema="jobposting"]');
+      if (scriptToRemove) scriptToRemove.remove();
+    };
+  }, [opportunity]);
+
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
     setCopied(true);
@@ -143,10 +183,6 @@ export default function OpportunityDetail() {
 
   if (!opportunity) return <NotFound />;
 
-  const metaDescription = opportunity.cuerpo
-    ? opportunity.cuerpo.replace(/[#*`]/g, '').substring(0, 150) + '...'
-    : 'Oportunidad laboral en CVitae Paraguay';
-
   const applicationUrl = opportunity.metadata?.application_url;
   const hasValidLink = applicationUrl && applicationUrl.trim() !== '';
   const tags = opportunity.metadata?.tags || [];
@@ -155,24 +191,8 @@ export default function OpportunityDetail() {
   // Procesar el cuerpo para convertir URLs en enlaces Markdown
   const processedCuerpo = linkify(opportunity.cuerpo || 'Descripción no disponible');
 
-  // URL dinámica para Open Graph (thum.io)
-  const ogImageUrl = `https://image.thum.io/get/width/1200/crop/800/og/https://cvitae-py.netlify.app/og-image?title=${encodeURIComponent(opportunity.titulo)}&company=${encodeURIComponent(organization)}`;
-
   return (
     <div className="w-full bg-black min-h-screen pt-32 pb-20 px-4">
-      <Helmet>
-        <title>{`${opportunity.titulo || 'Vacante'} | CVitae Paraguay`}</title>
-        <meta name="description" content={metaDescription} />
-        <meta property="og:title" content={opportunity.titulo || 'Vacante'} />
-        <meta property="og:description" content={metaDescription} />
-        <meta property="og:type" content="article" />
-        <meta property="og:image" content={ogImageUrl} />
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content={ogImageUrl} />
-        {/* Schema.org JobPosting */}
-        <JobPostingSchema opportunity={opportunity} />
-      </Helmet>
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
