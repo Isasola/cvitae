@@ -7,7 +7,6 @@ import { ArrowLeft, Calendar, Tag, Share2, Copy, Check, Sparkles } from 'lucide-
 import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
-import remarkGfm from 'remark-gfm';
 import NotFound from '@/pages/NotFound';
 import { TetrisLoader } from '@/components/ui/tetris-loader';
 import Footer from '@/components/Footer';
@@ -24,6 +23,13 @@ interface ContentItem {
   ubicacion: string;
   is_active: boolean;
 }
+
+// Función para convertir URLs planas en enlaces Markdown
+const linkify = (text: string): string => {
+  if (!text) return text;
+  const urlRegex = /(\bhttps?:\/\/[^\s<]+)/gi;
+  return text.replace(urlRegex, '[$1]($1)');
+};
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
@@ -73,6 +79,9 @@ export default function BlogPost() {
   const metaDescription = post.cuerpo
     ? post.cuerpo.replace(/[#*`]/g, '').substring(0, 150) + '...'
     : 'Artículo en CVitae Paraguay';
+
+  // Procesar el cuerpo para convertir URLs en enlaces Markdown
+  const processedCuerpo = linkify(post.cuerpo || 'Contenido no disponible');
 
   return (
     <div className="w-full bg-black min-h-screen pt-32 pb-20 px-4 flex flex-col">
@@ -125,11 +134,8 @@ export default function BlogPost() {
 
               <div className="prose prose-invert max-w-none">
                 <div className="text-gray-300 leading-relaxed bg-white/5 p-6 rounded-2xl border border-white/5">
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    rehypePlugins={[rehypeSanitize]}
-                  >
-                    {post.cuerpo || 'Contenido no disponible'}
+                  <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
+                    {processedCuerpo}
                   </ReactMarkdown>
                 </div>
               </div>
