@@ -21,6 +21,7 @@ interface Opportunity {
   categoria: string;
   imagen_url: string;
   fecha_vencimiento: string;
+  created_at: string;
   tipo: 'blog' | 'oportunidad';
   ubicacion: string;
   is_active: boolean;
@@ -36,6 +37,47 @@ interface Opportunity {
 
 const WA_NUMBER = '595992954169';
 
+// Componente interno para el Schema.org JobPosting
+const JobPostingSchema: React.FC<{ opportunity: Opportunity }> = ({ opportunity }) => {
+  const applicationUrl = opportunity.metadata?.application_url;
+  const organization = opportunity.metadata?.organization || 'Empresa';
+  const locationParts = opportunity.ubicacion?.split(',').map(s => s.trim()) || ['Paraguay'];
+  const city = locationParts[0] || 'Paraguay';
+  const region = locationParts[1] || '';
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'JobPosting',
+    title: opportunity.titulo,
+    description: opportunity.cuerpo?.substring(0, 5000),
+    datePosted: opportunity.created_at?.split('T')[0] || new Date().toISOString().split('T')[0],
+    validThrough: opportunity.fecha_vencimiento?.split('T')[0],
+    employmentType: 'FULL_TIME',
+    hiringOrganization: {
+      '@type': 'Organization',
+      name: organization,
+    },
+    jobLocation: {
+      '@type': 'Place',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: city,
+        addressRegion: region,
+        addressCountry: 'PY',
+      },
+    },
+    directApply: !!applicationUrl,
+    url: typeof window !== 'undefined' ? window.location.href : `https://cvitae-py.netlify.app/opportunities/${opportunity.slug}`,
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+};
+
 export default function OpportunityDetail() {
   const { id: slug } = useParams<{ id: string }>();
   const [, setLocation] = useLocation();
@@ -48,7 +90,7 @@ export default function OpportunityDetail() {
       try {
         const { data, error } = await supabase
           .from('content_hub')
-          .select('slug, titulo, cuerpo, categoria, imagen_url, fecha_vencimiento, tipo, ubicacion, is_active, metadata')
+          .select('slug, titulo, cuerpo, categoria, imagen_url, fecha_vencimiento, created_at, tipo, ubicacion, is_active, metadata')
           .eq('slug', slug)
           .eq('is_active', true)
           .single();
@@ -104,6 +146,9 @@ export default function OpportunityDetail() {
   const tags = opportunity.metadata?.tags || [];
   const organization = opportunity.metadata?.organization || 'Empresa líder';
 
+  // URL dinámica para Open Graph (thum.io)
+  const ogImageUrl = `https://image.thum.io/get/width/1200/crop/800/og/https://cvitae-py.netlify.app/og-image?title=${encodeURIComponent(opportunity.titulo)}&company=${encodeURIComponent(organization)}`;
+
   return (
     <div className="w-full bg-black min-h-screen pt-32 pb-20 px-4">
       <Helmet>
@@ -112,7 +157,11 @@ export default function OpportunityDetail() {
         <meta property="og:title" content={opportunity.titulo || 'Vacante'} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content={opportunity.imagen_url} />
+        <meta property="og:image" content={ogImageUrl} />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:image" content={ogImageUrl} />
+        {/* Schema.org JobPosting */}
+        <JobPostingSchema opportunity={opportunity} />
       </Helmet>
 
       <motion.div
