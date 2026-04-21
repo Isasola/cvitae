@@ -9,7 +9,6 @@ import { ArrowLeft, ExternalLink, Building2, MapPin, Calendar, Briefcase, Share2
 import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
-import remarkGfm from 'remark-gfm';
 import NotFound from '@/pages/NotFound';
 import { TetrisLoader } from '@/components/ui/tetris-loader';
 
@@ -36,6 +35,13 @@ interface Opportunity {
 }
 
 const WA_NUMBER = '595992954169';
+
+// Función para convertir URLs planas en enlaces Markdown
+const linkify = (text: string): string => {
+  if (!text) return text;
+  const urlRegex = /(\bhttps?:\/\/[^\s<]+)/gi;
+  return text.replace(urlRegex, '[$1]($1)');
+};
 
 // Componente interno para el Schema.org JobPosting
 const JobPostingSchema: React.FC<{ opportunity: Opportunity }> = ({ opportunity }) => {
@@ -146,6 +152,9 @@ export default function OpportunityDetail() {
   const tags = opportunity.metadata?.tags || [];
   const organization = opportunity.metadata?.organization || 'Empresa líder';
 
+  // Procesar el cuerpo para convertir URLs en enlaces Markdown
+  const processedCuerpo = linkify(opportunity.cuerpo || 'Descripción no disponible');
+
   // URL dinámica para Open Graph (thum.io)
   const ogImageUrl = `https://image.thum.io/get/width/1200/crop/800/og/https://cvitae-py.netlify.app/og-image?title=${encodeURIComponent(opportunity.titulo)}&company=${encodeURIComponent(organization)}`;
 
@@ -233,11 +242,8 @@ export default function OpportunityDetail() {
                   <p className="text-[#c9a84c] text-sm mb-4 italic">
                     CVitae te ayuda a postularte a esta vacante con un CV optimizado para filtros ATS.
                   </p>
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    rehypePlugins={[rehypeSanitize]}
-                  >
-                    {opportunity.cuerpo || 'Descripción no disponible'}
+                  <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
+                    {processedCuerpo}
                   </ReactMarkdown>
                 </div>
               </div>
