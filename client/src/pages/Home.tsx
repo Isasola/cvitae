@@ -215,7 +215,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <Newsletter />
           <p className="text-center text-gray-400 text-sm mt-4">
-            También podés escribirnos a <a href="mailto:cpdparaguay@gmail.com" className="text-[#c9a84c] hover:underline">cpdparaguay@gmail.com</a>
+            También podés escribirnos a <a href="mailto:cvitaeparaguay@gmail.com" className="text-[#c9a84c] hover:underline">cvitaeparaguay@gmail.com</a>
           </p>
         </div>
       </section>
