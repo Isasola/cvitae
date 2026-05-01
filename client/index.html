@@ -3,52 +3,73 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    
-    <!-- SEO Básico -->
-    <title>CVitae | Análisis de CV con IA y Oportunidades Reales en Paraguay</title>
-    <meta name="description" content="Generá tu CV Elite con IA. Diagnóstico gratuito, análisis real de competencia, y nuevas oportunidades laborales cada día. Conectá con reclutadores en Paraguay y Latinoamérica." />
-    <meta name="keywords" content="trabajo paraguay, optimizar cv, cv ats, reclutamiento asuncion, becas paraguay, cursos rrhh, buscar empleo" />
+
+    <!-- ============================================================
+    TODO: ANTES DE DEPLOY
+    - og:image → subí /public/og-image.png (1200x630px con el logo CVitae)
+    - canonical → cambiar a tu URL final cuando tengas dominio propio
+    - google-site-verification → ya está configurado, no tocar
+    ============================================================ -->
+
+    <!-- SEO DE AUTORIDAD -->
+    <title>CVitae | Optimización de Perfiles Profesionales · Paraguay 2026</title>
+    <meta name="description" content="No permitas que tu talento sea invisible. Reestructuramos tu CV con metodologías de reclutamiento avanzadas para que alcances la entrevista que buscás. Diagnóstico gratuito en 60 segundos." />
+    <meta name="keywords" content="reestructuración de perfil profesional, optimización para filtros ATS, portafolio digital profesional, ingeniería de contenido para CV, curriculum vitae Paraguay 2026, trabajo Paraguay, reclutamiento Asuncion" />
     <meta name="author" content="CVitae Paraguay" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://cvitae-py.netlify.app/" />
-    <!-- Google Search Console Verification (placeholder - update with actual token) -->
     <meta name="google-site-verification" content="V5Zq1YOKRu6TnWWaOJQfav1fkGf7IrTP16GzjFiQ_RU" />
 
-    <!-- Tipografías y Estilos -->
+    <!-- FAVICON SVG (logo CVitae en negro/dorado, sin imagen externa) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230a0a0a' rx='16'/><text y='72' x='8' font-size='58' font-family='Georgia,serif' font-weight='900' fill='%23c9a84c'>CV</text></svg>" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230a0a0a' rx='16'/><text y='72' x='8' font-size='58' font-family='Georgia,serif' font-weight='900' fill='%23c9a84c'>CV</text></svg>" />
+
+    <!-- TIPOGRAFÍAS -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <!-- Open Graph / Facebook / WhatsApp -->
+    <!-- OPEN GRAPH — WhatsApp/LinkedIn/Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cvitae-py.netlify.app/" />
-    <meta property="og:title" content="CVitae - Generá tu CV Elite y Encontrá Oportunidades Laborales" />
-    <meta property="og:description" content="Análisis de CV con IA. Nuevas oportunidades cada día. Diagnóstico gratuito en 30 segundos. Conectá con reclutadores en Paraguay." />
+    <meta property="og:title" content="CVitae | Optimización de Perfiles Profesionales de Alto Impacto" />
+    <meta property="og:description" content="No permitas que tu talento sea invisible. Reestructuramos tu CV con metodologías de reclutamiento avanzadas para que alcances la entrevista que buscás." />
     <meta property="og:image" content="https://cvitae-py.netlify.app/og-image.png" />
+    <meta property="og:locale" content="es_PY" />
+    <meta property="og:site_name" content="CVitae Paraguay" />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://cvitae-py.netlify.app/" />
-    <meta property="twitter:title" content="CVitae — Optimización de CV ATS en Paraguay" />
-    <meta property="twitter:description" content="Pasá los filtros de RRHH con un perfil optimizado. Trabajos, becas y cursos en un solo lugar." />
-    <meta property="twitter:image" content="https://cvitae-py.netlify.app/og-image.png" />
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://cvitae-py.netlify.app/" />
+    <meta name="twitter:title" content="CVitae — Optimización de Perfiles Profesionales · Paraguay" />
+    <meta name="twitter:description" content="No permitas que tu talento sea invisible. Diagnóstico gratuito en 60 segundos." />
+    <meta name="twitter:image" content="https://cvitae-py.netlify.app/og-image.png" />
 
-    <!-- JSON-LD: Estructura de Datos para Google -->
+    <!-- SCHEMA.ORG — Datos estructurados para Google -->
     <script type="application/ld+json">
     [
       {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        "name": "CVitae Optimizer",
+        "name": "CVitae — Optimizador de Perfiles Profesionales",
         "operatingSystem": "Web",
         "applicationCategory": "BusinessApplication",
-        "description": "Herramienta de optimización de CV basada en indicadores de competencia para filtros ATS.",
+        "description": "Plataforma de reestructuración de perfil profesional con IA. Optimización para filtros ATS, portafolio digital y acceso a oportunidades laborales en Paraguay y Latinoamérica.",
+        "url": "https://cvitae-py.netlify.app/",
         "offers": {
           "@type": "Offer",
           "price": "50000",
-          "priceCurrency": "PYG"
-        }
+          "priceCurrency": "PYG",
+          "description": "CV Digital optimizado con metodología de reclutamiento avanzada"
+        },
+        "featureList": [
+          "Diagnóstico ATS gratuito",
+          "Reestructuración de perfil profesional",
+          "Portafolio digital con link propio",
+          "Kit de entrevista personalizado",
+          "Módulo reclutadores B2B"
+        ]
       },
       {
         "@context": "https://schema.org",
@@ -56,14 +77,79 @@
         "name": "CVitae Paraguay",
         "url": "https://cvitae-py.netlify.app/",
         "logo": "https://cvitae-py.netlify.app/logo.png",
-        "sameAs": [
-          "https://wa.me/595992954169"
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+595-992-954-169",
+          "contactType": "customer service",
+          "availableLanguage": "Spanish"
+        },
+        "sameAs": ["https://wa.me/595992954169"]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cómo funciona el análisis de CV con IA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nuestra IA procesa tu CV buscando patrones ATS y palabras clave que los reclutadores de Paraguay priorizan. Recibís un score de 0 a 100 y errores críticos en segundos."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cuánto cuesta optimizar mi CV en Paraguay?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "El diagnóstico es gratuito. El Plan Pro Plus cuesta ₲50.000 (pago único) e incluye CV optimizado ATS, palabras clave estratégicas y guía de entrevista personalizada."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué es la optimización ATS para CV?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ATS (Applicant Tracking System) son los filtros automáticos que usan las empresas. Un CV optimizado ATS incluye las palabras clave exactas del aviso para pasar el filtro antes de llegar al reclutador."
+            }
+          }
         ]
       }
     ]
     </script>
 
-    <!-- Google Analytics (GA4) -->
+    <!-- CONTENIDO EDITORIAL PARA GOOGLE (visible sin JS — resuelve problema AdSense) -->
+    <noscript>
+      <style>
+        .seo-editorial { max-width: 900px; margin: 100px auto; padding: 2rem; font-family: Georgia, serif; color: #1a1a1a; line-height: 1.8; }
+        .seo-editorial h1 { font-size: 2rem; margin-bottom: 1rem; }
+        .seo-editorial h2 { font-size: 1.4rem; margin: 2rem 0 1rem; color: #c9a84c; }
+        .seo-editorial p { margin-bottom: 1rem; }
+        .seo-editorial a { color: #c9a84c; }
+      </style>
+      <div class="seo-editorial">
+        <h1>CVitae — Optimización de Perfiles Profesionales en Paraguay 2026</h1>
+        <p>CVitae es la plataforma líder en optimización de currículum vitae para el mercado laboral paraguayo. Utilizamos metodologías de reclutamiento avanzadas e inteligencia artificial para reestructurar tu perfil profesional y maximizar tus posibilidades de conseguir entrevistas.</p>
+
+        <h2>¿Por qué el 75% de los CVs en Paraguay son rechazados antes de llegar a un humano?</h2>
+        <p>Las empresas medianas y grandes en Paraguay, Argentina y el resto de Latinoamérica utilizan sistemas ATS (Applicant Tracking System) para filtrar candidatos automáticamente. Estos sistemas buscan palabras clave específicas del aviso de trabajo. Si tu CV no las contiene, es descartado automáticamente sin que ningún reclutador lo vea.</p>
+        <p>CVitae resuelve este problema analizando el aviso de trabajo y reestructurando tu CV con los términos exactos que el sistema ATS está buscando.</p>
+
+        <h2>Servicios de CVitae Paraguay</h2>
+        <p><strong>Diagnóstico ATS gratuito:</strong> Analizamos tu CV en 60 segundos y te damos un score de compatibilidad con los filtros ATS más usados en Paraguay.</p>
+        <p><strong>Reestructuración de perfil profesional (₲50.000):</strong> Nuestro equipo reescribe tu CV con metodología de reclutamiento avanzada, incluyendo carta de presentación y kit de entrevista.</p>
+        <p><strong>Portafolio digital profesional (₲120.000):</strong> Página personal con tu nombre, proyectos y CV online, ideal para freelancers y profesionales técnicos.</p>
+        <p><strong>Módulo reclutadores B2B:</strong> Acceso a lotes de CVs pre-rankeados con score ATS individual para empresas de RRHH en Paraguay.</p>
+
+        <h2>¿Cómo funciona CVitae?</h2>
+        <p>1. Subís tu CV o completás el formulario con tu experiencia. 2. Pegás el aviso del trabajo al que querés aplicar. 3. La IA analiza los indicadores de competencia y reestructura tu perfil. 4. Recibís el CV optimizado por WhatsApp en menos de 30 minutos.</p>
+
+        <p>Contacto: <a href="https://wa.me/595992954169">WhatsApp +595 992 954 169</a> · <a href="mailto:cpdparaguay@gmail.com">cpdparaguay@gmail.com</a></p>
+        <p><a href="/blog">Ver artículos del blog</a> · <a href="/opportunities">Ver oportunidades laborales</a></p>
+      </div>
+    </noscript>
+
+    <!-- GOOGLE ANALYTICS GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPD5CBJVYF"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -72,12 +158,11 @@
       gtag('config', 'G-RPD5CBJVYF');
     </script>
 
-    <!-- Google AdSense -->
+    <!-- GOOGLE ADSENSE -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8453355862743054" crossorigin="anonymous"></script>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="./src/main.tsx"></script>
-    <!-- Analytics: script de umami eliminado para evitar error ERR_HTTP2_PROTOCOL_ERROR -->
+    <script type="module" src="/client/src/main.tsx"></script>
   </body>
 </html>
