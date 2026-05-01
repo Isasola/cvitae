@@ -1,7 +1,26 @@
 {
   "total": 50,
-  "timestamp": "2026-04-20T02:55:47.543Z",
+  "timestamp": "2026-05-01T03:38:22.773Z",
   "opportunities": [
+    {
+      "id": "adzuna-5678008949",
+      "title": "Learning and Development Manager",
+      "organization": "2 sisters Food Group",
+      "location": "Coupar Angus, Blairgowrie",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "£39303 - £39303",
+      "deadline": "Abierto",
+      "compatibility": 75,
+      "tags": [
+        "Adzuna",
+        "Tecnología"
+      ],
+      "description": "Oportunidad laboral: Learning and Development Manager en 2 sisters Food Group.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5678008949?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=60B5BEE00AD4DD60EC1487DC2434EE3BAD6A1CAE)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5678008949?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=60B5BEE00AD4DD60EC1487DC2434EE3BAD6A1CAE",
+      "source": "Adzuna"
+    },
     {
       "id": "adzuna-5678455904",
       "title": "Business Development Director",
@@ -17,8 +36,103 @@
         "Adzuna",
         "Tecnología"
       ],
-      "description": "Oportunidad laboral: Business Development Director en Arrow Electronics, Inc..\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5678455904?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=6515735D20853D611A066F5777353CB4A6721B15)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5678455904?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=6515735D20853D611A066F5777353CB4A6721B15",
+      "description": "Oportunidad laboral: Business Development Director en Arrow Electronics, Inc..\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5678455904?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=6515735D20853D611A066F5777353CB4A6721B15)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5678455904?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=6515735D20853D611A066F5777353CB4A6721B15",
+      "source": "Adzuna"
+    },
+    {
+      "id": "adzuna-5705307890",
+      "title": "Software Development Lead",
+      "organization": "BAE Systems",
+      "location": "Lytham, Lytham St. Annes",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "£46190 - £46190",
+      "deadline": "Abierto",
+      "compatibility": 75,
+      "tags": [
+        "Adzuna",
+        "Tecnología"
+      ],
+      "description": "Oportunidad laboral: Software Development Lead en BAE Systems.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5705307890?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=C786ED69B5BAB1D49B032740CFF2805294EDFF8F)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5705307890?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=C786ED69B5BAB1D49B032740CFF2805294EDFF8F",
+      "source": "Adzuna"
+    },
+    {
+      "id": "adzuna-5705307907",
+      "title": "Software Development Lead",
+      "organization": "BAE Systems",
+      "location": "Blackpool Airport, Blackpool",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "£47996 - £47996",
+      "deadline": "Abierto",
+      "compatibility": 75,
+      "tags": [
+        "Adzuna",
+        "Tecnología"
+      ],
+      "description": "Oportunidad laboral: Software Development Lead en BAE Systems.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5705307907?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=3E4DFA329AA409C70CB0FB1BF63BB4FAEC7977DE)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5705307907?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=3E4DFA329AA409C70CB0FB1BF63BB4FAEC7977DE",
+      "source": "Adzuna"
+    },
+    {
+      "id": "adzuna-5705307900",
+      "title": "Software Development Lead",
+      "organization": "BAE Systems",
+      "location": "Warton, Newport",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "£48230 - £48230",
+      "deadline": "Abierto",
+      "compatibility": 75,
+      "tags": [
+        "Adzuna",
+        "Tecnología"
+      ],
+      "description": "Oportunidad laboral: Software Development Lead en BAE Systems.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5705307900?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=D5116D6F2C843318A83EA7795A7F4737311E5F4D)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5705307900?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=D5116D6F2C843318A83EA7795A7F4737311E5F4D",
+      "source": "Adzuna"
+    },
+    {
+      "id": "adzuna-5705307905",
+      "title": "Software Development Lead",
+      "organization": "BAE Systems",
+      "location": "Penwortham, Preston",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "£47301 - £47301",
+      "deadline": "Abierto",
+      "compatibility": 75,
+      "tags": [
+        "Adzuna",
+        "Tecnología"
+      ],
+      "description": "Oportunidad laboral: Software Development Lead en BAE Systems.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5705307905?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=9A8D9680EF841044D6697A0DB690C0A42CD45203)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5705307905?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=9A8D9680EF841044D6697A0DB690C0A42CD45203",
+      "source": "Adzuna"
+    },
+    {
+      "id": "adzuna-5705307908",
+      "title": "Software Development Lead",
+      "organization": "BAE Systems",
+      "location": "Padiham, Burnley",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "£47720 - £47720",
+      "deadline": "Abierto",
+      "compatibility": 75,
+      "tags": [
+        "Adzuna",
+        "Tecnología"
+      ],
+      "description": "Oportunidad laboral: Software Development Lead en BAE Systems.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5705307908?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=94CD6C29F51E488704232A90B889295AE567A765)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5705307908?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=94CD6C29F51E488704232A90B889295AE567A765",
       "source": "Adzuna"
     },
     {
@@ -36,8 +150,27 @@
         "Adzuna",
         "Tecnología"
       ],
-      "description": "Oportunidad laboral: Business Development Manager en KP Snacks.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5697901474?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=08B70A66383F684E0EB68552BA1ED366F34133F1)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5697901474?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=08B70A66383F684E0EB68552BA1ED366F34133F1",
+      "description": "Oportunidad laboral: Business Development Manager en KP Snacks.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5697901474?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=08B70A66383F684E0EB68552BA1ED366F34133F1)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5697901474?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=08B70A66383F684E0EB68552BA1ED366F34133F1",
+      "source": "Adzuna"
+    },
+    {
+      "id": "adzuna-5712685844",
+      "title": "Senior HR, People and Development Adviser",
+      "organization": "NPL",
+      "location": "UK",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "£58305 - £58305",
+      "deadline": "Abierto",
+      "compatibility": 75,
+      "tags": [
+        "Adzuna",
+        "Tecnología"
+      ],
+      "description": "Oportunidad laboral: Senior HR, People and Development Adviser en NPL.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5712685844?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=8C4ABE231D085C4485F518492C2A5584FE5BBAE2)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5712685844?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=8C4ABE231D085C4485F518492C2A5584FE5BBAE2",
       "source": "Adzuna"
     },
     {
@@ -55,8 +188,27 @@
         "Adzuna",
         "Tecnología"
       ],
-      "description": "Oportunidad laboral: SharePoint developer en Hays.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5643440488?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=CAF7C872E9FF7C3DECBFD1048E4BD5DF1F5C54B4)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5643440488?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=CAF7C872E9FF7C3DECBFD1048E4BD5DF1F5C54B4",
+      "description": "Oportunidad laboral: SharePoint developer en Hays.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5643440488?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=CAF7C872E9FF7C3DECBFD1048E4BD5DF1F5C54B4)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5643440488?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=CAF7C872E9FF7C3DECBFD1048E4BD5DF1F5C54B4",
+      "source": "Adzuna"
+    },
+    {
+      "id": "adzuna-5707341866",
+      "title": "Business Development Manager",
+      "organization": "Hays",
+      "location": "Glasgow, Scotland",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "£53741 - £53741",
+      "deadline": "Abierto",
+      "compatibility": 75,
+      "tags": [
+        "Adzuna",
+        "Tecnología"
+      ],
+      "description": "Oportunidad laboral: Business Development Manager en Hays.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5707341866?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=816AED827657C445C2EB6EC7F4B2768C2AAF24B6)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5707341866?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=816AED827657C445C2EB6EC7F4B2768C2AAF24B6",
       "source": "Adzuna"
     },
     {
@@ -79,22 +231,41 @@
       "source": "Adzuna"
     },
     {
-      "id": "adzuna-5643438931",
-      "title": "MRICS -Principal Development Surveyor",
-      "organization": "HAYS",
-      "location": "East Midlands, UK",
+      "id": "adzuna-5707330972",
+      "title": "Business Development Manager",
+      "organization": "Hays",
+      "location": "Basingstoke, Hampshire",
       "continent": "Global",
       "type": "empleo",
       "rubro": "Tecnología",
-      "value": "£65346 - £65346",
+      "value": "£51175 - £51175",
       "deadline": "Abierto",
       "compatibility": 75,
       "tags": [
         "Adzuna",
         "Tecnología"
       ],
-      "description": "Oportunidad laboral: MRICS -Principal Development Surveyor en HAYS.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5643438931?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=CDC22BA96D8D9CF8A18CC8E67D01D1CB89C7A435)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5643438931?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=CDC22BA96D8D9CF8A18CC8E67D01D1CB89C7A435",
+      "description": "Oportunidad laboral: Business Development Manager en Hays.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5707330972?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=D3715CF280F01C44A906DA5CC0844BB449C3C1A2)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5707330972?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=D3715CF280F01C44A906DA5CC0844BB449C3C1A2",
+      "source": "Adzuna"
+    },
+    {
+      "id": "adzuna-5707330827",
+      "title": "Learning & Development Assistant",
+      "organization": "Hays",
+      "location": "Northallerton, North Yorkshire",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "£24502 - £24502",
+      "deadline": "Abierto",
+      "compatibility": 75,
+      "tags": [
+        "Adzuna",
+        "Tecnología"
+      ],
+      "description": "Oportunidad laboral: Learning & Development Assistant en Hays.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5707330827?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=BF1D96C2E0349B0AAB9B5411D11CCA09B4F60531)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5707330827?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=BF1D96C2E0349B0AAB9B5411D11CCA09B4F60531",
       "source": "Adzuna"
     },
     {
@@ -112,33 +283,14 @@
         "Adzuna",
         "Tecnología"
       ],
-      "description": "Oportunidad laboral: Project Manager- Development (New Homes) en Hays.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5646711556?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=6463DB37E7A5D646AB2F9819B413AAE1A214D90B)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5646711556?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=6463DB37E7A5D646AB2F9819B413AAE1A214D90B",
-      "source": "Adzuna"
-    },
-    {
-      "id": "adzuna-5643440133",
-      "title": "Management Accountant (Property Development)",
-      "organization": "HAYS",
-      "location": "The City, Central London",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "£48969 - £48969",
-      "deadline": "Abierto",
-      "compatibility": 75,
-      "tags": [
-        "Adzuna",
-        "Tecnología"
-      ],
-      "description": "Oportunidad laboral: Management Accountant (Property Development) en HAYS.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5643440133?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=749DB7A86CB3A0F2E5DF9EBB1BA680BEEFAE2072)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5643440133?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=749DB7A86CB3A0F2E5DF9EBB1BA680BEEFAE2072",
+      "description": "Oportunidad laboral: Project Manager- Development (New Homes) en Hays.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5646711556?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=6463DB37E7A5D646AB2F9819B413AAE1A214D90B)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5646711556?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=6463DB37E7A5D646AB2F9819B413AAE1A214D90B",
       "source": "Adzuna"
     },
     {
       "id": "adzuna-5643438184",
       "title": "Head of FP&A (Battery Developer)",
-      "organization": "HAYS",
+      "organization": "Hays",
       "location": "London, UK",
       "continent": "Global",
       "type": "empleo",
@@ -150,65 +302,8 @@
         "Adzuna",
         "Tecnología"
       ],
-      "description": "Oportunidad laboral: Head of FP&A (Battery Developer) en HAYS.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5643438184?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=FF04D24A2B0260F770FB0DF7DA8656476CF5CECB)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5643438184?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=FF04D24A2B0260F770FB0DF7DA8656476CF5CECB",
-      "source": "Adzuna"
-    },
-    {
-      "id": "adzuna-5704126797",
-      "title": "UI/UX Designer",
-      "organization": "Develop",
-      "location": "Fareham, Hampshire",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "£70000 - £70000",
-      "deadline": "Abierto",
-      "compatibility": 75,
-      "tags": [
-        "Adzuna",
-        "Tecnología"
-      ],
-      "description": "Oportunidad laboral: UI/UX Designer en Develop.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5704126797?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=3D7380F3E2786E473564D90C409BE27FD38D574C)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5704126797?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=3D7380F3E2786E473564D90C409BE27FD38D574C",
-      "source": "Adzuna"
-    },
-    {
-      "id": "adzuna-5643439356",
-      "title": "MRICS Development & Estate Manager-Local Authority",
-      "organization": "Hays",
-      "location": "East Midlands, UK",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "£78062 - £78062",
-      "deadline": "Abierto",
-      "compatibility": 75,
-      "tags": [
-        "Adzuna",
-        "Tecnología"
-      ],
-      "description": "Oportunidad laboral: MRICS Development & Estate Manager-Local Authority en Hays.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5643439356?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=A32D23379ABDA18BDB069D710A856AD554871F56)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5643439356?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=A32D23379ABDA18BDB069D710A856AD554871F56",
-      "source": "Adzuna"
-    },
-    {
-      "id": "adzuna-5690485255",
-      "title": "Development Executive",
-      "organization": "Gallagher",
-      "location": "UK",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "£47534 - £47534",
-      "deadline": "Abierto",
-      "compatibility": 75,
-      "tags": [
-        "Adzuna",
-        "Tecnología"
-      ],
-      "description": "Oportunidad laboral: Development Executive en Gallagher.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5690485255?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=910978E5DF4A91ED4C97363B488B49BEB882DDB5)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5690485255?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=910978E5DF4A91ED4C97363B488B49BEB882DDB5",
+      "description": "Oportunidad laboral: Head of FP&A (Battery Developer) en Hays.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5643438184?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=FF04D24A2B0260F770FB0DF7DA8656476CF5CECB)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5643438184?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=FF04D24A2B0260F770FB0DF7DA8656476CF5CECB",
       "source": "Adzuna"
     },
     {
@@ -226,34 +321,15 @@
         "Adzuna",
         "Tecnología"
       ],
-      "description": "Oportunidad laboral: Developer en Stackstudio Digital Ltd..\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5694367102?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=7E4DE940B147CFF7F57581D555A704DC720B5D35)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5694367102?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=7E4DE940B147CFF7F57581D555A704DC720B5D35",
+      "description": "Oportunidad laboral: Developer en Stackstudio Digital Ltd..\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5694367102?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=7E4DE940B147CFF7F57581D555A704DC720B5D35)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5694367102?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=7E4DE940B147CFF7F57581D555A704DC720B5D35",
       "source": "Adzuna"
     },
     {
-      "id": "adzuna-5702988421",
-      "title": "Senior Infrastructure Engineer (Linux)",
+      "id": "adzuna-5701107472",
+      "title": "AI Engineer - Search and Retrieval",
       "organization": "Develop",
-      "location": "West Midlands, UK",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "£45000 - £45000",
-      "deadline": "Abierto",
-      "compatibility": 75,
-      "tags": [
-        "Adzuna",
-        "Tecnología"
-      ],
-      "description": "Oportunidad laboral: Senior Infrastructure Engineer (Linux) en Develop.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5702988421?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=8A791ED8DCF0243484755F50F2A7EBD86927EE71)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5702988421?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=8A791ED8DCF0243484755F50F2A7EBD86927EE71",
-      "source": "Adzuna"
-    },
-    {
-      "id": "adzuna-5704884574",
-      "title": "Senior Mobile Engineer",
-      "organization": "Develop",
-      "location": "South East London, London",
+      "location": "UK",
       "continent": "Global",
       "type": "empleo",
       "rubro": "Tecnología",
@@ -264,128 +340,52 @@
         "Adzuna",
         "Tecnología"
       ],
-      "description": "Oportunidad laboral: Senior Mobile Engineer en Develop.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5704884574?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=F8B26913CBBA13AE3D2003DA64560C981F090964)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5704884574?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=F8B26913CBBA13AE3D2003DA64560C981F090964",
+      "description": "Oportunidad laboral: AI Engineer - Search and Retrieval en Develop.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5701107472?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=F61866582EC0EAA52F74727AD37B016E8C270DBB)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5701107472?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=F61866582EC0EAA52F74727AD37B016E8C270DBB",
       "source": "Adzuna"
     },
     {
-      "id": "adzuna-5643438228",
-      "title": "Business Development Manager (Battery Storage)",
+      "id": "adzuna-5643440133",
+      "title": "Senior Management Accountant (Property Development)",
       "organization": "Hays",
-      "location": "London, UK",
+      "location": "The City, Central London",
       "continent": "Global",
       "type": "empleo",
       "rubro": "Tecnología",
-      "value": "£63368 - £63368",
+      "value": "£51435 - £51435",
       "deadline": "Abierto",
       "compatibility": 75,
       "tags": [
         "Adzuna",
         "Tecnología"
       ],
-      "description": "Oportunidad laboral: Business Development Manager (Battery Storage) en Hays.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5643438228?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=C31BC82E4C85342EC3402411DF8A386AD48331B8)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5643438228?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=C31BC82E4C85342EC3402411DF8A386AD48331B8",
+      "description": "Oportunidad laboral: Senior Management Accountant (Property Development) en Hays.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5643440133?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=749DB7A86CB3A0F2E5DF9EBB1BA680BEEFAE2072)",
+      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5643440133?se=wHBI1g5F8RGnBoRiKCMgIw&utm_medium=api&utm_source=72ce1fc7&v=749DB7A86CB3A0F2E5DF9EBB1BA680BEEFAE2072",
       "source": "Adzuna"
     },
     {
-      "id": "adzuna-5687902219",
-      "title": "Development Team Manager",
-      "organization": "Stroud District Council",
-      "location": "Stroud, Gloucestershire",
+      "id": "adzuna-5707330721",
+      "title": "Major Development Principal",
+      "organization": "TMP Worldwide",
+      "location": "North Yorkshire, Yorkshire And The Humber",
       "continent": "Global",
       "type": "empleo",
       "rubro": "Tecnología",
-      "value": "£50250 - £50250",
+      "value": "£44075 - £46142",
       "deadline": "Abierto",
       "compatibility": 75,
       "tags": [
         "Adzuna",
         "Tecnología"
       ],
-      "description": "Oportunidad laboral: Development Team Manager en Stroud District Council.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/details/5687902219?utm_medium=api&utm_source=72ce1fc7)",
-      "application_url": "https://www.adzuna.co.uk/jobs/details/5687902219?utm_medium=api&utm_source=72ce1fc7",
+      "description": "Oportunidad laboral: Major Development Principal en TMP Worldwide.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/details/5707330721?utm_medium=api&utm_source=72ce1fc7)",
+      "application_url": "https://www.adzuna.co.uk/jobs/details/5707330721?utm_medium=api&utm_source=72ce1fc7",
       "source": "Adzuna"
     },
     {
-      "id": "adzuna-5682690142",
-      "title": "Trading Developer",
-      "organization": "Invitise Ltd",
-      "location": "Workington, Cumbria",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "£53019 - £53019",
-      "deadline": "Abierto",
-      "compatibility": 75,
-      "tags": [
-        "Adzuna",
-        "Tecnología"
-      ],
-      "description": "Oportunidad laboral: Trading Developer en Invitise Ltd.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5682690142?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=63292289B4F4E1451AF6F659BFDF71FDB245052D)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5682690142?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=63292289B4F4E1451AF6F659BFDF71FDB245052D",
-      "source": "Adzuna"
-    },
-    {
-      "id": "adzuna-5679234948",
-      "title": "ADW Developer",
-      "organization": "Sanderson Government and Defence",
-      "location": "Andover, Hampshire",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "£104000 - £117000",
-      "deadline": "Abierto",
-      "compatibility": 75,
-      "tags": [
-        "Adzuna",
-        "Tecnología"
-      ],
-      "description": "Oportunidad laboral: ADW Developer en Sanderson Government and Defence.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5679234948?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=662AFCC61EA0810163C4F5C203FF9078F1C0FBD5)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5679234948?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=662AFCC61EA0810163C4F5C203FF9078F1C0FBD5",
-      "source": "Adzuna"
-    },
-    {
-      "id": "adzuna-5691158295",
-      "title": "Proclaim Developer",
-      "organization": "EXPRESS SOLICITORS",
-      "location": "Civic Centre, Wythenshawe",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "£50000 - £50000",
-      "deadline": "Abierto",
-      "compatibility": 75,
-      "tags": [
-        "Adzuna",
-        "Tecnología"
-      ],
-      "description": "Oportunidad laboral: Proclaim Developer en EXPRESS SOLICITORS.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5691158295?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=4DCF0A5790CD24FC7A3B3E52E6167B53194FB492)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5691158295?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=4DCF0A5790CD24FC7A3B3E52E6167B53194FB492",
-      "source": "Adzuna"
-    },
-    {
-      "id": "adzuna-5698862038",
-      "title": "Proclaim Developer",
-      "organization": "Flexible Solutionz",
-      "location": "Low Hill, Liverpool",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "£55000 - £55000",
-      "deadline": "Abierto",
-      "compatibility": 75,
-      "tags": [
-        "Adzuna",
-        "Tecnología"
-      ],
-      "description": "Oportunidad laboral: Proclaim Developer en Flexible Solutionz.\n\n[👉 Ver oportunidad original y postular aquí](https://www.adzuna.co.uk/jobs/land/ad/5698862038?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=5FE8A2D42E041FE902DD2612AB41E2816842A4E8)",
-      "application_url": "https://www.adzuna.co.uk/jobs/land/ad/5698862038?se=fv4uEWQ88RGZ3L9kDetG3g&utm_medium=api&utm_source=72ce1fc7&v=5FE8A2D42E041FE902DD2612AB41E2816842A4E8",
-      "source": "Adzuna"
-    },
-    {
-      "id": "findwork-X889gLX",
-      "title": "Senior DevOps Infrastructure Engineer",
-      "organization": "Ndeavour Consulting",
+      "id": "findwork-MBjlaRM",
+      "title": "QA Automation Engineer",
+      "organization": "Toptal",
       "location": "Remoto",
       "continent": "Global",
       "type": "empleo",
@@ -394,18 +394,78 @@
       "deadline": "Abierto",
       "compatibility": 80,
       "tags": [
-        "loki",
-        "fargate",
-        "mongodb"
+        "selenium",
+        "cypress",
+        "qa"
       ],
-      "description": "Oportunidad laboral: Senior DevOps Infrastructure Engineer en Ndeavour Consulting.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/X889gLX/senior-devops-infrastructure-engineer-at-ndeavour-consulting)",
-      "application_url": "https://findwork.dev/X889gLX/senior-devops-infrastructure-engineer-at-ndeavour-consulting",
+      "description": "Oportunidad laboral: QA Automation Engineer en Toptal.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/MBjlaRM/qa-automation-engineer-at-toptal)",
+      "application_url": "https://findwork.dev/MBjlaRM/qa-automation-engineer-at-toptal",
       "source": "FindWork"
     },
     {
-      "id": "findwork-MrJe95M",
-      "title": "Head of Social",
-      "organization": "Offchain Labs",
+      "id": "findwork-njjAxAn",
+      "title": "Product Owner",
+      "organization": "Bridgeway Benefit Technologies",
+      "location": "Remoto",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 80,
+      "tags": [
+        "prototyping",
+        "ux",
+        "azure"
+      ],
+      "description": "Oportunidad laboral: Product Owner en Bridgeway Benefit Technologies.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/njjAxAn/product-owner-at-bridgeway-benefit-technologies)",
+      "application_url": "https://findwork.dev/njjAxAn/product-owner-at-bridgeway-benefit-technologies",
+      "source": "FindWork"
+    },
+    {
+      "id": "findwork-XxqzY5n",
+      "title": "Senior Product Manager",
+      "organization": "Intellum",
+      "location": "Remoto",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 80,
+      "tags": [
+        "sql",
+        "mailchimp",
+        "atlassian"
+      ],
+      "description": "Oportunidad laboral: Senior Product Manager en Intellum.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/XxqzY5n/senior-product-manager-at-intellum)",
+      "application_url": "https://findwork.dev/XxqzY5n/senior-product-manager-at-intellum",
+      "source": "FindWork"
+    },
+    {
+      "id": "findwork-MrJ908M",
+      "title": "Senior Product Designer",
+      "organization": "Prolific",
+      "location": "Remoto",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 80,
+      "tags": [
+        "embedded",
+        "ml",
+        "ai"
+      ],
+      "description": "Oportunidad laboral: Senior Product Designer en Prolific.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/MrJ908M/senior-product-designer-at-prolific)",
+      "application_url": "https://findwork.dev/MrJ908M/senior-product-designer-at-prolific",
+      "source": "FindWork"
+    },
+    {
+      "id": "findwork-ny5GbDn",
+      "title": "Senior Product Manager",
+      "organization": "Workana",
       "location": "Remoto",
       "continent": "Global",
       "type": "empleo",
@@ -414,14 +474,14 @@
       "deadline": "Abierto",
       "compatibility": 80,
       "tags": [],
-      "description": "Oportunidad laboral: Head of Social en Offchain Labs.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/MrJe95M/head-of-social-at-offchain-labs)",
-      "application_url": "https://findwork.dev/MrJe95M/head-of-social-at-offchain-labs",
+      "description": "Oportunidad laboral: Senior Product Manager en Workana.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/ny5GbDn/senior-product-manager-at-workana)",
+      "application_url": "https://findwork.dev/ny5GbDn/senior-product-manager-at-workana",
       "source": "FindWork"
     },
     {
-      "id": "findwork-nYPDeYX",
-      "title": "Business Development Analyst, Stablecoins",
-      "organization": "Anchorage Digital",
+      "id": "findwork-n98EDDX",
+      "title": "Senior Customer Support Engineer",
+      "organization": "AppOmni",
       "location": "Remoto",
       "continent": "Global",
       "type": "empleo",
@@ -429,16 +489,20 @@
       "value": "Competitivo",
       "deadline": "Abierto",
       "compatibility": 80,
-      "tags": [],
-      "description": "Oportunidad laboral: Business Development Analyst, Stablecoins en Anchorage Digital.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/nYPDeYX/business-development-analyst-stablecoins-at-anchorage-digital)",
-      "application_url": "https://findwork.dev/nYPDeYX/business-development-analyst-stablecoins-at-anchorage-digital",
+      "tags": [
+        "jira",
+        "salesforce",
+        "ai"
+      ],
+      "description": "Oportunidad laboral: Senior Customer Support Engineer en AppOmni.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/n98EDDX/senior-customer-support-engineer-at-appomni)",
+      "application_url": "https://findwork.dev/n98EDDX/senior-customer-support-engineer-at-appomni",
       "source": "FindWork"
     },
     {
-      "id": "findwork-n2Yv5gX",
-      "title": "Finance Associate (Group Accounting & Operations)",
-      "organization": "Hex Trust",
-      "location": "Hong Kong, China",
+      "id": "findwork-Mb97z6Q",
+      "title": "Principal Product Manager",
+      "organization": "Webpt",
+      "location": "Remoto",
       "continent": "Global",
       "type": "empleo",
       "rubro": "Tecnología",
@@ -446,17 +510,18 @@
       "deadline": "Abierto",
       "compatibility": 80,
       "tags": [
-        "kong"
+        "ux",
+        "ai"
       ],
-      "description": "Oportunidad laboral: Finance Associate (Group Accounting & Operations) en Hex Trust.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/n2Yv5gX/finance-associate-group-accounting-operations-at-hex-trust)",
-      "application_url": "https://findwork.dev/n2Yv5gX/finance-associate-group-accounting-operations-at-hex-trust",
+      "description": "Oportunidad laboral: Principal Product Manager en Webpt.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/Mb97z6Q/principal-product-manager-at-webpt)",
+      "application_url": "https://findwork.dev/Mb97z6Q/principal-product-manager-at-webpt",
       "source": "FindWork"
     },
     {
-      "id": "findwork-MNN0z7M",
-      "title": "Staff Software Engineer, Web3",
-      "organization": "Robinhood",
-      "location": "Toronto, Canada",
+      "id": "findwork-Q62VZkQ",
+      "title": "Software Engineer, Product",
+      "organization": "Meter",
+      "location": "Remoto",
       "continent": "Global",
       "type": "empleo",
       "rubro": "Tecnología",
@@ -464,64 +529,18 @@
       "deadline": "Abierto",
       "compatibility": 80,
       "tags": [
-        "web3"
+        "graphql",
+        "react",
+        "swift"
       ],
-      "description": "Oportunidad laboral: Staff Software Engineer, Web3 en Robinhood.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/MNN0z7M/staff-software-engineer-web3-at-robinhood)",
-      "application_url": "https://findwork.dev/MNN0z7M/staff-software-engineer-web3-at-robinhood",
+      "description": "Oportunidad laboral: Software Engineer, Product en Meter.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/Q62VZkQ/software-engineer-product-at-meter)",
+      "application_url": "https://findwork.dev/Q62VZkQ/software-engineer-product-at-meter",
       "source": "FindWork"
     },
     {
-      "id": "findwork-XlLZlxX",
-      "title": "Senior People Operations Manager",
-      "organization": "Finoa",
-      "location": "Vilnius, Lithuania",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 80,
-      "tags": [],
-      "description": "Oportunidad laboral: Senior People Operations Manager en Finoa.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/XlLZlxX/senior-people-operations-manager-at-finoa)",
-      "application_url": "https://findwork.dev/XlLZlxX/senior-people-operations-manager-at-finoa",
-      "source": "FindWork"
-    },
-    {
-      "id": "findwork-nvDO6ZM",
-      "title": "Technical Account Manager",
-      "organization": "RAIN",
-      "location": "New York, United States",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 80,
-      "tags": [],
-      "description": "Oportunidad laboral: Technical Account Manager en RAIN.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/nvDO6ZM/technical-account-manager-at-rain)",
-      "application_url": "https://findwork.dev/nvDO6ZM/technical-account-manager-at-rain",
-      "source": "FindWork"
-    },
-    {
-      "id": "findwork-QP1VxbM",
-      "title": "Internal Sales Manager",
-      "organization": "Bitwise",
-      "location": "San Francisco, United States",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 80,
-      "tags": [],
-      "description": "Oportunidad laboral: Internal Sales Manager en Bitwise.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/QP1VxbM/internal-sales-manager-at-bitwise)",
-      "application_url": "https://findwork.dev/QP1VxbM/internal-sales-manager-at-bitwise",
-      "source": "FindWork"
-    },
-    {
-      "id": "findwork-Xq2ydgn",
-      "title": "Senior Product Security Engineer",
-      "organization": "Vercel",
+      "id": "findwork-XzZxKBX",
+      "title": "Senior Product Engineer",
+      "organization": "The Flex",
       "location": "Remoto",
       "continent": "Global",
       "type": "empleo",
@@ -532,34 +551,16 @@
       "tags": [
         "node",
         "ai",
-        "github"
-      ],
-      "description": "Oportunidad laboral: Senior Product Security Engineer en Vercel.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/Xq2ydgn/senior-product-security-engineer-at-vercel)",
-      "application_url": "https://findwork.dev/Xq2ydgn/senior-product-security-engineer-at-vercel",
-      "source": "FindWork"
-    },
-    {
-      "id": "findwork-nwa0pJM",
-      "title": "Product Manager - B2B",
-      "organization": "Cookunity",
-      "location": "Remoto",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 80,
-      "tags": [
         "ux"
       ],
-      "description": "Oportunidad laboral: Product Manager - B2B en Cookunity.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/nwa0pJM/product-manager-b2b-at-cookunity)",
-      "application_url": "https://findwork.dev/nwa0pJM/product-manager-b2b-at-cookunity",
+      "description": "Oportunidad laboral: Senior Product Engineer en The Flex.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/XzZxKBX/senior-product-engineer-at-the-flex)",
+      "application_url": "https://findwork.dev/XzZxKBX/senior-product-engineer-at-the-flex",
       "source": "FindWork"
     },
     {
-      "id": "findwork-Qeq6klQ",
-      "title": "Remote Customer Support Representative - Travel &amp; Booking Coordination",
-      "organization": "J &amp; J Travel Excursions",
+      "id": "findwork-nKJLNdX",
+      "title": "Senior Product Designer",
+      "organization": "HappyCo",
       "location": "Remoto",
       "continent": "Global",
       "type": "empleo",
@@ -567,16 +568,20 @@
       "value": "Competitivo",
       "deadline": "Abierto",
       "compatibility": 80,
-      "tags": [],
-      "description": "Oportunidad laboral: Remote Customer Support Representative - Travel &amp; Booking Coordination en J &amp; J Travel Excursions.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/Qeq6klQ/remote-customer-support-representative-travel-amp-booking-coordination-at-j-amp-j-travel-excursions)",
-      "application_url": "https://findwork.dev/Qeq6klQ/remote-customer-support-representative-travel-amp-booking-coordination-at-j-amp-j-travel-excursions",
+      "tags": [
+        "prototyping",
+        "ux",
+        "ai"
+      ],
+      "description": "Oportunidad laboral: Senior Product Designer en HappyCo.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/nKJLNdX/senior-product-designer-at-happyco)",
+      "application_url": "https://findwork.dev/nKJLNdX/senior-product-designer-at-happyco",
       "source": "FindWork"
     },
     {
-      "id": "findwork-M3GlomM",
-      "title": "Product Manager - AI / Product Intelligence",
-      "organization": "GoSats",
-      "location": "Global",
+      "id": "findwork-npRK0xM",
+      "title": "Product Designer",
+      "organization": "Petra Brands",
+      "location": "Remoto",
       "continent": "Global",
       "type": "empleo",
       "rubro": "Tecnología",
@@ -584,116 +589,56 @@
       "deadline": "Abierto",
       "compatibility": 80,
       "tags": [
-        "claude",
+        "photoshop",
+        "indesign",
+        "illustrator"
+      ],
+      "description": "Oportunidad laboral: Product Designer en Petra Brands.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/npRK0xM/product-designer-at-petra-brands)",
+      "application_url": "https://findwork.dev/npRK0xM/product-designer-at-petra-brands",
+      "source": "FindWork"
+    },
+    {
+      "id": "findwork-MNNzmyM",
+      "title": "Senior Product Marketing Manager",
+      "organization": "Jimdo",
+      "location": "Remoto",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 80,
+      "tags": [
+        "swift",
+        "ai"
+      ],
+      "description": "Oportunidad laboral: Senior Product Marketing Manager en Jimdo.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/MNNzmyM/senior-product-marketing-manager-at-jimdo)",
+      "application_url": "https://findwork.dev/MNNzmyM/senior-product-marketing-manager-at-jimdo",
+      "source": "FindWork"
+    },
+    {
+      "id": "findwork-XE5rP2X",
+      "title": "Product Counsel",
+      "organization": "Tremendous",
+      "location": "Remoto",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 80,
+      "tags": [
         "fintech",
-        "gpt"
+        "rails"
       ],
-      "description": "Oportunidad laboral: Product Manager - AI / Product Intelligence en GoSats.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/M3GlomM/product-manager-ai-product-intelligence-at-gosats)",
-      "application_url": "https://findwork.dev/M3GlomM/product-manager-ai-product-intelligence-at-gosats",
+      "description": "Oportunidad laboral: Product Counsel en Tremendous.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/XE5rP2X/product-counsel-at-tremendous)",
+      "application_url": "https://findwork.dev/XE5rP2X/product-counsel-at-tremendous",
       "source": "FindWork"
     },
     {
-      "id": "findwork-ny5YGrn",
-      "title": "Marketing Manager / Manager, Marketing Operations",
-      "organization": "Zero Hash",
-      "location": "Chicago, United States",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 80,
-      "tags": [],
-      "description": "Oportunidad laboral: Marketing Manager / Manager, Marketing Operations en Zero Hash.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/ny5YGrn/marketing-manager-manager-marketing-operations-at-zero-hash)",
-      "application_url": "https://findwork.dev/ny5YGrn/marketing-manager-manager-marketing-operations-at-zero-hash",
-      "source": "FindWork"
-    },
-    {
-      "id": "findwork-nJRw1jn",
-      "title": "Head of Developer Experience",
-      "organization": "Galaxy",
-      "location": "Remoto",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 80,
-      "tags": [],
-      "description": "Oportunidad laboral: Head of Developer Experience en Galaxy.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/nJRw1jn/head-of-developer-experience-at-galaxy)",
-      "application_url": "https://findwork.dev/nJRw1jn/head-of-developer-experience-at-galaxy",
-      "source": "FindWork"
-    },
-    {
-      "id": "findwork-XRL7mrQ",
-      "title": "Operations Analyst",
-      "organization": "Xapo Bank",
-      "location": "Remoto",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 80,
-      "tags": [],
-      "description": "Oportunidad laboral: Operations Analyst en Xapo Bank.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/XRL7mrQ/operations-analyst-at-xapo-bank)",
-      "application_url": "https://findwork.dev/XRL7mrQ/operations-analyst-at-xapo-bank",
-      "source": "FindWork"
-    },
-    {
-      "id": "findwork-XoARrzQ",
-      "title": "Security Engineer",
-      "organization": "Jito Labs",
-      "location": "Remoto",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 80,
-      "tags": [],
-      "description": "Oportunidad laboral: Security Engineer en Jito Labs.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/XoARrzQ/security-engineer-at-jito-labs)",
-      "application_url": "https://findwork.dev/XoARrzQ/security-engineer-at-jito-labs",
-      "source": "FindWork"
-    },
-    {
-      "id": "findwork-M3GlOmM",
-      "title": "SEO Specialist",
-      "organization": "AMINA Bank",
-      "location": "Mumbai, India",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 80,
-      "tags": [
-        "seo"
-      ],
-      "description": "Oportunidad laboral: SEO Specialist en AMINA Bank.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/M3GlOmM/seo-specialist-at-amina-bank)",
-      "application_url": "https://findwork.dev/M3GlOmM/seo-specialist-at-amina-bank",
-      "source": "FindWork"
-    },
-    {
-      "id": "findwork-nZlAwqM",
-      "title": "Paid Ads BD Manager",
-      "organization": "OKX",
-      "location": "Sydney, Australia",
-      "continent": "Global",
-      "type": "empleo",
-      "rubro": "Tecnología",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 80,
-      "tags": [],
-      "description": "Oportunidad laboral: Paid Ads BD Manager en OKX.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/nZlAwqM/paid-ads-bd-manager-at-okx)",
-      "application_url": "https://findwork.dev/nZlAwqM/paid-ads-bd-manager-at-okx",
-      "source": "FindWork"
-    },
-    {
-      "id": "findwork-XxqgzRn",
-      "title": "Senior Product Manager - Technology",
-      "organization": "Rush Street Interactive",
+      "id": "findwork-QV5Rq9n",
+      "title": "Product Manager",
+      "organization": "Userwise Services",
       "location": "Remoto",
       "continent": "Global",
       "type": "empleo",
@@ -702,17 +647,17 @@
       "deadline": "Abierto",
       "compatibility": 80,
       "tags": [
-        "ancestry",
-        "fintech"
+        "sql",
+        "guardian"
       ],
-      "description": "Oportunidad laboral: Senior Product Manager - Technology en Rush Street Interactive.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/XxqgzRn/senior-product-manager-technology-at-rush-street-interactive)",
-      "application_url": "https://findwork.dev/XxqgzRn/senior-product-manager-technology-at-rush-street-interactive",
+      "description": "Oportunidad laboral: Product Manager en Userwise Services.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/QV5Rq9n/product-manager-at-userwise-services)",
+      "application_url": "https://findwork.dev/QV5Rq9n/product-manager-at-userwise-services",
       "source": "FindWork"
     },
     {
-      "id": "findwork-MBjmlAM",
-      "title": "Senior Product Manager - MetaMask (Engagement)",
-      "organization": "ConsenSys",
+      "id": "findwork-MdVa7xn",
+      "title": "DevOps Engineer",
+      "organization": "Avahi",
       "location": "Remoto",
       "continent": "Global",
       "type": "empleo",
@@ -721,18 +666,132 @@
       "deadline": "Abierto",
       "compatibility": 80,
       "tags": [
-        "web3",
-        "ethereum",
-        "fintech"
+        "lambda",
+        "circleci",
+        "docker"
       ],
-      "description": "Oportunidad laboral: Senior Product Manager - MetaMask (Engagement) en ConsenSys.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/MBjmlAM/senior-product-manager-metamask-engagement-at-consensys)",
-      "application_url": "https://findwork.dev/MBjmlAM/senior-product-manager-metamask-engagement-at-consensys",
+      "description": "Oportunidad laboral: DevOps Engineer en Avahi.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/MdVa7xn/devops-engineer-at-avahi)",
+      "application_url": "https://findwork.dev/MdVa7xn/devops-engineer-at-avahi",
       "source": "FindWork"
     },
     {
-      "id": "serp-eyJqb2JfdGl0bGUiOiJBbmFsaXN0YSBkZSBEYXRvcyAtIENvbnRyYWxvcsOtYSIsImNvbXBhbnlfbmFtZSI6Ikl0YcO6IFBhcmFndWF5IiwiaHRpZG9jaWQiOiJ0U0dBakZMQmFHVjlfN0hIQUFBQUFBPT0iLCJnbCI6InB5IiwiaGwiOiJlcyIsImZjIjoiRXN3QkNvd0JRVTF1TXkxNVUwUllka05JVEZoZlpGY3hTRFJpZFd4UkxYb3dSRzVsV1V4b05HSlFlVWt5T0RBeWJ6VmxWVmRNV0VWRmVEZFVhR3RxUm0xd05GWnRjR3RXT0c5WVVqRm5TekIwTjNkamNraDVSVjlSVUVkdFZVTkVkR0kwZEhnNWJtbDRUSFpzYzB3MU0xTjNPRTlEVkVNeWFVVnJOVlJpYVVScFJIaGlRbVZvV0V4SE0xUXhjekJXTVhjU0YwZGFXR3hoV21JelJuRlRjbmM0WTFCZmRVTmFNRkV3R2lKQlNrdE1SbTFNYWxWMU1FdEpOVUk0TjNnMVdURTVVM1pSTUhkbWNEaHZPR3huIiwiZmN2IjoiMyIsImZjX2lkIjoidFNHQWpGTEJhR1Y5XzdISEFBQUFBQT09In0=",
-      "title": "Analista de Datos - Contraloría",
-      "organization": "Itaú Paraguay",
+      "id": "findwork-QeqkNKQ",
+      "title": "Senior Product Manager",
+      "organization": "Wave HQ",
+      "location": "Remoto",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 80,
+      "tags": [
+        "embedded",
+        "fintech",
+        "qa"
+      ],
+      "description": "Oportunidad laboral: Senior Product Manager en Wave HQ.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/QeqkNKQ/senior-product-manager-at-wave-hq)",
+      "application_url": "https://findwork.dev/QeqkNKQ/senior-product-manager-at-wave-hq",
+      "source": "FindWork"
+    },
+    {
+      "id": "findwork-nD5PajQ",
+      "title": "Product Designer",
+      "organization": "Siteground",
+      "location": "Remoto",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 80,
+      "tags": [
+        "wireframing",
+        "accessibility",
+        "ux"
+      ],
+      "description": "Oportunidad laboral: Product Designer en Siteground.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/nD5PajQ/product-designer-at-siteground)",
+      "application_url": "https://findwork.dev/nD5PajQ/product-designer-at-siteground",
+      "source": "FindWork"
+    },
+    {
+      "id": "findwork-XxqzY4n",
+      "title": "Product Marketing Manager",
+      "organization": "Netvendor",
+      "location": "Remoto",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 80,
+      "tags": [],
+      "description": "Oportunidad laboral: Product Marketing Manager en Netvendor.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/XxqzY4n/product-marketing-manager-at-netvendor)",
+      "application_url": "https://findwork.dev/XxqzY4n/product-marketing-manager-at-netvendor",
+      "source": "FindWork"
+    },
+    {
+      "id": "findwork-Q62VZWQ",
+      "title": "Product Manager",
+      "organization": "Secureframe",
+      "location": "Remoto",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 80,
+      "tags": [
+        "ai",
+        "qa"
+      ],
+      "description": "Oportunidad laboral: Product Manager en Secureframe.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/Q62VZWQ/product-manager-at-secureframe)",
+      "application_url": "https://findwork.dev/Q62VZWQ/product-manager-at-secureframe",
+      "source": "FindWork"
+    },
+    {
+      "id": "findwork-QGpdaNM",
+      "title": "Senior Product Designer",
+      "organization": "Alvys",
+      "location": "Remoto",
+      "continent": "Global",
+      "type": "empleo",
+      "rubro": "Tecnología",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 80,
+      "tags": [
+        "backbone",
+        "ux",
+        "ai"
+      ],
+      "description": "Oportunidad laboral: Senior Product Designer en Alvys.\n\n[👉 Ver oportunidad original y postular aquí](https://findwork.dev/QGpdaNM/senior-product-designer-at-alvys)",
+      "application_url": "https://findwork.dev/QGpdaNM/senior-product-designer-at-alvys",
+      "source": "FindWork"
+    },
+    {
+      "id": "serp-eyJqb2JfdGl0bGUiOiJTdXBlcnZpc29yIGRlIFZlbnRhcyAtICBGaWxpYWwgQ2l1ZGFkIGRlbCBFc3RlIiwiY29tcGFueV9uYW1lIjoiQmViaWRhcyBkZWwgUGFyYWd1YXkiLCJodGlkb2NpZCI6InBGQmZJcHlfTmNIWVRqWnFBQUFBQUE9PSIsImdsIjoicHkiLCJobCI6ImVzIiwiZmMiOiJFc3dCQ293QlFVMXVNeTE1VkVsbWMyeFNablI1T1dwd1NWRnJSWGQzUjJaaVNUZEpjVFJFTUdocVN6UldaVE5oVDBWZmMxcEtSMnhTWkZveU1ETXlVRmhTTkhGMFIyVk9TelpPV0U0d1RUWllkWGMyVmxwRFlVaFNSWFJIU2trNWQzcHBjbWRCYVhoeGNYUm5RMWhCUlVnM01tRklXWFJrTW05bVIzTjJWVE5wWkd0cVVUSkljMU5UTlVWeGJtdEhhRVlTRjJ0NFh6QmhZVzFFUkdZdGRIYzRZMUJuU1U4d2MxRm5HaUpCU2t0TVJtMU1jMjB3VDJOQ01EZGFhek5vTTFoQlZsaGxiVmhIWmxwaFgwRm4iLCJmY3YiOiIzIiwiZmNfaWQiOiJwRkJmSXB5X05jSFlUalpxQUFBQUFBPT0ifQ==",
+      "title": "Supervisor de Ventas -  Filial Ciudad del Este",
+      "organization": "Bebidas del Paraguay",
+      "location": "Alto Verá",
+      "continent": "Sudamérica",
+      "type": "empleo",
+      "rubro": "General",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 85,
+      "tags": [
+        "Paraguay",
+        "Local"
+      ],
+      "description": "Oportunidad laboral: Supervisor de Ventas -  Filial Ciudad del Este en Bebidas del Paraguay.\n\n[👉 Ver oportunidad original y postular aquí]()",
+      "application_url": "",
+      "source": "Google Jobs"
+    },
+    {
+      "id": "serp-eyJqb2JfdGl0bGUiOiJCYXNlIGRlIFRhbGVudG8gQkRQIiwiY29tcGFueV9uYW1lIjoiVGFsZW50b3MgYmRwIGNvbSBweSIsImh0aWRvY2lkIjoiT2dnUzlzZlZROEJKdktGMUFBQUFBQT09IiwiZ2wiOiJweSIsImhsIjoiZXMiLCJmYyI6IkVzd0JDb3dCUVUxdU15MTVVVjk0YkhKMlNtUkVSMkZpVTBSUlVHSmZlbUpaTmxObmJHeFVXbk5OUTJkVk4zazFiR2RaYUcxSVRFTmFRWHBMWjJNd1ZESkdWa2xCZFVrdE4yUmlXbUZWYUdScGNWbGpSRkpYYTFObVNrUkhiazFPTUVRd1lUUTNRWG8zU1dsc2MybElTa1IzY25SalNtVm5WVXBEY25vdFVYcDFWa281V1VKaFpXaG5Ra1ZZU1ZSeFpTMFNGMnQ0WHpCaFlXMUVSR1l0ZEhjNFkxQm5TVTh3YzFGbkdpSkJTa3RNUm0xTFRFd3lXa0ZxTmpoSldUbE5TV3R2VlhWRloxRmZURzlCVmtwMyIsImZjdiI6IjMiLCJmY19pZCI6Ik9nZ1M5c2ZWUThCSnZLRjFBQUFBQUE9PSJ9",
+      "title": "Base de Talento BDP",
+      "organization": "Talentos bdp com py",
       "location": "Asunción",
       "continent": "Sudamérica",
       "type": "empleo",
@@ -744,14 +803,14 @@
         "Paraguay",
         "Local"
       ],
-      "description": "Oportunidad laboral: Analista de Datos - Contraloría en Itaú Paraguay.\n\n[👉 Ver oportunidad original y postular aquí]()",
+      "description": "Oportunidad laboral: Base de Talento BDP en Talentos bdp com py.\n\n[👉 Ver oportunidad original y postular aquí]()",
       "application_url": "",
       "source": "Google Jobs"
     },
     {
-      "id": "serp-eyJqb2JfdGl0bGUiOiJQYXNhbnRlIiwiY29tcGFueV9uYW1lIjoiU1BBQ0VNQU4gUGFyYWd1YXkiLCJodGlkb2NpZCI6IjV6cUFfWGtvV2FXS0JlYXNBQUFBQUE9PSIsImdsIjoicHkiLCJobCI6ImVzIiwiZmMiOiJFc3dCQ293QlFVMXVNeTE1VW00emRWODFNRFUyY1hwYVFtVk1NSFI1WjAwd1V6TkRWVkpyWmtGc1oxTmljR1JZTmpaMGJWVnVObTlRVEdkRE5rNUdNVlY1ZVhOSGFXZHVORTlEZUY5a1VFcFpjM0l0Y0RKQlowMHdWWEpsTms1SlZsRnlhMk0wVmpoemNIRmtiMDVXWVZSbVZubHRTbEJJYlZoVWQxQjVhRGhPU2xWR1pYWXdibkZCZFRsU1RFNWhkME1TRjBkYVdHeGhXbUl6Um5GVGNuYzRZMUJmZFVOYU1GRXdHaUpCU2t0TVJtMUtOMnh2UWw4Mk5FOUNOelpJTlhCNk4yeFRRalZLYzNkbmFGUm4iLCJmY3YiOiIzIiwiZmNfaWQiOiI1enFBX1hrb1dhV0tCZWFzQUFBQUFBPT0ifQ==",
-      "title": "Pasante",
-      "organization": "SPACEMAN Paraguay",
+      "id": "serp-eyJqb2JfdGl0bGUiOiJMZWFkIE1hbmFnZXIiLCJjb21wYW55X25hbWUiOiJLZWxsZXIgV2lsbGlhbXMgUGFyYWd1YXkiLCJodGlkb2NpZCI6Im56M2piMVpuS0F1OUZLWmpBQUFBQUE9PSIsImdsIjoicHkiLCJobCI6ImVzIiwiZmMiOiJFc3dCQ293QlFVMXVNeTE1VWxwcFNrRTNjV2ROUmtSdVYxaFZRMlJtUzFaMFVISjVjbVp0VUVVd01XbGhTVTh3VkZWV1kyeFFjM1UwYjNGT1IxSlhhVlpPZDFwbFpHMWpNbmszVWxwbU0zbG1jVkZCUldGNFRFVjNRazQzVkZWSFZtcExjRkpqUmpGSGJtaEZWbWRPTjBGV2RVVmZVV2xOT1ZOU1VtOVVSVmRqYlc1Sk1WZ3RVblZIUkc5V1EzVjFhWElTRjJ0NFh6QmhZVzFFUkdZdGRIYzRZMUJuU1U4d2MxRm5HaUpCU2t0TVJtMUtVVkZzTVRZNFJYWldiSEpVVWtSalkyWk1aa295Y2pOSmFVRkIiLCJmY3YiOiIzIiwiZmNfaWQiOiJuejNqYjFabktBdTlGS1pqQUFBQUFBPT0ifQ==",
+      "title": "Lead Manager",
+      "organization": "Keller Williams Paraguay",
       "location": "Asunción",
       "continent": "Sudamérica",
       "type": "empleo",
@@ -763,50 +822,12 @@
         "Paraguay",
         "Local"
       ],
-      "description": "Oportunidad laboral: Pasante en SPACEMAN Paraguay.\n\n[👉 Ver oportunidad original y postular aquí]()",
+      "description": "Oportunidad laboral: Lead Manager en Keller Williams Paraguay.\n\n[👉 Ver oportunidad original y postular aquí]()",
       "application_url": "",
       "source": "Google Jobs"
     },
     {
-      "id": "serp-eyJqb2JfdGl0bGUiOiJDb2NpbmVybyAoYSkgLSBBc3VuY2nDs24iLCJjb21wYW55X25hbWUiOiJDYXJnaWxsIFNwYW5pc2giLCJodGlkb2NpZCI6IjBpdGlLV1M4S0hSUkplQl9BQUFBQUE9PSIsImdsIjoicHkiLCJobCI6ImVzIiwiZmMiOiJFc3dCQ293QlFVMXVNeTE1VW5oUGRWSlhjMnBIYlRRd1ZVWlNSekZGTVd0d1JIYzJSVkZDTlU5UWJXdExWRWxoTnkxNE9HRXpiRlZKYzBsZk1GRjJkbG93WVc4eGJIVlRSVTA1TWxsM1IweGZZVTVHYURkME5ISmtOR3MwY25Sck1rUmxaVlphV2kxNlJFZHFka1ZGUW1kbFkxQm9VSGRNYVV0dlVIUnhSbTVtYjFGSk4wNU9UVVYzZUVOR2MweFBWa3NTRjBkYVdHeGhXbUl6Um5GVGNuYzRZMUJmZFVOYU1GRXdHaUpCU2t0TVJtMUtaMlJLV2poMWJ6TTRZVlF5T0MxTmVUYzBiMDlyV2tkS1JqaDMiLCJmY3YiOiIzIiwiZmNfaWQiOiIwaXRpS1dTOEtIUlJKZUJfQUFBQUFBPT0ifQ==",
-      "title": "Cocinero (a) - Asunción",
-      "organization": "Cargill Spanish",
-      "location": "Asunción",
-      "continent": "Sudamérica",
-      "type": "empleo",
-      "rubro": "General",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 85,
-      "tags": [
-        "Paraguay",
-        "Local"
-      ],
-      "description": "Oportunidad laboral: Cocinero (a) - Asunción en Cargill Spanish.\n\n[👉 Ver oportunidad original y postular aquí]()",
-      "application_url": "",
-      "source": "Google Jobs"
-    },
-    {
-      "id": "serp-eyJqb2JfdGl0bGUiOiJTYWxlcyBQcm9mZXNzaW9uYWwiLCJjb21wYW55X25hbWUiOiJDb25maWRlbnRpYWwiLCJodGlkb2NpZCI6IjFyMTFPZEI4TExHREJvSTdBQUFBQUE9PSIsImdsIjoicHkiLCJobCI6ImVzIiwiZmMiOiJFc3dCQ293QlFVMXVNeTE1VTNKc1RtMVFORU5IZEUxeGNXTlpPRGRKZHpoeWFIVjJXVGRrVlhsaVlXSmhRVUUzYkhaT1dTMURhRUZyTlhkc1dVdFRSRWN5V1RKUU1WVTRRVkI1VFRkTmJuZFZTM2x3VFZsNE1IYzFTVGxCTkZGTFZ5MWhkVjkyU1hGc1RtMUtTMTlKZEVkWE9YZFRkelJ0VFRkM1dsTlBOelZmTXpWSWEyUnFVSE5VVTBKcldYUXRRWEFTRjBkYVdHeGhXbUl6Um5GVGNuYzRZMUJmZFVOYU1GRXdHaUpCU2t0TVJtMUtPVGxJZVZSSldIaG9UR0ZHUW5aSkxXZzBWM1JYYkhRNWVGVkIiLCJmY3YiOiIzIiwiZmNfaWQiOiIxcjExT2RCOExMR0RCb0k3QUFBQUFBPT0ifQ==",
-      "title": "Sales Professional",
-      "organization": "Confidential",
-      "location": "Asunción",
-      "continent": "Sudamérica",
-      "type": "empleo",
-      "rubro": "General",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 85,
-      "tags": [
-        "Paraguay",
-        "Local"
-      ],
-      "description": "Oportunidad laboral: Sales Professional en Confidential.\n\n[👉 Ver oportunidad original y postular aquí]()",
-      "application_url": "",
-      "source": "Google Jobs"
-    },
-    {
-      "id": "serp-eyJqb2JfdGl0bGUiOiJPcG9ydHVuaWRhZCBMYWJvcmFsIEJ1c2NhbW9zIEFzaXN0ZW50ZSBSZW1vdG8gSm9ybmFkYSBDb21wbGV0YSAtIHR1cm5vcyB2YXJpYWJsZXMiLCJjb21wYW55X25hbWUiOiJTZXJsZXQgU2VydmljaW9zIEF1eGlsaWFyZXMgU0wuIiwiaHRpZG9jaWQiOiJQV3NkakdNNWk5WTdxX2tmQUFBQUFBPT0iLCJnbCI6InB5IiwiaGwiOiJlcyIsImZjIjoiRXN3QkNvd0JRVTF1TXkxNVVrMUVjazU0V0RoR01rWjFTVEZuTjA1SlRFcEtVMWcxVm05V01VbHhWR2RJTTBWYWVUWm1SV2RTYTJwa01qUXRZV0ZNVWtwVk5scFVURTlSTURKZmNTMXVOVzVQZEZSaGFVTTFlR05IYURCcVJWRlRURXBsUm1WcFRWWlFibVJuTjNVMldGRlViQzA0YmtGdFdHTjRkMFZtUzJwVGVDMU1URW94VDAxcVdGOXdaM1ozTjBJU0YwZGFXR3hoV21JelJuRlRjbmM0WTFCZmRVTmFNRkV3R2lKQlNrdE1SbTFLYm0xbE5YWjZaRGxVVmxWWlkwZzNjMVl6ZEUweE1reExiRTUzIiwiZmN2IjoiMyIsImZjX2lkIjoiUFdzZGpHTTVpOVk3cV9rZkFBQUFBQT09In0=",
+      "id": "serp-eyJqb2JfdGl0bGUiOiJPcG9ydHVuaWRhZCBMYWJvcmFsIEJ1c2NhbW9zIEFzaXN0ZW50ZSBSZW1vdG8gSm9ybmFkYSBDb21wbGV0YSAtIHR1cm5vcyB2YXJpYWJsZXMiLCJjb21wYW55X25hbWUiOiJTZXJsZXQgU2VydmljaW9zIEF1eGlsaWFyZXMgU0wuIiwiaHRpZG9jaWQiOiJQV3NkakdNNWk5WTdxX2tmQUFBQUFBPT0iLCJnbCI6InB5IiwiaGwiOiJlcyIsImZjIjoiRXN3QkNvd0JRVTF1TXkxNVVVWk9PV0oxTVdvNFEweHpZVnBKV0cwNE0yTnBOMEpIY1ZZeFNrTjNVak42T1Y5UlkwczBZVTFFUWxSTU1sbzNhbGwwVm1GeUxUSkZYMHhtWm5OTk5qRlRPV3h2TW0wd1ZFbGlNM2RXWVdKTlVYWXdaMlZOYWxwMVprVm9SREJsYUZvMU9HWmxTRFZQYURSRE5uUk5NREpaY3pOSWNuVnJWVXMwT1RWaWJFSjNNRGd0VVZJU0YydDRYekJoWVcxRVJHWXRkSGM0WTFCblNVOHdjMUZuR2lKQlNrdE1SbTFLY1ZaR2JXbERRbmh0YWxJd2FWSjNNa2RYYjFKNlJHbFFhbWRSIiwiZmN2IjoiMyIsImZjX2lkIjoiUFdzZGpHTTVpOVk3cV9rZkFBQUFBQT09In0=",
       "title": "Oportunidad Laboral Buscamos Asistente Remoto Jornada Completa - turnos variables",
       "organization": "Serlet Servicios Auxiliares SL.",
       "location": "Asunción",
@@ -825,45 +846,7 @@
       "source": "Google Jobs"
     },
     {
-      "id": "serp-eyJqb2JfdGl0bGUiOiJBU0VTT1IgREUgQ0FMTCBDRU5URVIiLCJjb21wYW55X25hbWUiOiJBVkFOWkEgUEFSQUdVQVkgUy5BLiIsImh0aWRvY2lkIjoiMEVvZU5OSE9pWTFRNkdYOEFBQUFBQT09IiwiZ2wiOiJweSIsImhsIjoiZXMiLCJmYyI6IkVzd0JDb3dCUVUxdU15MTVWSFpMTTNKRVluQnBWSHBsWjBOeExXOHdOalpqYzA5cmJrcElXRGhKU2tvd2RURlVlRXQwVUVsb2N6VkdaRTFzWjNwMU5uQTRjVEpYTlY5UGRYWkxVa2hZV2xFeFdUUkhjM0JIUTNkMGJVUTROVUZOTXpsbWNHRjJiRGx1YjNWRk1HMXhZVEZmYkc5WGVWRk9WRzgwTTFWa1pHeHBjMTlPWlRCcGJtTklOWEpJUTA5SWJIWVNGMGRhV0d4aFdtSXpSbkZUY25jNFkxQmZkVU5hTUZFd0dpSkJTa3RNUm0xTGRHbHNlaTF0TTNseFJFRTJVMmxsZDE5RVp6bG1iSGt0VDBkMyIsImZjdiI6IjMiLCJmY19pZCI6IjBFb2VOTkhPaVkxUTZHWDhBQUFBQUE9PSJ9",
-      "title": "ASESOR DE CALL CENTER",
-      "organization": "AVANZA PARAGUAY S.A.",
-      "location": "Asunción",
-      "continent": "Sudamérica",
-      "type": "empleo",
-      "rubro": "General",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 85,
-      "tags": [
-        "Paraguay",
-        "Local"
-      ],
-      "description": "Oportunidad laboral: ASESOR DE CALL CENTER en AVANZA PARAGUAY S.A..\n\n[👉 Ver oportunidad original y postular aquí]()",
-      "application_url": "",
-      "source": "Google Jobs"
-    },
-    {
-      "id": "serp-eyJqb2JfdGl0bGUiOiJTdXBlcnZpc29yIChhKSBTZW5pb3IgZGUgUHVlcnRvIFVuacOzbiBTLkEuIEFzdW5jacOzbiIsImNvbXBhbnlfbmFtZSI6IkNhcmdpbGwgU3BhbmlzaCIsImh0aWRvY2lkIjoielZqcVRCcHFIM3BiOWR2UEFBQUFBQT09IiwiZ2wiOiJweSIsImhsIjoiZXMiLCJmYyI6IkVzd0JDb3dCUVUxdU15MTVVMkU0UlhWaU1XbG9jbUYzUlZwVlVGTktXWGd0YWpSZlNVbG1jRmhJTVVKNWJ6VXdYMXAwVEdOVFJXNVpVMk5XVVU5NmFFVlJTbkpmVEZaVVdGUktVRkJTU0RWV2RWcFlUMnRNUVRCMVMxQlpaekJxYTNRNFJVTm9ZVU5oVlZWNFRERkpRWGt3YjBsRlFrdHZSME5GVFhSTUxXOUVSblpqT1hWS2VXTk1hVmxVT0c1dFdXWVNGMGRhV0d4aFdtSXpSbkZUY25jNFkxQmZkVU5hTUZFd0dpSkJTa3RNUm0xSmMwTmtjRTVmV1RSTFYxQkhiakJyZW1kZlNHc3RSMFZpYzA5QiIsImZjdiI6IjMiLCJmY19pZCI6InpWanFUQnBxSDNwYjlkdlBBQUFBQUE9PSJ9",
-      "title": "Supervisor (a) Senior de Puerto Unión S.A. Asunción",
-      "organization": "Cargill Spanish",
-      "location": "Asunción",
-      "continent": "Sudamérica",
-      "type": "empleo",
-      "rubro": "General",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 85,
-      "tags": [
-        "Paraguay",
-        "Local"
-      ],
-      "description": "Oportunidad laboral: Supervisor (a) Senior de Puerto Unión S.A. Asunción en Cargill Spanish.\n\n[👉 Ver oportunidad original y postular aquí]()",
-      "application_url": "",
-      "source": "Google Jobs"
-    },
-    {
-      "id": "serp-eyJqb2JfdGl0bGUiOiJSZXBvbmVkb3IvUGlja2VyIC1HcmFuIEFzdW5jacOzbiIsImNvbXBhbnlfbmFtZSI6IlBlZGlkb3NZYSIsImh0aWRvY2lkIjoib3JRNUpYenNLNEphbDRXOUFBQUFBQT09IiwiZ2wiOiJweSIsImhsIjoiZXMiLCJmYyI6IkVzd0JDb3dCUVUxdU15MTVVUzFmVUVOWFVuWXpkelJzTFMxc2R6ZGpiakppYlc1eVVWaE9XVUpJVTNSM2JsUTBNRjkxYW5RNWMxcGtjV0ZuYzFOME0zUnFiMVJWVjNFeFJWaHNOR2g1Y3pCUlVERlNlVmd6TTFwcGRqbGhhMGxUTkY5NE9GVkdjRWREUTJaVldsSnZMVWsxZVMxME9XdHhZVGM0VFhwa2JFaFpVa1IwY3pCWldtMVJUM0phYWtwbFIxRVNGMGRhV0d4aFdtSXpSbkZUY25jNFkxQmZkVU5hTUZFd0dpSkJTa3RNUm0xSmIxOHpiMnRVTkU5QlZWbHlUSFo1UVhabmNWUXRVMFZIU0RKMyIsImZjdiI6IjMiLCJmY19pZCI6Im9yUTVKWHpzSzRKYWw0VzlBQUFBQUE9PSJ9",
+      "id": "serp-eyJqb2JfdGl0bGUiOiJSZXBvbmVkb3IvUGlja2VyIC1HcmFuIEFzdW5jacOzbiIsImNvbXBhbnlfbmFtZSI6IlBlZGlkb3NZYSIsImh0aWRvY2lkIjoib3JRNUpYenNLNEphbDRXOUFBQUFBQT09IiwiZ2wiOiJweSIsImhsIjoiZXMiLCJmYyI6IkVzd0JDb3dCUVUxdU15MTVVMDlVYUhkNGJHMW9hbVJqU1d0aGVUTnBla05tYTFWRkxVYzJhV3BPWTFwMVdVNUhPVVEwYkVKVlVqZzVZVEF4ZVZWcmRIQTVVVk5CYUVWQmExZGlTRFZFUkRsR1JUZEpWbEIzV1RSMVVYVXljMmRGVFMwdFZsQllRbnBXTlVaS2VYSTRTRFpEVUdKVFUwaEZWM0JUZFRoSGVWbHVPVFExVkRaME5HMHhaWEZXUlhCR1Jtd1NGMnQ0WHpCaFlXMUVSR1l0ZEhjNFkxQm5TVTh3YzFGbkdpSkJTa3RNUm0xS2NUZEpTakZSVkVaWVlWRjRaVUo0WWtwUlQwbHdabTA0YmxSUiIsImZjdiI6IjMiLCJmY19pZCI6Im9yUTVKWHpzSzRKYWw0VzlBQUFBQUE9PSJ9",
       "title": "Reponedor/Picker -Gran Asunción",
       "organization": "PedidosYa",
       "location": "Asunción",
@@ -882,28 +865,9 @@
       "source": "Google Jobs"
     },
     {
-      "id": "serp-eyJqb2JfdGl0bGUiOiJTdXBlcnZpc29yL2EgZGVsIHNlcnZpY2lvIGRlIGF0ZW5jacOzbiBhbCBjbGllbnRlIiwiY29tcGFueV9uYW1lIjoiQ2VsbHNob3AgSW1wb3J0YWRvcyBQYXJhZ3VheSIsImh0aWRvY2lkIjoicEJWQ2x5cU4yWlRqMTQ5QkFBQUFBQT09IiwiZ2wiOiJweSIsImhsIjoiZXMiLCJmYyI6IkVzd0JDb3dCUVUxdU15MTVVbTVUTjFCVmNsQTFORGRhVkZoWE5rMTNPV3A1TlRkdU5GSlpURUY2YkdkVVNGUjJjR0pxZFVZNVdWOTFSRVZMTFVOM05XNDNNbTlZWlY5TFFrVmlRbVZ6VDBGcFlYaHNPVkZyYUhGd2NtNDJaREJGTFhwSFIzTkNNa2hXVkRZdE9VdGFRV05uZG5JM1dXTkxNaTFQVUUxdVprbFZkMjlUUjBGcFNUZ3hha0ZIUnpkR2JHa1NGMGRhV0d4aFdtSXpSbkZUY25jNFkxQmZkVU5hTUZFd0dpSkJTa3RNUm0xTFNEUTVSR1V3TTNnMFFrVjZlalpKZEdOUllVbFViQzFMYW1SMyIsImZjdiI6IjMiLCJmY19pZCI6InBCVkNseXFOMlpUajE0OUJBQUFBQUE9PSJ9",
-      "title": "Supervisor/a del servicio de atención al cliente",
-      "organization": "Cellshop Importados Paraguay",
-      "location": "Cd. del Este",
-      "continent": "Sudamérica",
-      "type": "empleo",
-      "rubro": "General",
-      "value": "Competitivo",
-      "deadline": "Abierto",
-      "compatibility": 85,
-      "tags": [
-        "Paraguay",
-        "Local"
-      ],
-      "description": "Oportunidad laboral: Supervisor/a del servicio de atención al cliente en Cellshop Importados Paraguay.\n\n[👉 Ver oportunidad original y postular aquí]()",
-      "application_url": "",
-      "source": "Google Jobs"
-    },
-    {
-      "id": "serp-eyJqb2JfdGl0bGUiOiJBbmZpdHJpw7NuL2EiLCJjb21wYW55X25hbWUiOiJFbmZvcXVlIEdlc3Rpw7NuIEh1bWFuYSBQeSIsImh0aWRvY2lkIjoiZmtLUmZvbkk5eVZoTnlkb0FBQUFBQT09IiwiZ2wiOiJweSIsImhsIjoiZXMiLCJmYyI6IkVzd0JDb3dCUVUxdU15MTVWRzlRY1dwSVIwVlBla295ZUVaZlNXOVFRbFJuYTBzd1NGcFhlVjlrVVZKMmR6SmlkbGMyV2xBMk9XdHBUR0YyTTI1MWQyaGFRMFpOTFVsNmJtNHdiMkpYUVV3ME1FbFhlR2haVFdkdlVHWkVWWGxCTm1wRlMyNURkbk5GU1U0d1NVOXlOSE10UlhCdE1uVnJYM0ZuU0RoYWEyTnhWR2RETTFGdFkxaGpUM3BLV0hkRVRHc1NGMGRhV0d4aFdtSXpSbkZUY25jNFkxQmZkVU5hTUZFd0dpSkJTa3RNUm0xTE0xRTRXVUZMYVRSR1JVWjJaMFl0U2xSZlgwSnJUMHB0VGxwbiIsImZjdiI6IjMiLCJmY19pZCI6ImZrS1Jmb25JOXlWaE55ZG9BQUFBQUE9PSJ9",
-      "title": "Anfitrión/a",
-      "organization": "Enfoque Gestión Humana Py",
+      "id": "serp-eyJqb2JfdGl0bGUiOiJBU0VTT1IgREUgQ0FMTCBDRU5URVIiLCJjb21wYW55X25hbWUiOiJBVkFOWkEgUEFSQUdVQVkgUy5BLiIsImh0aWRvY2lkIjoiMEVvZU5OSE9pWTFRNkdYOEFBQUFBQT09IiwiZ2wiOiJweSIsImhsIjoiZXMiLCJmYyI6IkVzd0JDb3dCUVUxdU15MTVVbEIwY25aeGNIZGFkMjVQWW0xWVNXNVZOWHBUV21GUFlrSnZWVlEwWkVSZmQyNWxlRXhYV1VkZldFbFJia2hKWVVaWlRVeFFTVFpKT1ZkbE1YUmZOR1JDWlRCcmJEaGFNRlJtY2twV1ZGbHRkRWxTUTBGc2NEQXRVRU5QZUd0T2FIRnBORFpKYzNoaVIzUlpNR3h6WHpsaWRHRXpVMnBrYjIxT1VVZHVZVTVTVFV0YWQwc1NGMnQ0WHpCaFlXMUVSR1l0ZEhjNFkxQm5TVTh3YzFGbkdpSkJTa3RNUm0xTE9GaHlhMDF4Vm1oNldFVklSemg2VUZCUldqVmZiVGRNUnpGMyIsImZjdiI6IjMiLCJmY19pZCI6IjBFb2VOTkhPaVkxUTZHWDhBQUFBQUE9PSJ9",
+      "title": "ASESOR DE CALL CENTER",
+      "organization": "AVANZA PARAGUAY S.A.",
       "location": "Asunción",
       "continent": "Sudamérica",
       "type": "empleo",
@@ -915,7 +879,83 @@
         "Paraguay",
         "Local"
       ],
-      "description": "Oportunidad laboral: Anfitrión/a en Enfoque Gestión Humana Py.\n\n[👉 Ver oportunidad original y postular aquí]()",
+      "description": "Oportunidad laboral: ASESOR DE CALL CENTER en AVANZA PARAGUAY S.A..\n\n[👉 Ver oportunidad original y postular aquí]()",
+      "application_url": "",
+      "source": "Google Jobs"
+    },
+    {
+      "id": "serp-eyJqb2JfdGl0bGUiOiJEaWdpdGFsIFNvY2lhbCBNZWRpYSBBc3NvY2lhdGUiLCJjb21wYW55X25hbWUiOiJOZXN0bMOpIiwiaHRpZG9jaWQiOiJNVE9hR0duNG01VmtTVkNWQUFBQUFBPT0iLCJnbCI6InB5IiwiaGwiOiJlcyIsImZjIjoiRXN3QkNvd0JRVTF1TXkxNVUwVk5lak5vWWtGemFFZFhXWGx2UkVsWFNIUXpjMkZSWTNkU2IyRnpTbUpWUTBORlgzWkxZbVZPVFRSWWFqSlJjRGh3Y2pkUk5GTTJVblU0YzBkRFJsbEtSRTEwVm5kQk5qQnhUWGsxY0hjd1oxbEhkV3RxVTFSUk1rTnhWVkJSUVhKVlNXRm1jMGQ0V25GRU0wdDBRM055TlRGUmNsbDFlbE5mWWxSQ1FWcG9SV1oyU0VnU0YydDRYekJoWVcxRVJHWXRkSGM0WTFCblNVOHdjMUZuR2lKQlNrdE1SbTFLZUd0VVZXeHVkbWhKWTJRNFdqQm5UMU0zYWpob05WSnhWWFJSIiwiZmN2IjoiMyIsImZjX2lkIjoiTVRPYUdHbjRtNVZrU1ZDVkFBQUFBQT09In0=",
+      "title": "Digital Social Media Associate",
+      "organization": "Nestlé",
+      "location": "Asunción",
+      "continent": "Sudamérica",
+      "type": "empleo",
+      "rubro": "General",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 85,
+      "tags": [
+        "Paraguay",
+        "Local"
+      ],
+      "description": "Oportunidad laboral: Digital Social Media Associate en Nestlé.\n\n[👉 Ver oportunidad original y postular aquí]()",
+      "application_url": "",
+      "source": "Google Jobs"
+    },
+    {
+      "id": "serp-eyJqb2JfdGl0bGUiOiJSZXNpZGVudGUgZGUgT2JyYSAoU2l0ZSBEaXJlY3RvcikiLCJjb21wYW55X25hbWUiOiJDb250cmFjdCBXb3JrcGxhY2VzIiwiaHRpZG9jaWQiOiJvZEZLS0M1eTVHcEZTNFdBQUFBQUFBPT0iLCJnbCI6InB5IiwiaGwiOiJlcyIsImZjIjoiRXN3QkNvd0JRVTF1TXkxNVVVTlhYM0o2ZUZCeVkzTmhSM2RGU0ZaMlNscHFkVzltV1VSQ2JHazJSWE5ZU1VGV2JsWlBaVTF0Vm5rek5HY3RRVEJwWlV4V2JESkVYMlpqUkdOcE1GRnZSUzFKUjJWdlYzWkxhRVkyVVhaRlVUQnJlblpYYVRNelpFVm1XRVZMTWtsT2MyRk1hVEV6T0dGTE1XZEpMWHB0ZUdKaGRtZHZiR2xwVWpsU1FVbzFNV3B5TW1RU0YydDRYekJoWVcxRVJHWXRkSGM0WTFCblNVOHdjMUZuR2lKQlNrdE1SbTFLYkZoWmVXTlFNWFE0UXpWSk1sVmhTMXB5Vm1Ga1MyUm9kV1JuIiwiZmN2IjoiMyIsImZjX2lkIjoib2RGS0tDNXk1R3BGUzRXQUFBQUFBQT09In0=",
+      "title": "Residente de Obra (Site Director)",
+      "organization": "Contract Workplaces",
+      "location": "Asunción",
+      "continent": "Sudamérica",
+      "type": "empleo",
+      "rubro": "General",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 85,
+      "tags": [
+        "Paraguay",
+        "Local"
+      ],
+      "description": "Oportunidad laboral: Residente de Obra (Site Director) en Contract Workplaces.\n\n[👉 Ver oportunidad original y postular aquí]()",
+      "application_url": "",
+      "source": "Google Jobs"
+    },
+    {
+      "id": "serp-eyJqb2JfdGl0bGUiOiJTdXBlcnZpc29yIChhKSBTZW5pb3IgZGUgUHVlcnRvIFVuacOzbiBTLkEuIEFzdW5jacOzbiIsImNvbXBhbnlfbmFtZSI6IkNhcmdpbGwgU3BhbmlzaCIsImh0aWRvY2lkIjoielZqcVRCcHFIM3BiOWR2UEFBQUFBQT09IiwiZ2wiOiJweSIsImhsIjoiZXMiLCJmYyI6IkVzd0JDb3dCUVUxdU15MTVVakoxUWxoS2RYUnpYemxtVjBWQmIzUmpNRFZHYm10dlQxbHVVRzR5U2t4Sk56SlBhVlF4TTFOa2VXaEZYM1phY0d0dk1tOXFTbVpQVEZkdlNGRnZhMkpNVG5WVVRHTmpRbmh4TkVSZlZWVnZSMHRHTVVwNFZFazJkVkJVU1Rsa016WXRTMlZVZDBsVlltUXhTMTl4TkhCNVQwdEZOMmhtVVRZMmJrZGhWRk5qVW1oVU9ETVNGMnQ0WHpCaFlXMUVSR1l0ZEhjNFkxQm5TVTh3YzFGbkdpSkJTa3RNUm0xS1dGTmZWSFJTUm10c1QwSnFZa3RRTkRsbWVWaDNkRE15TldoMyIsImZjdiI6IjMiLCJmY19pZCI6InpWanFUQnBxSDNwYjlkdlBBQUFBQUE9PSJ9",
+      "title": "Supervisor (a) Senior de Puerto Unión S.A. Asunción",
+      "organization": "Cargill Spanish",
+      "location": "Asunción",
+      "continent": "Sudamérica",
+      "type": "empleo",
+      "rubro": "General",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 85,
+      "tags": [
+        "Paraguay",
+        "Local"
+      ],
+      "description": "Oportunidad laboral: Supervisor (a) Senior de Puerto Unión S.A. Asunción en Cargill Spanish.\n\n[👉 Ver oportunidad original y postular aquí]()",
+      "application_url": "",
+      "source": "Google Jobs"
+    },
+    {
+      "id": "serp-eyJqb2JfdGl0bGUiOiJCdXNjYW1vcyBBc2lzdGVudGUgUGVyc29uYWwgUmVtb3RvIC0gUGFyYWd1YXkiLCJjb21wYW55X25hbWUiOiJUaW55IE5leHVzIENvbnN1bHRpbmciLCJodGlkb2NpZCI6IlEtMmJmQXE3Q1hpSFNBV1RBQUFBQUE9PSIsImdsIjoicHkiLCJobCI6ImVzIiwiZmMiOiJFc3dCQ293QlFVMXVNeTE1VTFRNVdrVklOVWwyTTBneGNYTm5hSFF4T1hWUFl6ZzNha0p6YnpWbWNpMU9TWEV0YW0xTVoyOTVNV1J3YjB0TGNEaHVXazFWZG0xQmMyTlNRVXBHZG1GaGRUSmFlVFoxYlVSbmJsbG5ieTFpWVRSRWMyRXRNVk5RUTBoRE5HdDVkbFoyU2xad2IyazFXVzlSVVRKSlgweGhlaTA0U1RjeldtRk9RekpRTldOSWVtbGFXVWNTRjJ0NFh6QmhZVzFFUkdZdGRIYzRZMUJuU1U4d2MxRm5HaUpCU2t0TVJtMU1WMWh0VDJreE5YSnZUMG8zTjBobk1WaE9SVmhxWmpGZlduWkIiLCJmY3YiOiIzIiwiZmNfaWQiOiJRLTJiZkFxN0NYaUhTQVdUQUFBQUFBPT0ifQ==",
+      "title": "Buscamos Asistente Personal Remoto - Paraguay",
+      "organization": "Tiny Nexus Consulting",
+      "location": "Asunción",
+      "continent": "Sudamérica",
+      "type": "empleo",
+      "rubro": "General",
+      "value": "Competitivo",
+      "deadline": "Abierto",
+      "compatibility": 85,
+      "tags": [
+        "Paraguay",
+        "Local"
+      ],
+      "description": "Oportunidad laboral: Buscamos Asistente Personal Remoto - Paraguay en Tiny Nexus Consulting.\n\n[👉 Ver oportunidad original y postular aquí]()",
       "application_url": "",
       "source": "Google Jobs"
     }
