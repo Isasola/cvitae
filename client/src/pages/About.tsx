@@ -70,7 +70,7 @@ export default function About() {
             <div className="bg-[#c9a84c]/10 border border-[#c9a84c]/30 rounded-2xl p-6 mt-8">
               <p className="text-[#c9a84c] font-bold text-center">
                 📍 Asunción, Paraguay<br />
-                📧 cpdparaguay@gmail.com<br />
+                📧 cvitaeparaguay@gmail.com<br />
                 📱 +595 992 954 169
               </p>
             </div>
