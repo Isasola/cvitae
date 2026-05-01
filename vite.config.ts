@@ -2,29 +2,24 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 
-// ============================================================
-// TODO: CONECTAR ANTES DE DEPLOY
-// ANTHROPIC_API_KEY     → Netlify > Site settings > Environment variables
-// SUPABASE_URL          → Netlify > Site settings > Environment variables  
-// SUPABASE_ANON_KEY     → Netlify > Site settings > Environment variables
-// SUPABASE_SERVICE_KEY  → Netlify > Site settings > Environment variables
-// NETLIFY_URL           → Reemplazar "TU-SITIO.netlify.app" en index.html OG tags
-// ============================================================
-
 export default defineConfig({
   plugins: [react()],
+  // La raíz del proyecto es el mismo directorio donde está este archivo
+  root: '.',
+  // Carpeta pública para archivos estáticos
   publicDir: 'public',
+  // Alias para que los imports con '@' funcionen
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './client/src'),
     },
   },
   build: {
+    // Carpeta de salida (la que Netlify publica)
     outDir: 'dist',
     rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, 'index.html'),
-      },
+      // Entrada explícita: el index.html en la raíz
+      input: path.resolve(__dirname, 'index.html'),
     },
   },
   server: {
