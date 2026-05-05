@@ -4,13 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-    <!-- ============================================================
-    TODO: ANTES DE DEPLOY
-    - og:image → subí /public/og-image.png (1200x630px con el logo CVitae)
-    - canonical → cambiar a tu URL final cuando tengas dominio propio
-    - google-site-verification → ya está configurado, no tocar
-    ============================================================ -->
-
     <!-- SEO DE AUTORIDAD -->
     <title>CVitae | Optimización de Perfiles Profesionales · Paraguay 2026</title>
     <meta name="description" content="No permitas que tu talento sea invisible. Reestructuramos tu CV con metodologías de reclutamiento avanzadas para que alcances la entrevista que buscás. Diagnóstico gratuito en 60 segundos." />
@@ -132,9 +125,10 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/client/src/main.tsx"></script>
+    <!-- Ruta relativa para que Vite la reemplace durante el build -->
+    <script type="module" src="./client/src/main.tsx"></script>
 
-    <!-- CONTENIDO EDITORIAL PARA GOOGLE (visible sin JS — resuelve problema AdSense) -->
+    <!-- CONTENIDO EDITORIAL PARA GOOGLE (visible sin JS) — AHORA EN <body> -->
     <noscript>
       <style>
         .seo-editorial { max-width: 900px; margin: 100px auto; padding: 2rem; font-family: Georgia, serif; color: #1a1a1a; line-height: 1.8; }
