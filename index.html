@@ -118,6 +118,22 @@
     ]
     </script>
 
+    <!-- GOOGLE ANALYTICS GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPD5CBJVYF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RPD5CBJVYF');
+    </script>
+
+    <!-- GOOGLE ADSENSE -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8453355862743054" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/client/src/main.tsx"></script>
+
     <!-- CONTENIDO EDITORIAL PARA GOOGLE (visible sin JS — resuelve problema AdSense) -->
     <noscript>
       <style>
@@ -148,21 +164,5 @@
         <p><a href="/blog">Ver artículos del blog</a> · <a href="/opportunities">Ver oportunidades laborales</a></p>
       </div>
     </noscript>
-
-    <!-- GOOGLE ANALYTICS GA4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPD5CBJVYF"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-RPD5CBJVYF');
-    </script>
-
-    <!-- GOOGLE ADSENSE -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8453355862743054" crossorigin="anonymous"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="./client/src/main.tsx"></script>
   </body>
 </html>
