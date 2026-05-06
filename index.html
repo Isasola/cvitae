@@ -125,10 +125,10 @@
   </head>
   <body>
     <div id="root"></div>
-    <!-- Ruta relativa para que Vite la reemplace durante el build -->
-    <script type="module" src="./client/src/main.tsx"></script>
+    <!-- NUEVO: Ruta al proxy de entrada, mismo nivel que index.html -->
+    <script type="module" src="./entry.tsx"></script>
 
-    <!-- CONTENIDO EDITORIAL PARA GOOGLE (visible sin JS) — AHORA EN <body> -->
+    <!-- CONTENIDO EDITORIAL PARA GOOGLE (visible sin JS) -->
     <noscript>
       <style>
         .seo-editorial { max-width: 900px; margin: 100px auto; padding: 2rem; font-family: Georgia, serif; color: #1a1a1a; line-height: 1.8; }
