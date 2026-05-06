@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-    <!-- SEO DE AUTORIDAD -->
+    <!-- ============================================================
+    SEO DE AUTORIDAD
+    ============================================================ -->
     <title>CVitae | Optimización de Perfiles Profesionales · Paraguay 2026</title>
     <meta name="description" content="No permitas que tu talento sea invisible. Reestructuramos tu CV con metodologías de reclutamiento avanzadas para que alcances la entrevista que buscás. Diagnóstico gratuito en 60 segundos." />
     <meta name="keywords" content="reestructuración de perfil profesional, optimización para filtros ATS, portafolio digital profesional, ingeniería de contenido para CV, curriculum vitae Paraguay 2026, trabajo Paraguay, reclutamiento Asuncion" />
@@ -13,17 +15,23 @@
     <link rel="canonical" href="https://cvitae-py.netlify.app/" />
     <meta name="google-site-verification" content="V5Zq1YOKRu6TnWWaOJQfav1fkGf7IrTP16GzjFiQ_RU" />
 
-    <!-- FAVICON SVG (logo CVitae en negro/dorado, sin imagen externa) -->
+    <!-- ============================================================
+    FAVICON SVG (logo CVitae en negro/dorado, sin imagen externa)
+    ============================================================ -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230a0a0a' rx='16'/><text y='72' x='8' font-size='58' font-family='Georgia,serif' font-weight='900' fill='%23c9a84c'>CV</text></svg>" />
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230a0a0a' rx='16'/><text y='72' x='8' font-size='58' font-family='Georgia,serif' font-weight='900' fill='%23c9a84c'>CV</text></svg>" />
 
-    <!-- TIPOGRAFÍAS -->
+    <!-- ============================================================
+    TIPOGRAFÍAS
+    ============================================================ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <!-- OPEN GRAPH — WhatsApp/LinkedIn/Facebook -->
+    <!-- ============================================================
+    OPEN GRAPH — WhatsApp / LinkedIn / Facebook
+    ============================================================ -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cvitae-py.netlify.app/" />
     <meta property="og:title" content="CVitae | Optimización de Perfiles Profesionales de Alto Impacto" />
@@ -32,14 +40,18 @@
     <meta property="og:locale" content="es_PY" />
     <meta property="og:site_name" content="CVitae Paraguay" />
 
-    <!-- TWITTER -->
+    <!-- ============================================================
+    TWITTER CARD
+    ============================================================ -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://cvitae-py.netlify.app/" />
     <meta name="twitter:title" content="CVitae — Optimización de Perfiles Profesionales · Paraguay" />
     <meta name="twitter:description" content="No permitas que tu talento sea invisible. Diagnóstico gratuito en 60 segundos." />
     <meta name="twitter:image" content="https://cvitae-py.netlify.app/og-image.png" />
 
-    <!-- SCHEMA.ORG — Datos estructurados para Google -->
+    <!-- ============================================================
+    SCHEMA.ORG — Datos estructurados para Google
+    ============================================================ -->
     <script type="application/ld+json">
     [
       {
@@ -111,7 +123,9 @@
     ]
     </script>
 
-    <!-- GOOGLE ANALYTICS GA4 -->
+    <!-- ============================================================
+    GOOGLE ANALYTICS GA4
+    ============================================================ -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPD5CBJVYF"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -120,15 +134,25 @@
       gtag('config', 'G-RPD5CBJVYF');
     </script>
 
-    <!-- GOOGLE ADSENSE -->
+    <!-- ============================================================
+    GOOGLE ADSENSE
+    ============================================================ -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8453355862743054" crossorigin="anonymous"></script>
   </head>
   <body>
+    <!-- ============================================================
+    REACT ROOT — Vite inyecta el bundle aquí
+    ============================================================ -->
     <div id="root"></div>
-    <!-- NUEVO: Ruta al proxy de entrada, mismo nivel que index.html -->
-    <script type="module" src="./entry.tsx"></script>
 
-    <!-- CONTENIDO EDITORIAL PARA GOOGLE (visible sin JS) -->
+    <!-- ============================================================
+    ENTRY POINT CORREGIDO — Ruta absoluta desde la raíz del proyecto
+    ============================================================ -->
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- ============================================================
+    CONTENIDO EDITORIAL PARA GOOGLE (visible sin JavaScript)
+    ============================================================ -->
     <noscript>
       <style>
         .seo-editorial { max-width: 900px; margin: 100px auto; padding: 2rem; font-family: Georgia, serif; color: #1a1a1a; line-height: 1.8; }
