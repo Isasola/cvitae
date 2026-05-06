@@ -17,9 +17,8 @@ const SUPABASE_URL = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
 
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-  console.error('❌ ERROR: Variables de entorno de Supabase no encontradas.');
-  console.error('   Asegúrate de tener VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY en el entorno de build.');
-  process.exit(1);
+  console.warn('⚠️  Supabase no disponible — saltando generación de sitemap');
+  process.exit(0);
 }
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
