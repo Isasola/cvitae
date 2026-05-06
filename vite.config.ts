@@ -4,21 +4,17 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
-  // La raíz del proyecto es el mismo directorio donde está este archivo
   root: '.',
-  // Carpeta pública para archivos estáticos
   publicDir: 'public',
-  // Alias para que los imports con '@' funcionen
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
   },
   build: {
-    // Carpeta de salida (la que Netlify publica)
     outDir: 'dist',
+    emptyOutDir: true,
     rollupOptions: {
-      // Entrada explícita: el index.html en la raíz
       input: path.resolve(__dirname, 'index.html'),
     },
   },
