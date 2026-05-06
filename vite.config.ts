@@ -11,7 +11,7 @@ export default defineConfig({
   // Alias para que los imports con '@' funcionen
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './client/src'),
+      '@': path.resolve(__dirname, './src'),
     },
   },
   build: {
