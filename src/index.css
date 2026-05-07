@@ -1,13 +1,10 @@
 @import "tailwindcss";
 @source ".";
 
-:root {
-  color-scheme: dark;
-}
-body {
-  margin: 0;
-  padding: 0;
-  background-color: black;
-  color: white;
-  font-family: 'Outfit', sans-serif;
+@layer base {
+  body {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
