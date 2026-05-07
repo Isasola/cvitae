@@ -310,7 +310,7 @@ export default function Admin() {
               <Lock className="w-8 h-8 text-[#c9a84c]" />
             </div>
             <h1 className="text-2xl font-bold text-white">Panel de Control</h1>
-            <p className="text-gray-500 text-sm mt-2 text-center">Ingresa la contraseña maestra para continuar</p>
+            <p className="text-gray-400 text-sm mt-2 text-center">Ingresa la contraseña maestra para continuar</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
@@ -358,7 +358,7 @@ export default function Admin() {
         </h3>
         <form onSubmit={generateRecruiterToken} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
           <div className="space-y-2">
-            <label className="text-xs font-bold text-gray-500 uppercase">Email Reclutador</label>
+            <label className="text-xs font-bold text-gray-400 uppercase">Email Reclutador</label>
             <Input 
               type="email" 
               required 
@@ -369,7 +369,7 @@ export default function Admin() {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-xs font-bold text-gray-500 uppercase">Balance de Tokens</label>
+            <label className="text-xs font-bold text-gray-400 uppercase">Balance de Tokens</label>
             <Input 
               type="number" 
               required 
@@ -379,7 +379,7 @@ export default function Admin() {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-xs font-bold text-gray-500 uppercase">Plan</label>
+            <label className="text-xs font-bold text-gray-400 uppercase">Plan</label>
             <select 
               value={tokenPlan}
               onChange={e => setTokenPlan(e.target.value)}
@@ -421,7 +421,7 @@ export default function Admin() {
                   </button>
                 </td>
                 <td className="px-6 py-4 text-gray-400">{token.token_balance}</td>
-                <td className="px-6 py-4 uppercase text-xs font-bold text-gray-500">{token.plan_type}</td>
+                <td className="px-6 py-4 uppercase text-xs font-bold text-gray-400">{token.plan_type}</td>
               </tr>
             ))}
           </tbody>
@@ -463,7 +463,7 @@ export default function Admin() {
               <tr key={item.id} className="hover:bg-white/5 transition-colors group">
                 <td className="px-6 py-4">
                   <div className="font-medium text-white">{item.titulo}</div>
-                  <div className="text-xs text-gray-500 mt-1">/{item.slug}</div>
+                  <div className="text-xs text-gray-400 mt-1">/{item.slug}</div>
                 </td>
                 <td className="px-6 py-4">
                   <span className="px-2 py-1 bg-white/5 rounded-md text-xs text-gray-400 border border-white/10">
@@ -516,7 +516,7 @@ export default function Admin() {
             <span style={{ fontWeight: 900 }}>CV</span>
             <span style={{ fontStyle: 'italic', fontWeight: 400 }}>itae</span>
           </span>
-          <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Admin Panel V3</p>
+          <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-1">Admin Panel V3</p>
         </div>
 
         <nav className="flex-grow space-y-2">
@@ -573,7 +573,7 @@ export default function Admin() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-xs font-bold text-gray-500 uppercase">Título</label>
+                      <label className="text-xs font-bold text-gray-400 uppercase">Título</label>
                       <Input 
                         name="titulo" 
                         value={formData.titulo} 
@@ -583,7 +583,7 @@ export default function Admin() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-bold text-gray-500 uppercase">Slug (URL)</label>
+                      <label className="text-xs font-bold text-gray-400 uppercase">Slug (URL)</label>
                       <Input 
                         name="slug" 
                         value={formData.slug} 
@@ -596,7 +596,7 @@ export default function Admin() {
 
                   <div className="grid grid-cols-3 gap-6">
                     <div className="space-y-2">
-                      <label className="text-xs font-bold text-gray-500 uppercase">Tipo</label>
+                      <label className="text-xs font-bold text-gray-400 uppercase">Tipo</label>
                       <select 
                         name="tipo" 
                         value={formData.tipo} 
@@ -608,7 +608,7 @@ export default function Admin() {
                       </select>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-bold text-gray-500 uppercase">Categoría</label>
+                      <label className="text-xs font-bold text-gray-400 uppercase">Categoría</label>
                       <select 
                         name="categoria" 
                         value={formData.categoria} 
@@ -619,7 +619,7 @@ export default function Admin() {
                       </select>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-bold text-gray-500 uppercase">Ubicación</label>
+                      <label className="text-xs font-bold text-gray-400 uppercase">Ubicación</label>
                       <Input 
                         name="ubicacion" 
                         value={formData.ubicacion} 
@@ -630,7 +630,7 @@ export default function Admin() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-gray-500 uppercase">Cuerpo (Markdown)</label>
+                    <label className="text-xs font-bold text-gray-400 uppercase">Cuerpo (Markdown)</label>
                     <Textarea 
                       name="cuerpo" 
                       value={formData.cuerpo} 
@@ -642,7 +642,7 @@ export default function Admin() {
 
                   <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-xs font-bold text-gray-500 uppercase">Imagen URL</label>
+                      <label className="text-xs font-bold text-gray-400 uppercase">Imagen URL</label>
                       <Input 
                         name="imagen_url" 
                         value={formData.imagen_url} 
@@ -651,7 +651,7 @@ export default function Admin() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-bold text-gray-500 uppercase">Fecha Vencimiento</label>
+                      <label className="text-xs font-bold text-gray-400 uppercase">Fecha Vencimiento</label>
                       <Input 
                         type="date" 
                         name="fecha_vencimiento" 

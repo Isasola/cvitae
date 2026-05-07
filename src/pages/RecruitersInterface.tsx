@@ -118,7 +118,7 @@ export default function RecruitersInterface() {
                 <div className="w-full border-t border-white/10" />
               </div>
               <div className="relative flex justify-center text-xs">
-                <span className="px-3 bg-[#0a0a0a] text-gray-500">o</span>
+                <span className="px-3 bg-[#0a0a0a] text-gray-400">o</span>
               </div>
             </div>
 
@@ -129,7 +129,7 @@ export default function RecruitersInterface() {
             >
               <Lock className="w-4 h-4" />
               Continuar en Modo Gratuito
-              <span className="text-xs text-gray-500">(hasta 3 CVs)</span>
+              <span className="text-xs text-gray-400">(hasta 3 CVs)</span>
             </Button>
 
             <p className="text-xs text-gray-600 text-center">
@@ -147,7 +147,7 @@ export default function RecruitersInterface() {
 
           <button
             onClick={() => setLocation('/')}
-            className="mt-6 w-full text-sm text-gray-500 hover:text-gray-300 transition-colors"
+            className="mt-6 w-full text-sm text-gray-400 hover:text-gray-300 transition-colors"
           >
             ← Volver al inicio
           </button>

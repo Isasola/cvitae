@@ -193,7 +193,7 @@ export default function Home() {
                 >
                   <span className="text-xs font-bold text-[#c9a84c] uppercase tracking-widest mb-2 block">{opp.categoria}</span>
                   <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#c9a84c] transition-colors">{opp.titulo}</h3>
-                  <div className="flex items-center gap-2 text-gray-500 text-sm mb-4">
+                  <div className="flex items-center gap-2 text-gray-400 text-sm mb-4">
                     <MapPin size={14} /> {opp.ubicacion}
                   </div>
                   <div className="text-gray-400 text-sm line-clamp-2 mb-6">
@@ -233,7 +233,7 @@ export default function Home() {
                 Las empresas grandes usan sistemas ATS para filtrar candidatos. Si tu CV no tiene el formato y las palabras clave correctas, <span className="text-white font-bold">nunca llegará al escritorio de un reclutador.</span>
               </p>
               <p className="text-gray-300 text-base italic">Por eso muchos pierden oportunidades sin saberlo.</p>
-              <div className="flex items-center gap-4 text-sm text-gray-500">
+              <div className="flex items-center gap-4 text-sm text-gray-400">
                 <ShieldCheck className="text-green-500" /> Formato Optimizado para Paraguay
               </div>
             </div>
@@ -243,7 +243,7 @@ export default function Home() {
                 <div className="flex justify-between mb-8">
                   <div className="text-center">
                     <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-2 text-red-500">✕</div>
-                    <span className="text-xs font-bold text-gray-500 uppercase">CV "Lindo"</span>
+                    <span className="text-xs font-bold text-gray-400 uppercase">CV "Lindo"</span>
                   </div>
                   <div className="h-px bg-white/10 flex-grow mt-6 mx-4"></div>
                   <div className="text-center">
@@ -270,7 +270,7 @@ export default function Home() {
             ].map((stat, i) => (
               <div key={i} className="text-center">
                 <p className="text-3xl font-bold text-white mb-1">{stat.value}</p>
-                <p className="text-sm text-gray-500 uppercase tracking-wider">{stat.label}</p>
+                <p className="text-sm text-gray-400 uppercase tracking-wider">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -291,7 +291,7 @@ export default function Home() {
           <div className="mt-32 max-w-3xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-white mb-4">Preguntas Frecuentes</h2>
-              <p className="text-gray-500">Todo lo que necesitas saber sobre el sistema CVitae.</p>
+              <p className="text-gray-400">Todo lo que necesitas saber sobre el sistema CVitae.</p>
             </div>
             <div className="space-y-4">
               {[
@@ -397,7 +397,7 @@ export default function Home() {
                 <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
                 <div className="flex items-baseline gap-1 mb-4">
                   <span className="text-3xl font-bold text-white">{plan.price}</span>
-                  {plan.price !== 'Gratis' && <span className="text-gray-500 text-sm">/pago único</span>}
+                  {plan.price !== 'Gratis' && <span className="text-gray-400 text-sm">/pago único</span>}
                 </div>
                 <p className="text-gray-400 text-sm mb-8">{plan.description}</p>
                 <div className="space-y-4 mb-10">

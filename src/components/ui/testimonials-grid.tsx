@@ -95,7 +95,7 @@ const TestimonialColumn: React.FC<TestimonialColumnProps> = ({
             <p className="font-semibold text-[#c9a84c] text-sm group-hover:text-[#e8d4a0] transition-colors">
               {testimonial.name}
             </p>
-            <p className="text-xs text-gray-500">{testimonial.role}</p>
+            <p className="text-xs text-gray-400">{testimonial.role}</p>
           </div>
         </motion.div>
       ))}

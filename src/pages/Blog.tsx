@@ -97,7 +97,7 @@ export default function Blog() {
 
             {posts.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-gray-500">No hay artículos publicados en este momento.</p>
+                <p className="text-gray-400">No hay artículos publicados en este momento.</p>
               </div>
             ) : (
               posts.map((post) => (
@@ -122,7 +122,7 @@ export default function Blog() {
                       <span className="text-xs font-bold text-[#c9a84c] uppercase tracking-wider bg-[#c9a84c]/10 px-3 py-1 rounded-full">
                         {post.categoria}
                       </span>
-                      <span className="text-xs text-gray-500 flex items-center gap-1">
+                      <span className="text-xs text-gray-400 flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
                         {new Date(post.fecha_vencimiento).toLocaleDateString()}
                       </span>

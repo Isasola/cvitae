@@ -365,7 +365,7 @@ export const RecruitersPanel: React.FC<RecruitersPanelProps> = ({ maxCVs = 10 })
                 {f.error && <span className="text-xs text-red-400">{f.error}</span>}
               </div>
               {!isAnalyzing && (
-                <button onClick={() => removeFile(i)} className="text-gray-500 hover:text-red-400 transition-colors">
+                <button onClick={() => removeFile(i)} className="text-gray-400 hover:text-red-400 transition-colors">
                   <X className="w-4 h-4" />
                 </button>
               )}

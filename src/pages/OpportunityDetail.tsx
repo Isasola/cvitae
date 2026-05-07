@@ -231,7 +231,7 @@ export default function OpportunityDetail() {
                       <Building2 className="w-5 h-5 text-[#c9a84c]" />
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500 uppercase font-semibold">Empresa</p>
+                      <p className="text-xs text-gray-400 uppercase font-semibold">Empresa</p>
                       <p className="font-medium">{organization}</p>
                     </div>
                   </div>
@@ -240,7 +240,7 @@ export default function OpportunityDetail() {
                       <MapPin className="w-5 h-5 text-[#c9a84c]" />
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500 uppercase font-semibold">Ubicación</p>
+                      <p className="text-xs text-gray-400 uppercase font-semibold">Ubicación</p>
                       <p className="font-medium">{opportunity.ubicacion || 'Paraguay (Remoto/Presencial)'}</p>
                     </div>
                   </div>
@@ -293,7 +293,7 @@ export default function OpportunityDetail() {
                 </Button>
               </div>
 
-              <p className="text-center text-gray-500 text-xs mt-8 italic">
+              <p className="text-center text-gray-400 text-xs mt-8 italic">
                 Esta oportunidad es gestionada a través de CVitae Paraguay.
               </p>
             </div>

@@ -38,7 +38,9 @@ function App() {
   return (
     <HelmetProvider>
       <div className="bg-black min-h-screen text-white">
-        <Router />
+        <main>
+          <Router />
+        </main>
         <Footer />
       </div>
     </HelmetProvider>
